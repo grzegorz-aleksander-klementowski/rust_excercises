@@ -13,6 +13,8 @@ fn main() {
         
         evaluations.push(evaluation);
     }
+
+    println!("You entered evaluations: ");
     
 
 }
