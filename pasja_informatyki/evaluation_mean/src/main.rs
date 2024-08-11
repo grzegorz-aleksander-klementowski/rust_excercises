@@ -18,7 +18,9 @@ fn main() {
     }
     
     //show values to test
-    println!("You entered evaluations: ");
-    
+    for e in evaluations {
+        println!("You entered evaluations: ");
+    }
+        
 
 }
