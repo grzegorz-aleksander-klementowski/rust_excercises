@@ -17,9 +17,10 @@ fn main() {
         evaluations.push(evaluation);
     }
     
+    println!("You entered evaluations: ");
     //show values to test
     for e in evaluations {
-        println!("You entered evaluations: ");
+       println!({}, e); 
     }
         
 
