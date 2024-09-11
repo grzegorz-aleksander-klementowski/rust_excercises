@@ -12,8 +12,12 @@ impl Messeges {
     }
 }
 
-pub struct evaluation {
+pub struct Evaluation {
     
 }
 
 
+#[cfg(tests)]
+mod tests {
+    
+}
