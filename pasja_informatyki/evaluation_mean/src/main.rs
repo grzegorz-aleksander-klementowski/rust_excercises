@@ -2,6 +2,7 @@ use std::io;
 use evaluation_mean::{*};
 
 fn main() {
+    /*
     //start - ask about values
     println!("Please enter value:");
     
@@ -25,6 +26,6 @@ fn main() {
     for e in evaluations {
        println!("{}", e); 
     }
-        
+    */  
 
 }
