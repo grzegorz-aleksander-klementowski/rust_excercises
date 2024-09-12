@@ -5,25 +5,25 @@ pub enum Messeges {
 
 impl Messeges {
     pub fn print_messge (&self) {
-        mach self {
-            Messeges::Welcome => println!("Please enter value:"),
-            PrintEvaluations    => println!("placeholder"),
+        match self {
+            Messeges::Welcome           => "Please enter value:".to_string(),
+            Messeges::PrintEvaluations  => println!("placeholder"),
         }
     }
 }
 
-pub struct Evaluation {
-    
+pub struct EvaluationMean {
+    evaluations: Vec<u8>, 
 }
 
 
-#[cfg(tests)]
+#[cfg(test)]
 mod tests {
     use super::*;
 
     #[test] 
     fn test_print_evaluation() {
        let evaluationMessage = Messeges::PrintEvaluations(vec![3, 4, 5 , 6, 7, 8]);
-       assert_eq!
+       assert_eq!();
     }
 }
