@@ -12,8 +12,12 @@ impl Messeges {
     }
 }
 
+pub struct Evaluation {
+    evaluation: f32,
+}
+
 pub struct EvaluationMean {
-    evaluations: Vec<u8>, 
+    evaluations: Vec<Evaluation>, 
 }
 
 
