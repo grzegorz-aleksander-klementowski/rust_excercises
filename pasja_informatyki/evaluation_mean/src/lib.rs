@@ -4,20 +4,16 @@ pub enum Messeges {
 }
 
 impl Messeges {
-    pub fn print_messge (&self) {
+    pub fn print_messge (&self) -> String {
         match self {
             Messeges::Welcome           => "Please enter value:".to_string(),
-            Messeges::PrintEvaluations  => println!("placeholder"),
+            Messeges::PrintEvaluations  => "placeholder".to_string(),
         }
     }
 }
 
 pub struct Evaluation {
-    evaluation: f32,
-}
-
-pub struct EvaluationMean {
-    evaluations: Vec<Evaluation>, 
+    evaluations: Vec<f32>, 
 }
 
 
