@@ -4,10 +4,10 @@ pub enum Messeges {
 }
 
 impl Messeges {
-    pub fn print_messge (&self) -> String {
+    pub fn print_messge (&self) -> &'static str {
         match self {
-            Messeges::Welcome           => "Please enter value:".to_string(),
-            Messeges::PrintEvaluations  => "placeholder".to_string(),
+            Messeges::Welcome           => "Please enter value:",
+            Messeges::PrintEvaluations  => "placeholder",
         }
     }
 }
