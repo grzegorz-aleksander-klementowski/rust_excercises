@@ -21,6 +21,11 @@ pub struct Evaluation {
 mod tests {
     use super::*;
 
+    #[test]
+    fn test_welcome_message() {
+        assert_eq!(Messeges::Welcome.print_messge(), "Please enter value:");
+    }
+
     #[test] 
     fn test_print_evaluation() {
        let evaluationMessage = Messeges::PrintEvaluations(vec![3, 4, 5 , 6, 7, 8]);
