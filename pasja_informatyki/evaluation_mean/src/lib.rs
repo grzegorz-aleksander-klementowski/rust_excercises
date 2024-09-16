@@ -1,14 +1,17 @@
+use std::fmt;
+
 pub enum Messeges {
     Welcome,
     PrintEvaluations,
 }
 
-impl Messeges {
-    pub fn print_messge (&self) -> &'static str {
-        match self {
+impl fmt::Display for Messeges {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let message = match self {
             Messeges::Welcome           => "Please enter value:",
             Messeges::PrintEvaluations  => "placeholder",
-        }
+        };
+        write!(f, "{}", message)
     }
 }
 
