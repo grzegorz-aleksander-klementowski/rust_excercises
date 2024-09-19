@@ -2,14 +2,14 @@ use std::fmt;
 
 pub enum Messeges {
     Welcome,
-    PrintEvaluations,
+    PrintEvaluations(Evaluation),
 }
 
 impl fmt::Display for Messeges {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
             Messeges::Welcome           => "Please enter value:",
-            Messeges::PrintEvaluations  => "placeholder",
+            Messeges::PrintEvaluations(evaluation)  => "placeholder",
         };
         write!(f, "{}", message)
     }
@@ -26,11 +26,11 @@ mod tests {
 
     #[test]
     fn test_welcome_message() {
-        assert_eq!(Messeges::Welcome.print_messge(), "Please enter value:");
+        assert_eq!(Messases::Welcome, "Please enter value:");
     }
 
     #[test] 
-    fn test_print_evaluation() {
+    fn test_print_evaluation(evaluation) {
        let evaluationMessage = Messeges::PrintEvaluations(vec![3, 4, 5 , 6, 7, 8]);
        assert_eq!();
     }
