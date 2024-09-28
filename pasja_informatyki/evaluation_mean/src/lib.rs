@@ -22,7 +22,7 @@ impl fmt::Display for ErrMessages {
         let err_message = match self {
         ErrMessages::GradeOutOfRange => "Grade is out of range. ",
         };
-        write!(f, "{}", err_message)
+        write!(f, "Error: {}", err_message)
     }
 }
 
@@ -36,6 +36,7 @@ impl fmt::Display for Messages {
         write!(f, "{}", message)
     }
 }
+
 
 
 
@@ -61,8 +62,13 @@ mod tests {
         let mut grades: Vec<f32> = Vec::new();
         let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
-        for &grade in grade_array.iter() {
-           add_grades(&mut grades, grade); 
+        for &grade in grade_array.iter() { 
+            let result_of_adding_a_grade = add_grades(&mut grades, grade);
+            match result_of_adding_a_grade {
+                Ok(()) => (),
+                Err(e) => eprintln!("{}", e),
+            }
+           
         }
     
         assert_eq!(grades, vec!(5.5, 2.5, 4.0));
