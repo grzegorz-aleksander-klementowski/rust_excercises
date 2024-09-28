@@ -20,7 +20,7 @@ pub enum ErrMessages {
 impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
-        GradeOutOfRange => "Grade is out of range. ",
+        ErrMessages::GradeOutOfRange => "Grade is out of range. ",
         };
         write!(f, "{}", err_message)
     }
