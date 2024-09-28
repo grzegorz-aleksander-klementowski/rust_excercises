@@ -14,7 +14,7 @@ pub enum Messages {
 impl fmt::Display for Messages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
-            Messages::Welcome           => "Please enter value:",
+            Messages::Welcome                   => "Please enter value: ",
             Messages::PrintSetOfGrates(grates)  => "placeholder",
         };
         write!(f, "{}", message)
@@ -29,7 +29,8 @@ mod tests {
 
     #[test]
     fn test_welcome_message() {
-        assert_eq!(Messages::Welcome, "Please enter value:");
+        let message = format!("{}", Messages::Welcome);
+        assert_eq!(message, "Please enter value: ");
     }
 
     #[test] 
