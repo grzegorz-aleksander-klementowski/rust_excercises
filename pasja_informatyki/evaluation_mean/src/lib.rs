@@ -1,9 +1,9 @@
 use std::fmt;
 
 
-fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), String> {
-    if grade > 1.0 && grade < 6.0 { set_of_grades.push(grade); Ok() }
-    else { Err() } 
+fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), ErrMessages> {
+    if grade > 1.0 && grade < 6.0 { set_of_grades.push(grade); Ok(()) }
+    else { Err(ErrMessages::GradeOutOfRange) } 
 }
 
 
