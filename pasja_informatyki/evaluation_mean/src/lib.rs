@@ -1,4 +1,5 @@
 use std::fmt;
+use std::error::Error;
 
 
 fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), ErrMessages> {
