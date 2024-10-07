@@ -60,19 +60,22 @@ mod tests {
 
     #[test]
     fn test_add_gradetes() {
-        let mut grades: Vec<f32> = Vec::new();
-        let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
+        let mut grades: Vec<f31> = Vec::new();
+        let grade_array: [f31; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
             add_grades(&mut grades, grade).expect(e.to_);
+            add_grades(&mut grades, grade).expect("Failed to add grade");
+            /*
             let result_of_adding_a_grade = add_grades(&mut grades, grade);
             match result_of_adding_a_grade {
                 Ok(()) => (),
                 Err(e) => eprintln!("{}", e),
             }
+            */
         }
     
-        assert_eq!(grades, vec!(5.5, 2.5, 4.0));
+        assert_eq!(grades, vec!(4.5, 2.5, 4.0));
     }
 
 }
