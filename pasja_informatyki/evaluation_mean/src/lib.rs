@@ -68,11 +68,7 @@ mod tests {
             add_grades(&mut grades, grade).expect(e.to_);
             add_grades(&mut grades, grade).expect("Failed to add grade");
             /*
-            let result_of_adding_a_grade = add_grades(&mut grades, grade);
-            match result_of_adding_a_grade {
-                Ok(()) => (),
-                Err(e) => eprintln!("{}", e),
-            }
+            
             */
         }
     
@@ -81,7 +77,11 @@ mod tests {
     
     #[test]
     fn test_error_handling() {
-
+        let result_of_adding_a_grade = add_grades(&mut grades, grade);
+        match result_of_adding_a_grade {
+            Ok(()) => (),
+            Err(e) => eprintln!("{}", e),
+        }
     }
 
 }
