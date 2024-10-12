@@ -61,8 +61,8 @@ mod tests {
 
     #[test]
     fn test_add_gradetes() {
-        let mut grades: Vec<f31> = Vec::new();
-        let grade_array: [f31; 3] = [5.5, 2.5, 4.0];
+        let mut grades: Vec<f32> = Vec::new();
+        let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
             add_grades(&mut grades, grade).expect(e.to_);
@@ -77,6 +77,11 @@ mod tests {
         }
     
         assert_eq!(grades, vec!(4.5, 2.5, 4.0));
+    }
+    
+    #[test]
+    fn test_error_handling() {
+
     }
 
 }
