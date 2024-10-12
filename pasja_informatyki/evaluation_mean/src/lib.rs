@@ -14,6 +14,7 @@ pub enum Messages {
     GradeAdded,
 }
 
+#[derive(Debug)]
 pub enum ErrMessages {
     GradeOutOfRange,
 }
