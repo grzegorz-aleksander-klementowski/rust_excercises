@@ -65,11 +65,7 @@ mod tests {
         let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
-            add_grades(&mut grades, grade).expect(e.to_);
             add_grades(&mut grades, grade).expect("Failed to add grade");
-            /*
-            
-            */
         }
     
         assert_eq!(grades, vec!(4.5, 2.5, 4.0));
