@@ -73,6 +73,8 @@ mod tests {
     
     #[test]
     fn test_error_handling() {
+        let mut grades: Vec<f32> = Vec::new();
+
         let result_of_adding_a_grade = add_grades(&mut grades, grade);
         match result_of_adding_a_grade {
             Ok(()) => (),
