@@ -22,7 +22,7 @@ pub enum ErrMessages {
 impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
-        ErrMessages::GradeOutOfRange => "Grade is out of range. ",
+        ErrMessages::GradeOutOfRange => "Grade is out of range. Grades are from 1.0 to 6.0 ",
         };
         write!(f, "Error: {}", err_message)
     }
@@ -68,18 +68,16 @@ mod tests {
             add_grades(&mut grades, grade).expect("Failed to add grade");
         }
     
-        assert_eq!(grades, vec!(4.5, 2.5, 4.0));
+        assert_eq!(grades, vec!(5.5, 2.5, 4.0));
     }
     
     #[test]
     fn test_error_handling() {
         let mut grades: Vec<f32> = Vec::new();
 
-        let result_of_adding_a_grade = add_grades(&mut grades, grade);
-        match result_of_adding_a_grade {
-            Ok(()) => (),
-            Err(e) => eprintln!("{}", e),
+        let result: Result<(), ErrMessages> = add_grades(&mut grades, 7.0);
+        assert!(result.is_err);
+        assert_eq!(result.unwrap().to_string(), "Grade is out of range. Grades are from 1.0 to 6.0");
         }
-    }
 
 }
