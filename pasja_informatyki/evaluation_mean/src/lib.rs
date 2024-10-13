@@ -76,8 +76,8 @@ mod tests {
         let mut grades: Vec<f32> = Vec::new();
 
         let result: Result<(), ErrMessages> = add_grades(&mut grades, 7.0);
-        assert!(result.is_err);
-        assert_eq!(result.unwrap().to_string(), "Grade is out of range. Grades are from 1.0 to 6.0");
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err().to_string(), "Grade is out of range. Grades are from 1.0 to 6.0");
         }
 
 }
