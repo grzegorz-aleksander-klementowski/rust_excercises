@@ -7,6 +7,10 @@ fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), ErrMessage
     else { Err(ErrMessages::GradeOutOfRange) } 
 }
 
+fn insert_a_grade() {
+    // to finish later
+}
+
 
 pub enum Messages {
     Welcome,
@@ -22,7 +26,7 @@ pub enum ErrMessages {
 impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
-        ErrMessages::GradeOutOfRange => "Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ",
+        ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ",
         };
         write!(f, "Error: {}", err_message)
     }
@@ -31,9 +35,9 @@ impl fmt::Display for ErrMessages {
 impl fmt::Display for Messages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
-            Messages::Welcome                   => "Please enter value: ",
-            Messages::GradeAdded                => "Grade added. ",
-            Messages::PrintSetOfGrades(grades)  => "placeholder",
+            Messages::Welcome                   => "Please enter a grade: ",
+            Messages::GradeAdded                => "Grades added. ",
+            Messages::PrintSetOfGrades(grades)  => "placeholder", // to finish later
         };
         write!(f, "{}", message)
     }
@@ -77,7 +81,7 @@ mod tests {
 
         let result: Result<(), ErrMessages> = add_grades(&mut grades, 7.0);
         assert!(result.is_err());
-        assert_eq!(result.unwrap_err().to_string(), "Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
+        assert_eq!(result.unwrap_err().to_string(), "Error: Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
         }
 
     #[test]
