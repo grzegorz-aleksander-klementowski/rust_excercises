@@ -53,7 +53,7 @@ mod tests {
     #[test]
     fn test_welcome_message() {
         let message = format!("{}", Messages::Welcome);
-        assert_eq!(message, "Please enter value: ");
+        assert_eq!(message, "Please enter a grade: ");
     }
 
     #[test] 
