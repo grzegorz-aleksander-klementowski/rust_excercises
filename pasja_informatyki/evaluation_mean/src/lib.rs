@@ -1,21 +1,38 @@
 use std::fmt;
 use std::error::Error;
 
-
-fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), ErrMessages> {
-    if (grade > 1.0 && grade < 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { set_of_grades.push(grade); Ok(()) }
-    else { Err(ErrMessages::GradeOutOfRange) } 
+struct Grades {
+     grades: Vec<f32>,
 }
 
-fn insert_a_grade() {
-    // to finish later
-}
+impl Grades {
+    fn new() -> Self {
+        Grades { 
+            grades: Vec::new(),
+        }
+    }
 
+    fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), ErrMessages> {
+        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { set_of_grades.push(grade); Ok(()) }
+        else { Err(ErrMessages::GradeOutOfRange) } 
+    }
+}
 
 pub enum Messages {
     Welcome,
     PrintSetOfGrades(Vec<f32>),
     GradeAdded,
+}
+
+impl fmt::Display for Messages {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let message = match self {
+            Messages::Welcome                   => "Please enter a grade: ",
+            Messages::GradeAdded                => "Grades added. ",
+            Messages::PrintSetOfGrades(grades)  => "placeholder", // to finish later
+        };
+        write!(f, "{}", message)
+    }
 }
 
 #[derive(Debug)]
@@ -29,17 +46,6 @@ impl fmt::Display for ErrMessages {
         ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ",
         };
         write!(f, "Error: {}", err_message)
-    }
-}
-
-impl fmt::Display for Messages {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let message = match self {
-            Messages::Welcome                   => "Please enter a grade: ",
-            Messages::GradeAdded                => "Grades added. ",
-            Messages::PrintSetOfGrades(grades)  => "placeholder", // to finish later
-        };
-        write!(f, "{}", message)
     }
 }
 
@@ -81,7 +87,7 @@ mod tests {
 
         let result: Result<(), ErrMessages> = add_grades(&mut grades, 7.0);
         assert!(result.is_err());
-        assert_eq!(result.unwrap_err().to_string(), "Error: Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
+        assert_eq!(result.unwrap_err().to_string(), "Error: Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
         }
 
     #[test]
@@ -90,7 +96,10 @@ mod tests {
 
         assert!(add_grades(&mut grades, 5.0).is_ok());
         assert!(add_grades(&mut grades, 5.5).is_ok());
+        assert!(add_grades(&mut grades, 1.0).is_ok());
         assert!(add_grades(&mut grades, 5.3).is_err());
+        assert!(add_grades(&mut grades, 7.0).is_err());
+        assert!(add_grades(&mut grades, 0.5).is_err());
     }
 
 }
