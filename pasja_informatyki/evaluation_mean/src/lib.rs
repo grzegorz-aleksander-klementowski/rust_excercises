@@ -75,7 +75,7 @@ mod tests {
         let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
-            add_grades(&mut grades, grade).expect("Failed to add grade");
+            Gradesbook::add_grades(&mut grades, grade).expect("Failed to add grade");
         }
         assert_eq!(grades, vec!(5.5, 2.5, 4.0));
     }
@@ -84,7 +84,7 @@ mod tests {
     fn test_add_grades_error_handling_range() {
         let mut grades: Vec<f32> = Vec::new();
 
-        let result: Result<(), ErrMessages> = add_grades(&mut grades, 7.0);
+        let result: Result<(), ErrMessages> = Gradesbook::add_grades(&mut grades, 7.0);
         assert!(result.is_err());
         assert_eq!(result.unwrap_err().to_string(), "Error: Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
         }
@@ -93,12 +93,12 @@ mod tests {
     fn test_add_grades_error_handling_number_correctness() {
         let mut grades: Vec<f32> = Vec::new();
 
-        assert!(add_grades(&mut grades, 5.0).is_ok());
-        assert!(add_grades(&mut grades, 5.5).is_ok());
-        assert!(add_grades(&mut grades, 1.0).is_ok());
-        assert!(add_grades(&mut grades, 5.3).is_err());
-        assert!(add_grades(&mut grades, 7.0).is_err());
-        assert!(add_grades(&mut grades, 0.5).is_err());
+        assert!(Gradesbook::add_grades(&mut grades, 5.0).is_ok());
+        assert!(Gradesbook::add_grades(&mut grades, 5.5).is_ok());
+        assert!(Gradesbook::add_grades(&mut grades, 1.0).is_ok());
+        assert!(Gradesbook::add_grades(&mut grades, 5.3).is_err());
+        assert!(Gradesbook::add_grades(&mut grades, 7.0).is_err());
+        assert!(Gradesbook::add_grades(&mut grades, 0.5).is_err());
     }
 
 }
