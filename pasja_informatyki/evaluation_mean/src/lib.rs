@@ -1,13 +1,13 @@
 use std::fmt;
 use std::error::Error;
 
-struct Grades {
+struct Gradesbook {
      grades: Vec<f32>,
 }
 
-impl Grades {
+impl Gradesbook {
     fn new() -> Self {
-        Grades { 
+        Gradesbook { 
             grades: Vec::new(),
         }
     }
@@ -77,7 +77,6 @@ mod tests {
         for &grade in grade_array.iter() { 
             add_grades(&mut grades, grade).expect("Failed to add grade");
         }
-    
         assert_eq!(grades, vec!(5.5, 2.5, 4.0));
     }
     
