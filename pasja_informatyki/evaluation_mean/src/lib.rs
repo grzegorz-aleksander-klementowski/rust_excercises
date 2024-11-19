@@ -12,8 +12,8 @@ impl Gradesbook {
         }
     }
 
-    fn add_grades(set_of_grades: &mut Vec<f32>, grade: f32) -> Result<(), ErrMessages> {
-        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { set_of_grades.push(grade); Ok(()) }
+    fn add(&mut self, grade: f32) -> Result<(), ErrMessages> {
+        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { self.grades.push(grade); Ok(()) }
         else { Err(ErrMessages::GradeOutOfRange) } 
     }
 }
@@ -70,35 +70,36 @@ mod tests {
     }
 
     #[test]
-    fn test_add_grades() {
+    fn test_add() {
         let mut grades: Vec<f32> = Vec::new();
         let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
-            Gradesbook::add_grades(&mut grades, grade).expect("Failed to add grade");
+            Gradesbook::add(&mut grades, grade).expect("Failed to add grade");
         }
         assert_eq!(grades, vec!(5.5, 2.5, 4.0));
     }
     
     #[test]
-    fn test_add_grades_error_handling_range() {
+    fn test_add_error_handling_range() {
         let mut grades: Vec<f32> = Vec::new();
 
-        let result: Result<(), ErrMessages> = Gradesbook::add_grades(&mut grades, 7.0);
+        let result: Result<(), ErrMessages> = Gradesbook::add(&mut grades, 7.0);
         assert!(result.is_err());
         assert_eq!(result.unwrap_err().to_string(), "Error: Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
         }
 
     #[test]
-    fn test_add_grades_error_handling_number_correctness() {
-        let mut grades: Vec<f32> = Vec::new();
+    fn test_add_error_handling_number_correctness() {
+        //let mut grades: Vec<f32> = Vec::new();
+        let mut test_gradesbook = Gradesbook::new();
 
-        assert!(Gradesbook::add_grades(&mut grades, 5.0).is_ok());
-        assert!(Gradesbook::add_grades(&mut grades, 5.5).is_ok());
-        assert!(Gradesbook::add_grades(&mut grades, 1.0).is_ok());
-        assert!(Gradesbook::add_grades(&mut grades, 5.3).is_err());
-        assert!(Gradesbook::add_grades(&mut grades, 7.0).is_err());
-        assert!(Gradesbook::add_grades(&mut grades, 0.5).is_err());
+        assert!(test_gradesbook::add(5.0).is_ok());
+        assert!(test_gradesbook::add(5.5).is_ok());
+        assert!(test_gradesbook::add(1.0).is_ok());
+        assert!(test_gradesbook::add(5.3).is_err());
+        assert!(test_gradesbook::add(7.0).is_err());
+        assert!(test_gradesbook::add(0.5).is_err());
     }
 
 }
