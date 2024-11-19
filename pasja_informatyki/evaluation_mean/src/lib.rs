@@ -91,15 +91,14 @@ mod tests {
 
     #[test]
     fn test_add_error_handling_number_correctness() {
-        //let mut grades: Vec<f32> = Vec::new();
         let mut test_gradesbook = Gradesbook::new();
 
-        assert!(test_gradesbook::add(5.0).is_ok());
-        assert!(test_gradesbook::add(5.5).is_ok());
-        assert!(test_gradesbook::add(1.0).is_ok());
-        assert!(test_gradesbook::add(5.3).is_err());
-        assert!(test_gradesbook::add(7.0).is_err());
-        assert!(test_gradesbook::add(0.5).is_err());
+        assert!(test_gradesbook.add(5.0).is_ok());
+        assert!(test_gradesbook.add(5.5).is_ok());
+        assert!(test_gradesbook.add(1.0).is_ok());
+        assert!(test_gradesbook.add(5.3).is_err());
+        assert!(test_gradesbook.add(7.0).is_err());
+        assert!(test_gradesbook.add(0.5).is_err());
     }
 
 }
