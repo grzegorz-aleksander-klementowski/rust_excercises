@@ -84,7 +84,7 @@ mod tests {
     fn test_add_error_handling_range() {
         let mut grades: Vec<f32> = Vec::new();
 
-        let result: Result<(), ErrMessages> = Gradesbook::add(&mut grades, 7.0);
+        let result: Result<(), ErrMessages> = Gradesbook::new().add(7.0);
         assert!(result.is_err());
         assert_eq!(result.unwrap_err().to_string(), "Error: Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
         }
