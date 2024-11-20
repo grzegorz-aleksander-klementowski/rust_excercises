@@ -16,6 +16,10 @@ impl Gradesbook {
         if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { self.grades.push(grade); Ok(()) }
         else { Err(ErrMessages::GradeOutOfRange) } 
     }
+    
+    fn show_grades(&self) -> &Vec<f32> {
+        &self.grades
+    }
 }
 
 pub enum Messages {
@@ -71,19 +75,17 @@ mod tests {
 
     #[test]
     fn test_add() {
-        let mut grades: Vec<f32> = Vec::new();
+        let mut test_gradesbook = Gradesbook::new();
         let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
-            Gradesbook::add(&mut grades, grade).expect("Failed to add grade");
+            test_gradesbook.add(grade).expect("Failed to add grade");
         }
-        assert_eq!(grades, vec!(5.5, 2.5, 4.0));
+        assert_eq!(test_gradesbook.show_grades(), &vec!(5.5, 2.5, 4.0));
     }
     
     #[test]
     fn test_add_error_handling_range() {
-        let mut grades: Vec<f32> = Vec::new();
-
         let result: Result<(), ErrMessages> = Gradesbook::new().add(7.0);
         assert!(result.is_err());
         assert_eq!(result.unwrap_err().to_string(), "Error: Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
