@@ -22,18 +22,26 @@ impl Gradesbook {
     }
 }
 
-pub enum Messages {
+enum Messages<'a> {
     Welcome,
-    PrintSetOfGrades(Vec<f32>),
+    PrintSetOfGrades(&'a Gradesbook),
     GradeAdded,
 }
 
-impl fmt::Display for Messages {
+impl<'a> fmt::Display for Messages<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
             Messages::Welcome                   => "Please enter a grade: ",
             Messages::GradeAdded                => "Grades added. ",
-            Messages::PrintSetOfGrades(grades)  => "placeholder", // to finish later
+            Messages::PrintSetOfGrades(gradesbook)  => {
+                    let grades_str = gradesbook
+                        .show_grades()
+                        .iter()
+                        .map(|grade| grade.to_string())
+                        .collect::<Vec<String>>()
+                        .join(", ");
+                   format!("Grades: {}", grades_str)
+            }
         };
         write!(f, "{}", message)
     }
