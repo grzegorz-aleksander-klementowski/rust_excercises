@@ -39,8 +39,9 @@ impl<'a> fmt::Display for Messages<'a> {
                         .iter()
                         .map(|grade| grade.to_string())
                         .collect::<Vec<String>>()
-                        .join(", ");
-                   format!("Grades: {}", grades_str)
+                        .join("\n");
+                    let formatted_message = format!("Grades:\n{}", grades_str);
+                    return write!(f, "{}", formatted_message);
             }
         };
         write!(f, "{}", message)
@@ -76,9 +77,10 @@ mod tests {
 
     #[test] 
     fn test_print_evaluation() {
-       let grades_message: Vec<f32>= vec![3.0, 4.5, 5.0 , 3.5, 4.0, 2.5];
-       let message = format!("{}", Messages::PrintSetOfGrades(grades_message));
-       assert_eq!(message, "Grades:\n3.0, \n4.5, \n5.0, \n3.5, \n4.0, \n2.5");
+       let list_of_grades: Vec<f32>= vec![3.0, 4.5, 5.0 , 3.5, 4.0, 2.5];
+       let test_gradesbook = Gradesbook { grades: list_of_grades };
+       let message = format!("{}", Messages::PrintSetOfGrades(&test_gradesbook));
+       assert_eq!(message, "Grades:\n3\n4.5\n5\n3.5\n4\n2.5");
     }
 
     #[test]
