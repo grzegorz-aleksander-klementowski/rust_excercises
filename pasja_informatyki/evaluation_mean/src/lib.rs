@@ -1,33 +1,40 @@
 use std::fmt;
 use std::error::Error;
 
+// struct to store all grades
 struct Gradesbook {
      grades: Vec<f32>,
 }
 
+// implementation of Gradesbook for grades with constructor, getter and validations
 impl Gradesbook {
-    fn new() -> Self {
+    fn new() -> Self { // constructor
         Gradesbook { 
             grades: Vec::new(),
         }
     }
 
+    // validate whether the grade is  in range (1-6), and if it can be only full integer or
+    // integer+half. Which 0.5 represent „+” (ei. '4.5' represent '4+')
     fn add(&mut self, grade: f32) -> Result<(), ErrMessages> {
         if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { self.grades.push(grade); Ok(()) }
         else { Err(ErrMessages::GradeOutOfRange) } 
     }
-    
-    fn show_grades(&self) -> &Vec<f32> {
+
+    // getter
+    fn show_grades(&self) -> &Vec<f32> { 
         &self.grades
     }
 }
 
+// Enum to define message to for user interaction
 enum Messages<'a> {
     Welcome,
     PrintSetOfGrades(&'a Gradesbook),
     GradeAdded,
 }
 
+// Implementation of Display trail to format messages
 impl<'a> fmt::Display for Messages<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
@@ -48,11 +55,13 @@ impl<'a> fmt::Display for Messages<'a> {
     }
 }
 
+// Enum for ErrMessages
 #[derive(Debug)]
 pub enum ErrMessages {
     GradeOutOfRange,
 }
 
+// Implementation of Display trail to format ErrMessage
 impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
