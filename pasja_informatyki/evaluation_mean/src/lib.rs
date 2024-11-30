@@ -14,12 +14,10 @@ impl Gradesbook {
         }
     }
 
-    // validate whether the grade is  in range (1-6), and if it can be only full integer or
-    // integer+half. Which 0.5 represent „+” (ei. '4.5' represent '4+')
-    fn add(&mut self, grade: f32) -> Result<(), ErrMessages> {
-        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { self.grades.push(grade); Ok(()) }
-        else { Err(ErrMessages::GradeOutOfRange) } 
-    }
+    // add grade to Gradebook
+    fn add(&mut self, grade: f32) {
+            self.grades.push(grade); 
+        }
 
     // gettet for grades
     fn show_grades(&self) -> &Vec<f32> { 
@@ -119,7 +117,7 @@ mod tests {
     
     #[test]
     fn test_add_error_handling_range() {
-        let result: Result<(), ErrMessages> = Gradesbook::new().add(7.0);
+        let result: Result<(), ErrMessages> = Gradesbook::new().validate(7.0);
         assert!(result.is_err());
         assert_eq!(result.unwrap_err().to_string(), "Error: Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ");
         }
