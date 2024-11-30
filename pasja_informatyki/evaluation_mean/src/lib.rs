@@ -127,17 +127,15 @@ mod tests {
     #[test]
     fn test_add_error_handling_number_correctness() {
         let mut test_gradesbook = Gradesbook::new();
-        let correct_grades: [f32; 6] = [5.0, 5.5, 1.0, 5.3, 7.0, 0.5];
+        let correct_grades: [f32; 3] = [5.0, 5.5, 1.0];
+        let uncorrect_grades: [f32; 3] = [5.3, 7.0, 0.5];
 
-        for &grade in grades.iter() {
-            assert!(test_gradesbook.validate(grade).is_ok());
+        for &grade in correct_grades.iter() {
+            assert!(test_gradesbook.validate(grade).is_ok(), "Expected „ok” for grade: {}", &grade);
         }
-        assert!(test_gradesbook.validate(5.0).is_ok());
-        assert!(test_gradesbook.validate(5.5).is_ok());
-        assert!(test_gradesbook.validate(1.0).is_ok());
-        assert!(test_gradesbook.validate(5.3).is_err());
-        assert!(test_gradesbook.validate(7.0).is_err());
-        assert!(test_gradesbook.validate(0.5).is_err());
+        for &grade in uncorrect_grades.iter() {
+            assert!(test_gradesbook.validate(grade).is_err(), "Expected „err” for grade: {}", &grade);
+        }
     }
 
 }
