@@ -39,6 +39,33 @@ impl Validator<f32> for Gradesbook {
     }
 }
 
+trait Input {
+    fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
+}
+
+impl Input for Gradesbook {
+    fn read_input_grate(&mut self) -> Result<f32, ErrMessages> {
+        use std::io::{ self, Write };
+        let mut grade = String::new();
+        println!("{}", Messages::Welcome);
+        match io::stdin().read_line(&mut grade) {
+            Ok(_)   => {
+                match grade.trim().parse::<f32>() {
+                    Ok(grade)   => {
+                        match self.validate(grade) {
+                            Ok(()) => return Ok(grade),
+                            Err(e) => return Err(e),
+                        }
+                    },
+                    Err(e)  => Err(ErrMessages::InvalidInput(Box::new(e))),
+                }
+            }
+            Err(e)  => Err(ErrMessages::InvalidInput(Box::new(e))),
+            
+        }
+    }
+}
+
 // Enum to define message to for user interaction
 enum Messages<'a> {
     Welcome,
@@ -67,38 +94,20 @@ impl<'a> fmt::Display for Messages<'a> {
     }
 }
 
-trait Input {
-    fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
-}
-
-impl Input for Gradesbook {
-    fn read_input_grate(&mut self) -> Result<f32, ErrMessages> {
-        return Ok(0.0);//to finish later
-    }
-    /*
-        use std::io::{self, Write};
-        let mut grade = String::new();
-        println!(Messages::Welcome);
-        match io::stdin().read_line(&mut grade) {
-            Ok(_) => (),
-            Err(e) => 
-        }
-        */
-}
-
 // Enum for ErrMessages
 #[derive(Debug)]
 pub enum ErrMessages {
     GradeOutOfRange,
-    InvalidInput,
+    InvalidInput(Box<dyn std::error::Error>),
 }
 
 // Implementation of Display trail to format ErrMessage
 impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
-        ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ",
-        ErrMessages::InvalidInput => "Failed to read line from the reason: ",
+        ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ".to_string(),
+        ErrMessages::InvalidInput(error) => format!("Aliquam numerus. Failed to read input: {}", error),
+        
         };
         write!(f, "Error: {}", err_message)
     }
@@ -110,7 +119,6 @@ impl fmt::Display for ErrMessages {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io;
 
     #[test]
     fn test_welcome_message() {
