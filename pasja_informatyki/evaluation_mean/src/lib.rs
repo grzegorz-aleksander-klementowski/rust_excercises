@@ -67,6 +67,10 @@ impl<'a> fmt::Display for Messages<'a> {
     }
 }
 
+trait Input {
+    fn read_input_grate(&mut self) -> Result<(f32, ErrMessages)>;
+}
+
 // Enum for ErrMessages
 #[derive(Debug)]
 pub enum ErrMessages {
@@ -110,7 +114,7 @@ mod tests {
         let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
 
         for &grade in grade_array.iter() { 
-            test_gradesbook.add(grade).expect("Failed to add grade");
+            test_gradesbook.add(grade);
         }
         assert_eq!(test_gradesbook.show_grades(), &vec!(5.5, 2.5, 4.0));
     }
