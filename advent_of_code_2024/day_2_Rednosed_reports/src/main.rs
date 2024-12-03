@@ -21,13 +21,13 @@ fn main() -> io::Result<()> {
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
 
-        // Sprawdzamy, czy raport jest bezpieczny
-        if czy_bezpieczny(&poziomy) {
+        // Sprawdzamy, czy raport jest bezpieczny lub czy może być bezpieczny po usunięciu jednego poziomu
+        if czy_bezpieczny(&poziomy) || czy_bezpieczny_po_usunięciu(&poziomy) {
             liczba_bezpiecznych += 1;
         }
     }
 
-    println!("Liczba bezpiecznych raportów: {}", liczba_bezpiecznych);
+    println!("Liczba bezpiecznych raportów (z tłumikiem): {}", liczba_bezpiecznych);
 
     Ok(())
 }
@@ -49,5 +49,20 @@ fn czy_bezpieczny(poziomy: &[i32]) -> bool {
     let monotoniczny = różnice.iter().all(|&r| r > 0) || różnice.iter().all(|&r| r < 0);
 
     wszystkie_poprawne_różnice && monotoniczny
+}
+
+// Funkcja sprawdzająca, czy raport jest bezpieczny po usunięciu jednego poziomu
+fn czy_bezpieczny_po_usunięciu(poziomy: &[i32]) -> bool {
+    for i in 0..poziomy.len() {
+        // Tworzymy nowy raport bez poziomu na indeksie `i`
+        let mut nowy_raport = poziomy.to_vec();
+        nowy_raport.remove(i);
+
+        // Sprawdzamy, czy nowy raport jest bezpieczny
+        if czy_bezpieczny(&nowy_raport) {
+            return true;
+        }
+    }
+    false
 }
 
