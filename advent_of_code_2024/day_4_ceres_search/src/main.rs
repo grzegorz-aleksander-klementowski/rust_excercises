@@ -19,32 +19,16 @@ fn main() {
         return;
     }
 
-    let word = "XMAS";
-
-    // Definicja ośmiu kierunków
-    let directions = [
-        (0, 1),   // W prawo
-        (1, 1),   // W dół i prawo (ukośnie)
-        (1, 0),   // W dół
-        (1, -1),  // W dół i lewo (ukośnie)
-        (0, -1),  // W lewo
-        (-1, -1), // W górę i lewo (ukośnie)
-        (-1, 0),  // W górę
-        (-1, 1),  // W górę i prawo (ukośnie)
-    ];
-
     let mut count = 0;
 
-    let rows = grid.len() as isize;
-    let cols = grid[0].len() as isize;
+    let rows = grid.len();
+    let cols = grid[0].len();
 
-    // Iteracja po każdej komórce siatki
-    for y in 0..rows {
-        for x in 0..cols {
-            for &(dx, dy) in &directions {
-                if check_word(&grid, x, y, dx, dy, word) {
-                    count += 1;
-                }
+    // Iteracja po każdej możliwej pozycji centrum "X"
+    for y in 1..rows - 1 {
+        for x in 1..cols - 1 {
+            if is_x_mas(&grid, x, y) {
+                count += 1;
             }
         }
     }
@@ -67,34 +51,33 @@ fn read_grid(filename: &str) -> io::Result<Vec<Vec<char>>> {
     Ok(grid)
 }
 
-// Funkcja sprawdzająca, czy słowo istnieje w danym kierunku
-fn check_word(
-    grid: &Vec<Vec<char>>,
-    x: isize,
-    y: isize,
-    dx: isize,
-    dy: isize,
-    word: &str,
-) -> bool {
-    let chars: Vec<char> = word.chars().collect();
-    let word_len = chars.len() as isize;
-    let rows = grid.len() as isize;
-    let cols = grid[0].len() as isize;
+// Sprawdzanie, czy w pozycji (x, y) znajduje się "X-MAS"
+fn is_x_mas(grid: &Vec<Vec<char>>, x: usize, y: usize) -> bool {
+    let rows = grid.len();
+    let cols = grid[0].len();
 
-    for i in 0..word_len {
-        let nx = x + dx * i;
-        let ny = y + dy * i;
-
-        if nx < 0 || ny < 0 || nx >= cols || ny >= rows {
-            return false;
-        }
-
-        if grid[ny as usize][nx as usize] != chars[i as usize] {
-            return false;
-        }
+    // Sprawdzanie granic
+    if x == 0 || y == 0 || x >= cols - 1 || y >= rows - 1 {
+        return false;
     }
 
-    true
+    // Pobieranie znaków dla wzoru "X-MAS"
+    let top_left = grid[y - 1][x - 1];
+    let top_right = grid[y - 1][x + 1];
+    let center = grid[y][x];
+    let bottom_left = grid[y + 1][x - 1];
+    let bottom_right = grid[y + 1][x + 1];
+
+    // Sprawdzanie pierwszego ukośnego "MAS"
+    let mas1 = top_left == 'M' && center == 'A' && bottom_right == 'S';
+    let mas2 = top_left == 'S' && center == 'A' && bottom_right == 'M';
+
+    // Sprawdzanie drugiego ukośnego "MAS"
+    let mas3 = top_right == 'M' && center == 'A' && bottom_left == 'S';
+    let mas4 = top_right == 'S' && center == 'A' && bottom_left == 'M';
+
+    // Wzór "X-MAS" spełniony, jeśli obie ukośne linie tworzą "MAS"
+    (mas1 || mas2) && (mas3 || mas4)
 }
 
 // Funkcja pomocnicza do wczytania linii z pliku

@@ -1,53 +1,92 @@
 use std::fs;
 
-fn main() {
-    // Wczytaj zawartość pliku z pomieszaną pamięcią
-    let input = fs::read_to_string("./zapiski/pomieszana_pamięć")
-        .expect("Nie udało się odczytać pliku pomieszana_pamięć");
+fn main() -> std::io::Result<()> {
+    let content = fs::read_to_string("./zapiski/pomieszana_pamięć")?;
+    let input = content.trim();
 
-    let mut total = 0;
-    let input_bytes = input.as_bytes();
-    let input_len = input_bytes.len();
-    let mut i = 0;
+    let mut idx = 0;
+    let mut sum = 0usize;
+    let mut enabled = true;
+    let chars: Vec<char> = input.chars().collect();
+    let len = chars.len();
 
-    while i < input_len {
-        // Szukamy 'm' jako potencjalny początek 'mul('
-        if input_bytes[i] == b'm' {
-            if i + 3 < input_len && &input_bytes[i..i+4] == b"mul(" {
-                let mut j = i + 4;
-                let mut num1 = String::new();
-                // Parsujemy pierwszą liczbę
-                while j < input_len && input_bytes[j].is_ascii_digit() {
-                    num1.push(input_bytes[j] as char);
-                    j += 1;
-                }
-                // Sprawdzamy czy po pierwszej liczbie jest przecinek
-                if !num1.is_empty() && j < input_len && input_bytes[j] == b',' {
-                    j += 1;
-                    let mut num2 = String::new();
-                    // Parsujemy drugą liczbę
-                    while j < input_len && input_bytes[j].is_ascii_digit() {
-                        num2.push(input_bytes[j] as char);
-                        j += 1;
-                    }
-                    // Sprawdzamy czy po drugiej liczbie jest zamykający nawias
-                    if !num2.is_empty() && j < input_len && input_bytes[j] == b')' {
-                        // Upewniamy się, że liczby mają 1-3 cyfry
-                        if num1.len() <= 3 && num2.len() <= 3 {
-                            let x: i32 = num1.parse().unwrap();
-                            let y: i32 = num2.parse().unwrap();
-                            total += x * y;
-                        }
-                        j += 1;
-                        i = j;
-                        continue;
-                    }
-                }
+    while idx < len {
+        if let Some(new_idx) = parse_do(&chars, idx) {
+            enabled = true;
+            idx = new_idx;
+        } else if let Some(new_idx) = parse_dont(&chars, idx) {
+            enabled = false;
+            idx = new_idx;
+        } else if let Some((x, y, new_idx)) = parse_mul(&chars, idx) {
+            if enabled {
+                sum += x * y;
             }
+            idx = new_idx;
+        } else {
+            idx += 1;
         }
-        i += 1;
     }
 
-    println!("Suma wyników mnożeń: {}", total);
+    println!("{}", sum);
+    Ok(())
+}
+
+fn parse_do(chars: &[char], idx: usize) -> Option<usize> {
+    if chars.len() >= idx + 4 && &chars[idx..idx + 4] == ['d', 'o', '(', ')'] {
+        Some(idx + 4)
+    } else {
+        None
+    }
+}
+
+fn parse_dont(chars: &[char], idx: usize) -> Option<usize> {
+    if chars.len() >= idx + 7 && &chars[idx..idx + 7] == ['d', 'o', 'n', '\'', 't', '(', ')'] {
+        Some(idx + 7)
+    } else {
+        None
+    }
+}
+
+fn parse_mul(chars: &[char], idx: usize) -> Option<(usize, usize, usize)> {
+    if chars.len() < idx + 4 || &chars[idx..idx + 4] != ['m', 'u', 'l', '('] {
+        return None;
+    }
+    let mut i = idx + 4;
+
+    // Parse X: 1-3 digits
+    let start_x = i;
+    while i < chars.len() && chars[i].is_ascii_digit() && (i - start_x) < 3 {
+        i += 1;
+    }
+    if start_x == i || (i - start_x) > 3 {
+        return None; // No digits found or more than 3 digits
+    }
+    let x_str: String = chars[start_x..i].iter().collect();
+    let x = x_str.parse::<usize>().ok()?;
+
+    // Next character must be ','
+    if i >= chars.len() || chars[i] != ',' {
+        return None;
+    }
+    i += 1;
+
+    // Parse Y: 1-3 digits
+    let start_y = i;
+    while i < chars.len() && chars[i].is_ascii_digit() && (i - start_y) < 3 {
+        i += 1;
+    }
+    if start_y == i || (i - start_y) > 3 {
+        return None; // No digits found or more than 3 digits
+    }
+    let y_str: String = chars[start_y..i].iter().collect();
+    let y = y_str.parse::<usize>().ok()?;
+
+    // Next character must be ')'
+    if i >= chars.len() || chars[i] != ')' {
+        return None;
+    }
+    i += 1;
+
+    Some((x, y, i))
 }
 

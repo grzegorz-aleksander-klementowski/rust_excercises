@@ -1,40 +1,20 @@
-use std::fs::File;
-use std::io::{self, BufRead};
+use std::process::Command;
 
-fn main() -> io::Result<()> {
-    // Ścieżka do pliku wejściowego
-    let sciezka_pliku = "input";
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Uruchomienie curl
+    let output = Command::new("curl")
+        .arg("-s") // -s: tryb cichy (bez informacji o postępie)
+        .arg("http://example.com")
+        .output()?; // Uruchomienie procesu
 
-    // Otwieranie pliku
-    let plik = File::open(sciezka_pliku)?;
-    let czytnik = io::BufReader::new(plik);
-
-    // Inicjalizacja wektorów
-    let mut lista_lewa = Vec::new();
-    let mut lista_prawa = Vec::new();
-
-    // Odczyt pliku linia po linii
-    for linia in czytnik.lines() {
-        let linia = linia?;
-        if let Some((lewa, prawa)) = linia.split_once(' ') {
-            lista_lewa.push(lewa.trim().parse::<i32>().unwrap());
-            lista_prawa.push(prawa.trim().parse::<i32>().unwrap());
-        }
+    // Sprawdzenie statusu wyjścia
+    if output.status.success() {
+        // Wypisanie odpowiedzi na stdout
+        println!("{}", String::from_utf8_lossy(&output.stdout));
+    } else {
+        // Wypisanie błędu na stderr
+        eprintln!("Error: {}", String::from_utf8_lossy(&output.stderr));
     }
-
-    // Sortowanie obu list
-    lista_lewa.sort();
-    lista_prawa.sort();
-
-    // Obliczanie sumy różnic
-    let suma_roznic: i32 = lista_lewa
-        .iter()
-        .zip(lista_prawa.iter())
-        .map(|(lewa, prawa)| (lewa - prawa).abs())
-        .sum();
-
-    // Wynik
-    println!("Suma różnic: {}", suma_roznic);
 
     Ok(())
 }
