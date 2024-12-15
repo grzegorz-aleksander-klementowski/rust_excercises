@@ -1,0 +1,5 @@
+// książnica
+
+enum Wiadomości {
+    
+}

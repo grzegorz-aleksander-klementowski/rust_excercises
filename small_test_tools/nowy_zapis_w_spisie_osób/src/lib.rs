@@ -1,10 +1,8 @@
-use std::fmt;
+// książnica
 
-const ZAWARTE_ZAPISKI_OSOBOWE: [&str; 6] = [
-    "BEGIN:VCARD\nVERSION:3.0",
-    "FN:",
-    "N:",
-    "EMAIL;TYPE=INTERNET:",
-    "TEL;TYPE=CELL:",
-    "END:VCARD"
-];
+struct DaneZapiskuOsobowego<'a> {
+    nagłówek_fn: &'a str,
+    nagłówek_n: &'a str,
+    nagłówek_email: &'a str,
+    nagłówek_dalnomównik: &'a str,
+}
