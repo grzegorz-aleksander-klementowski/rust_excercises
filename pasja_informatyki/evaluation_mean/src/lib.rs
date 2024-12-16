@@ -43,16 +43,18 @@ trait Input {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
 }
 
+// Implementation Input to Gredesbook that read line, sent the line to validation,
+// is is ok, thenreturn possitive result with grade 
 impl Input for Gradesbook {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages> {
         use std::io::{ self, Write };
         let mut grade = String::new();
-        println!("{}", Messages::Welcome);
+        println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
         match io::stdin().read_line(&mut grade) {
             Ok(_)   => {
                 match grade.trim().parse::<f32>() {
                     Ok(grade)   => {
-                        match self.validate(grade) {
+                        match self.validate(grade) { // number goes to validation
                             Ok(()) => return Ok(grade),
                             Err(e) => return Err(e),
                         }
