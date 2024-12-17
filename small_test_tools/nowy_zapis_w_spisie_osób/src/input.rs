@@ -16,10 +16,10 @@ impl Wejście for WejścieŁańcucha {
         while próby >= 3 {
             let mut zapisek = String::new();
             match io::stdin().read_line(&mut zapisek) {
-                Ok(wejście)   => return Some(zapisek),
+                Ok(_)   => return Some(zapisek),
                 Err(err)       => {
                     próby += 1;
-                    eprintln!("{} {}: {}", output::WiadomościoBłędach::PróbaOdczytaniaLinii, próby, err);
+                    eprintln!("{} {}: {}", output::WiadomościoBłędach::PróbaOdczytaniaLinii(&próby), próby, err);
                 }
             }
         }
