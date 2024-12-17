@@ -12,6 +12,7 @@ impl fmt::Display for WiadomościBłędach {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             WiadomościBłędach::PróbaOdczytaniaLinii() => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH(0)),
+            WiadomościBłędach::PrzekroczonaIlośćPrób() => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH(1)),
         }
     }
 }

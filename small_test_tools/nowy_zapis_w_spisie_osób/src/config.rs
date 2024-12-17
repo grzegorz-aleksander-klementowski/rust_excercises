@@ -1,7 +1,7 @@
 // ukształtowywanie
 
-const LICZBA_NAGŁÓWKÓW_VCF: u8 = 6;
-const LICZBA_ZAWARTYCH_WIADOMOŚCI: u8 = LICZBA_NAGŁÓWKÓW_VCF - 1;
+const LICZBA_NAGŁÓWKÓW_VCF: usize= 6;
+const LICZBA_ZAWARTYCH_WIADOMOŚCI: usize = LICZBA_NAGŁÓWKÓW_VCF - 1;
 
 pub const NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF: [&'static str; LICZBA_NAGŁÓWKÓW_VCF] = [
     "BEGIN:VCARD\nVERSION:3.0",
