@@ -4,7 +4,7 @@ mod output;
 mod input;
 mod config;
 
-pub struct ZapiskiOsobowe<'a> {
+pub struct ZapiskiOsobowe {
     pub nagłówek_fn: String,
     pub nagłówek_n: String,
     pub nagłówek_email: String,

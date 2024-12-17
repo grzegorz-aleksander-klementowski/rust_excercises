@@ -1,6 +1,6 @@
 // ukształtowywanie
 
-const LICZBA_NAGŁÓWKÓW_VCF: usize= 6;
+const LICZBA_NAGŁÓWKÓW_VCF: usize= 7;
 const LICZBA_ZAWARTYCH_WIADOMOŚCI: usize = LICZBA_NAGŁÓWKÓW_VCF - 1;
 
 pub const NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF: [&'static str; LICZBA_NAGŁÓWKÓW_VCF] = [

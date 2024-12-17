@@ -1,18 +1,20 @@
 // wyjście
 
 use std::fmt;
-use crate::config;
+use crate::config; // config file include arrays with content of error messages
 
-enum WiadomościBłędach {
-    PróbaOdczytaniaLinii(),
-    PrzekroczonaIlośćPrób(),
+// Enum for error messages
+pub enum WiadomościoBłędach {
+    PróbaOdczytaniaLinii,
+    PrzekroczonaIlośćPrób,
 }
 
-impl fmt::Display for WiadomościBłędach {
+// Dipley trait for displaying messages about ERRORS
+impl fmt::Display for WiadomościoBłędach {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            WiadomościBłędach::PróbaOdczytaniaLinii() => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH(0)),
-            WiadomościBłędach::PrzekroczonaIlośćPrób() => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH(1)),
+            WiadomościoBłędach::PróbaOdczytaniaLinii => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[0]),
+            WiadomościoBłędach::PrzekroczonaIlośćPrób => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[1]),
         }
     }
 }
