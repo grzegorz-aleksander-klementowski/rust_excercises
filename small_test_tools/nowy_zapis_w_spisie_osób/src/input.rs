@@ -11,13 +11,12 @@ struct WejścieŁańcucha;
 
 impl Wejście for WejścieŁańcucha {
     fn czytnik_zapisków(&self) -> Option<String> {
-        // return Some(String::from("sprawdzian"))
-        while let próby = 0 <= 3 {
-            let mut wejście = String::new();
-            match io::stdin().read_line(&mut wejście) {
-                Ok(wejście)   => {
-                    Some(wejście)
-                }
+        // check if hte program can read the line up to 3 times before exit
+        let mut próby: usize = 0;
+        while próby >= 3 {
+            let mut zapisek = String::new();
+            match io::stdin().read_line(&mut zapisek) {
+                Ok(wejście)   => return Some(zapisek),
                 Err(err)       => {
                     próby += 1;
                     eprintln!("{} {}: {}", output::WiadomościoBłędach::PróbaOdczytaniaLinii, próby, err);
