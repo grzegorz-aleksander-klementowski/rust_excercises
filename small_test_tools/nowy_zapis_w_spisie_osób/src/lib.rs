@@ -1,8 +1,19 @@
 // książnica
 
-struct DaneZapiskuOsobowego<'a> {
-    nagłówek_fn: &'a str,
-    nagłówek_n: &'a str,
-    nagłówek_email: &'a str,
-    nagłówek_dalnomównik: &'a str,
+mod output;
+mod input;
+mod config;
+
+pub struct ZapiskiOsobowe<'a> {
+    pub nagłówek_fn: String,
+    pub nagłówek_n: String,
+    pub nagłówek_email: String,
+    pub nagłówek_dalnomównik: String,
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
 }

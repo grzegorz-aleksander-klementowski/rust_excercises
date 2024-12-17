@@ -17,6 +17,13 @@ pub const ZAWARTOŚCI_WIADOMOŚCI: [&'static str; LICZBA_ZAWARTYCH_WIADOMOŚCI] 
     "QuickCVF - Quick way for VCF. Thank you! Dziękuję!",
     "Enter name: ",
     "Enter surname: ",
+    "Enter company: ",
     "Enter email: ",
-    "Enter phone numer:",
+    "Enter phone numer: ",
+];
+
+
+pub const ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH: [&'static str; 2] = [
+    "Tried to read line",
+    "Exeed number of attemps. Unuble to read line. Program exit…",
 ];
