@@ -3,11 +3,11 @@
 use std::io;
 use crate::output;
 
-trait Wejście {
+pub trait Wejście {
     fn czytnik_zapisków(&self) -> Option<String>;
 }
 
-struct WejścieŁańcucha;
+pub struct WejścieŁańcucha;
 
 impl Wejście for WejścieŁańcucha {
     fn czytnik_zapisków(&self) -> Option<String> {
