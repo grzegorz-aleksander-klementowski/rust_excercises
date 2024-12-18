@@ -3,6 +3,7 @@
 mod output;
 mod input;
 mod config;
+mod process;
 
 pub struct ZapiskiOsobowe {
     pub nagłówek_fn: String,

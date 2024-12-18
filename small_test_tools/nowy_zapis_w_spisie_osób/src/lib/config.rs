@@ -14,7 +14,7 @@ pub const NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF: [&'static str; LICZBA_NAGŁÓWKÓW
 ];
 
 pub const ZAWARTOŚCI_WIADOMOŚCI: [&'static str; LICZBA_ZAWARTYCH_WIADOMOŚCI] = [
-    "QuickCVF - Quick way for VCF. Thank you! Dziękuję!",
+    "QuickCVF - Quick way for VCF. Thank you!!",
     "Enter name: ",
     "Enter surname: ",
     "Enter company: ",
