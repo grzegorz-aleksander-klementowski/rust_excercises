@@ -19,7 +19,7 @@ impl Wejście for WejścieŁańcucha {
                 Ok(_)   => return Some(zapisek),
                 Err(err)       => {
                     próby += 1;
-                    eprintln!("{} {}: {}", output::WiadomościoBłędach::PróbaOdczytaniaLinii(&próby), próby, err);
+                    eprintln!("{}", output::WiadomościoBłędach::PróbaOdczytaniaLinii(&próby, &err));
                 }
             }
         }
