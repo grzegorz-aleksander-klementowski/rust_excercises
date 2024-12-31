@@ -23,6 +23,11 @@ impl Gradesbook {
     fn show_grades(&self) -> &Vec<f32> { 
         &self.grades
     }
+
+    // WRITE TEST FOR IT AND WRITE FUNCTINO „execute_with_retry_limit”
+    fn evaluation_mean(grades_ref: &[f32]) -> f32 {
+        grades_ref.iter().sum() / grades_ref.len()
+    }
 }
 
 // trait definition for validation
@@ -44,12 +49,12 @@ trait Input {
 }
 
 // Implementation Input to Gredesbook that read line, sent the line to validation,
-// is is ok, thenreturn possitive result with grade 
+// is is ok, then return possitive result with grade 
 impl Input for Gradesbook {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages> {
         use std::io::{ self, Write };
         let mut grade = String::new();
-        println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
+        // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
         match io::stdin().read_line(&mut grade) {
             Ok(_)   => {
                 match grade.trim().parse::<f32>() {
@@ -63,7 +68,6 @@ impl Input for Gradesbook {
                 }
             }
             Err(e)  => Err(ErrMessages::InvalidInput(Box::new(e))),
-            
         }
     }
 }
