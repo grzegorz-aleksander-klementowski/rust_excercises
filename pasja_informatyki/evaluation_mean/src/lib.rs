@@ -2,7 +2,7 @@ use std::fmt;
 use std::error::Error;
 
 // struct to store all grades
-struct Gradesbook {
+pub struct Gradesbook {
      grades: Vec<f32>,
 }
 
@@ -24,9 +24,12 @@ impl Gradesbook {
         &self.grades
     }
 
-    // WRITE TEST FOR IT AND WRITE FUNCTINO „execute_with_retry_limit”
-    fn evaluation_mean(grades_ref: &[f32]) -> f32 {
-        grades_ref.iter().sum() / grades_ref.len()
+    // calculate mean of grades
+    fn evaluation_mean(&self) -> f32 {
+        let number_of_grades: &usize = &self.show_grades().len();
+        let number_of_grades_float: f32 = *number_of_grades as f32;
+        let grades_sum: f32 = self.show_grades().iter().sum::<f32>() as f32;
+        grades_sum / number_of_grades_float
     }
 }
 
@@ -73,7 +76,7 @@ impl Input for Gradesbook {
 }
 
 // Enum to define message to for user interaction
-enum Messages<'a> {
+pub enum Messages<'a> {
     Welcome,
     PrintSetOfGrades(&'a Gradesbook),
     GradeAdded,
@@ -170,5 +173,12 @@ mod tests {
         for &grade in uncorrect_grades.iter() {
             assert!(test_gradesbook.validate(grade).is_err(), "Expected „err” for grade: {}", &grade);
         }
+    }
+
+    #[test]
+    fn test_evaluation_mean() {
+        let mut test_gradesbook = Gradesbook::new();
+        test_gradesbook.grades = vec![5.0, 2.5, 3.0, 4.0, 4.5];
+        assert_eq!(3.8, test_gradesbook.evaluation_mean());
     }
 }
