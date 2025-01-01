@@ -55,7 +55,7 @@ trait Input {
 // is is ok, then return possitive result with grade 
 impl Input for Gradesbook {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages> {
-        use std::io::{ self, Write };
+        use std::io::{ self };
         let mut grade = String::new();
         // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
         match io::stdin().read_line(&mut grade) {
