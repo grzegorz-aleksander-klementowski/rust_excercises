@@ -49,6 +49,7 @@ impl Validator<f32> for Gradesbook {
 
 trait Input {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
+    fn get_valid_grade_with_attempts(&mut self, a: Result<f32, ErrMessages>) -> f32;
 }
 
 // Implementation Input to Gredesbook that read line, sent the line to validation,
@@ -73,6 +74,17 @@ impl Input for Gradesbook {
             Err(e)  => Err(ErrMessages::InvalidInput(Box::new(e))),
         }
     }
+
+    fn get_valid_grade_with_attempts(&mut self, a: Result<f32, ErrMessages>) -> f32 {
+        match a {
+            Ok(f) => return f,
+            Err(e) => {
+                eprintln!("{}", e);
+                return 0.0;
+            }
+        }
+    }
+    
 }
 
 // Enum to define message to for user interaction
