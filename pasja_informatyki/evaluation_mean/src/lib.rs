@@ -194,12 +194,13 @@ mod tests {
         assert_eq!(3.8, test_gradesbook.evaluation_mean());
     }
 
-/*    #[test]
+    #[test]
     fn test_get_valid_grade_with_attempts() {
         let mut test_gradesbook = Gradesbook::new();
-        let entered_grade_possitive: Result<f32, ErrMessages> = Ok(5.0);
-        let grade: f32 = test_gradesbook.get_valid_grade_with_attempts(entered_grade_possitive);
+        fn test_read_input_grade(_: &mut Gradesbook) -> Result<f32, ErrMessages> {
+            return Ok(5.0);
+        }
+        let grade: f32 = test_gradesbook.get_valid_grade_with_attempts(test_read_input_grade);
         assert_eq!(5.0, grade);
     }
-*/    
 }
