@@ -76,16 +76,27 @@ impl Input for Gradesbook {
         }
     }
 
-    fn get_valid_grade_with_attempts(&mut self, read_input_grate: fn(&mut Self) -> Result<f32, ErrMessages>) -> f32 {
-        match read_input_grate(self) {
-            Ok(grade) => return grade,
-            Err(e) => {
-                eprintln!("{}", e);
-                return 0.0;
+    // try again up 3 times in a case of failed read line durring input and unwrap the result
+    fn get_valid_grade_with_attempts(&mut self, read_input_grade: fn(&mut Self) -> Result<f32, ErrMessages>) -> f32 {
+
+       let mut attempts: usize = 0;
+       let max_attempts: usize = 3;
+
+        loop {
+            match read_input_grade(self) {
+                Ok(grade) => return grade,
+                Err(e) => {
+                    attempts += 1;
+                    if attempts < max_attempts {
+                        eprintln!("{}", e);
+                    } else { // Extreme error - cannot read line
+                        eprintln!("Too many attemps to read line. Exiting.");
+                        std::process::exit(1);
+                    }
+                }
             }
         }
     }
-}
 
 // Enum to define message to for user interaction
 pub enum Messages<'a> {
