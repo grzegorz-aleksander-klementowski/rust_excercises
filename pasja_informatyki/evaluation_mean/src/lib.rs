@@ -47,10 +47,18 @@ impl Validator<f32> for Gradesbook {
     }
 }
 
+impl Validator<usize> for Gradesbook {
+    fn validate(&mut self, num_of_needed_grades: usize) -> Result<(), ErrMessages> {
+        return Ok(());
+    }
+}
+
 // traits interaface for Input functions
 trait Input {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
-    fn get_valid_grade_with_attempts(&mut self, read_input_grate: fn(&mut Self) -> Result<f32, ErrMessages>) -> f32; // use `read_input_grate` function result to get grade and unwrap it
+    fn read_num_of_needed_grades(&mut self) -> Result<usize, ErrMessages>;
+    fn get_valid_grade_with_attempts(&mut self) -> f32; // use `read_input_grate` function result to get grade and unwrap it
+    fn input_many_grades(&mut self, numer_of_needed_grades_to_add: usize);
 }
 
 // Implementation Input to Gredesbook that read line, sent the line to validation,
@@ -76,14 +84,34 @@ impl Input for Gradesbook {
         }
     }
 
+fn read_num_of_needed_grades(&mut self) -> Result<usize, ErrMessages> {
+        use std::io::{ self };
+        let mut num_of_needed_grades = String::new();
+        // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
+        match io::stdin().read_line(&mut num_of_needed_grades) {
+            Ok(_)   => {
+                match num_of_needed_grades.trim().parse::<usize>() {
+                    Ok(num_of_needed_grades)   => {
+                        match self.validate(num_of_needed_grades) { // number goes to validation
+                            Ok(()) => return Ok(num_of_needed_grades),
+                            Err(e) => return Err(e),
+                        }
+                    },
+                    Err(e)  => Err(ErrMessages::InvalidInput(Box::new(e))),
+                }
+            }
+            Err(e)  => Err(ErrMessages::InvalidInput(Box::new(e))),
+        }
+    }
+
     // try again up 3 times in a case of failed read line durring input and unwrap the result
-    fn get_valid_grade_with_attempts(&mut self, read_input_grade: fn(&mut Self) -> Result<f32, ErrMessages>) -> f32 {
+    fn get_valid_grade_with_attempts(&mut self) -> f32 {
 
        let mut attempts: usize = 0;
        let max_attempts: usize = 3;
 
         loop {
-            match read_input_grade(self) {
+            match self.read_input_grate() {
                 Ok(grade) => return grade,
                 Err(e) => {
                     attempts += 1;
@@ -97,6 +125,15 @@ impl Input for Gradesbook {
             }
         }
     }
+    fn input_many_grades(&mut self, numer_of_needed_grades_to_add: usize) {
+        let mut numer_of_added_grades: usize = 0;
+        while numer_of_added_grades <= numer_of_needed_grades_to_add {
+            let grade = self.get_valid_grade_with_attempts();
+            self.add(grade);
+            numer_of_added_grades += 1;
+        }
+    }
+}
 
 // Enum to define message to for user interaction
 pub enum Messages<'a> {
@@ -196,6 +233,22 @@ mod tests {
         for &grade in uncorrect_grades.iter() {
             assert!(test_gradesbook.validate(grade).is_err(), "Expected „err” for grade: {}", &grade);
         }
+    }
+
+    #[test]
+    fn test_validation_of_insert_neede_num_of_grades() {
+        let mut test_gradesbook = Gradesbook::new();
+        let mock_positive_insered_num:      usize = 3;
+        let mock_neg_insered_num_too_big:   usize = 100000;
+        let mock_neg_insered_num_zero:      usize = 0;
+
+        let result_pos          = test_gradesbook.validate(mock_positive_insered_num);
+        let result_neg_too_big  = test_gradesbook.validate(mock_neg_insered_num_too_big);
+        let result_neg_zero     = test_gradesbook.validate(mock_neg_insered_num_zero);
+
+        assert!(result_pos.is_ok(), "Expected „Ok()” for numer of needed grade, but is error. Tested numer: {}", mock_positive_insered_num);
+        assert!(result_neg_too_big.is_err(), "Expected „Err()” for numer of needed grade, but is possitive, when the numer is too big. Test numer: {}", mock_neg_insered_num_too_big);
+        assert!(result_neg_zero.is_err(), "Expected „Err()” for numer of needed grade, but is possitive, when the numer is zero. Test numer: {}", mock_neg_insered_num_zero);
     }
 
     #[test]
