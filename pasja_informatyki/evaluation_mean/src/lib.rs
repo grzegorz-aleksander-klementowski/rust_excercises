@@ -264,7 +264,7 @@ mod tests {
         fn test_read_input_grade(_: &mut Gradesbook) -> Result<f32, ErrMessages> {
             return Ok(5.0);
         }
-        let grade: f32 = test_gradesbook.get_valid_grade_with_attempts(test_read_input_grade);
+        let grade: f32 = test_gradesbook.get_valid_grade_with_attempts();
         assert_eq!(5.0, grade);
     }
 }
