@@ -47,6 +47,7 @@ impl Validator<f32> for Gradesbook {
     }
 }
 
+// traits interaface for Input functions
 trait Input {
     fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
     fn get_valid_grade_with_attempts(&mut self, a: Result<f32, ErrMessages>) -> f32;
@@ -193,4 +194,13 @@ mod tests {
         test_gradesbook.grades = vec![5.0, 2.5, 3.0, 4.0, 4.5];
         assert_eq!(3.8, test_gradesbook.evaluation_mean());
     }
+
+    #[test]
+    fn test_get_valid_grade_with_attempts() {
+        let mut test_gradesbook = Gradesbook::new();
+        let entered_grade_possitive: Result<f32, ErrMessages> = Ok(5.0);
+        let grade: f32 = test_gradesbook.get_valid_grade_with_attempts(entered_grade_possitive);
+        assert_eq!(5.0, grade);
+    }
+    
 }
