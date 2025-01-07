@@ -6,7 +6,7 @@ pub struct Gradesbook {
 }
 
 // implementation of Gradesbook for grades with constructor, getter and validations
-pub impl Gradesbook {
+impl Gradesbook {
     pub fn new() -> Self { // constructor
         Gradesbook { 
             grades: Vec::new(),
