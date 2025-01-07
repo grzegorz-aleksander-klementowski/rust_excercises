@@ -1,5 +1,4 @@
 use std::fmt;
-use std::error::Error;
 
 // struct to store all grades
 pub struct Gradesbook {
@@ -33,7 +32,7 @@ impl Gradesbook {
     }
 }
 
-// trait definition for validation
+// ------------- trait definition for validation ------------- \\
 trait Validator<T> {
     fn validate(&mut self, value: T) -> Result<(), ErrMessages>;
 }
@@ -47,6 +46,10 @@ impl Validator<f32> for Gradesbook {
     }
 }
 
+
+
+// trait validete input usize numers to check if the user input correct number of needed grade \\
+//to insert
 impl Validator<usize> for Gradesbook {
     fn validate(&mut self, num_of_needed_grades: usize) -> Result<(), ErrMessages> {
         if num_of_needed_grades > 100000 || num_of_needed_grades < 1 {
@@ -56,19 +59,21 @@ impl Validator<usize> for Gradesbook {
         }
     }
 }
+/*----------------------------------------------------------------------*/
 
-// traits interaface for Input functions
-trait Input {
-    fn read_input_grate(&mut self) -> Result<f32, ErrMessages>;
-    fn read_num_of_needed_grades(&mut self) -> Result<usize, ErrMessages>;
-    fn get_valid_grade_with_attempts(&mut self) -> f32; // use `read_input_grate` function result to get grade and unwrap it
-    fn input_many_grades(&mut self, numer_of_needed_grades_to_add: usize);
+// -------------- traits interaface for Input functions -------------- \\
+trait Input<T> {
+    //fn read_input(&mut self) -> Result<f32, ErrMessages>;
+    fn read_input(&mut self) -> Result<T, ErrMessages>;
+    fn get_valid_input_with_attempts(&mut self) -> T; // use `read_input` function result to get grade and unwrap it
+    fn input_many_times(&mut self, numer_of_many_times_input: usize);
 }
 
 // Implementation Input to Gredesbook that read line, sent the line to validation,
 // is is ok, then return possitive result with grade 
-impl Input for Gradesbook {
-    fn read_input_grate(&mut self) -> Result<f32, ErrMessages> {
+impl Input<f32> for Gradesbook {
+
+    fn read_input(&mut self) -> Result<f32, ErrMessages> {
         use std::io::{ self };
         let mut grade = String::new();
         // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
@@ -88,7 +93,43 @@ impl Input for Gradesbook {
         }
     }
 
-fn read_num_of_needed_grades(&mut self) -> Result<usize, ErrMessages> {
+
+    // try again up 3 times in a case of failed read line durring input and unwrap the result
+    fn get_valid_input_with_attempts(&mut self) -> f32 {
+
+       let mut attempts: usize = 0;
+       let max_attempts: usize = 3;
+
+        loop {
+            match self.read_input() {
+                Ok(grade) => return grade,
+                Err(e) => {
+                    attempts += 1;
+                    if attempts < max_attempts {
+                        eprintln!("{}", e);
+                    } else { // Extreme error - cannot read line
+                        eprintln!("Too many attemps to read line. Exiting.");
+                        std::process::exit(1);
+                    }
+                }
+            }
+        }
+    }
+
+   fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
+        let mut numer_of_added_grades: usize = 0;
+        while numer_of_added_grades <= numer_of_needed_grades_to_add {
+            let grade: f32 = self.get_valid_input_with_attempts();
+            self.add(grade);
+            numer_of_added_grades += 1;
+        }
+    }
+
+}
+
+impl Input<usize> for Gradesbook {
+
+    fn read_input(&mut self) -> Result<usize, ErrMessages> {
         use std::io::{ self };
         let mut num_of_needed_grades = String::new();
         // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
@@ -109,13 +150,13 @@ fn read_num_of_needed_grades(&mut self) -> Result<usize, ErrMessages> {
     }
 
     // try again up 3 times in a case of failed read line durring input and unwrap the result
-    fn get_valid_grade_with_attempts(&mut self) -> f32 {
+    fn get_valid_input_with_attempts(&mut self) -> usize {
 
        let mut attempts: usize = 0;
        let max_attempts: usize = 3;
 
         loop {
-            match self.read_input_grate() {
+            match self.read_input() {
                 Ok(grade) => return grade,
                 Err(e) => {
                     attempts += 1;
@@ -129,19 +170,24 @@ fn read_num_of_needed_grades(&mut self) -> Result<usize, ErrMessages> {
             }
         }
     }
-    fn input_many_grades(&mut self, numer_of_needed_grades_to_add: usize) {
+
+    fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
         let mut numer_of_added_grades: usize = 0;
         while numer_of_added_grades <= numer_of_needed_grades_to_add {
-            let grade = self.get_valid_grade_with_attempts();
+            let grade: f32 = self.get_valid_input_with_attempts();
             self.add(grade);
             numer_of_added_grades += 1;
         }
     }
+
 }
 
-// Enum to define message to for user interaction
+/*-----------------------------------------------------------------------*/
+
+// ------------ Enum to define message to for user interaction ------------ \\
 pub enum Messages<'a> {
     Welcome,
+    InformToStartWriteGrades,
     PrintSetOfGrades(&'a Gradesbook),
     GradeAdded,
 }
@@ -150,7 +196,8 @@ pub enum Messages<'a> {
 impl<'a> fmt::Display for Messages<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
-            Messages::Welcome                   => "Please enter a grade: ",
+            Messages::Welcome                   => "Please enter a numer of grades you want to calculate: ",
+            Messages::InformToStartWriteGrades  => return write!(f, "Write {} grades and cofirm by [enter] key. ", 27),
             Messages::GradeAdded                => "Grades added. ",
             Messages::PrintSetOfGrades(gradesbook)  => {
                     let grades_str = gradesbook
@@ -187,7 +234,7 @@ impl fmt::Display for ErrMessages {
         write!(f, "Error: {}", err_message)
     }
 }
-
+/*-----------------------------------------------------------------*/
 
 
 
