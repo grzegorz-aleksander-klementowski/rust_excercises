@@ -6,8 +6,8 @@ pub struct Gradesbook {
 }
 
 // implementation of Gradesbook for grades with constructor, getter and validations
-impl Gradesbook {
-    fn new() -> Self { // constructor
+pub impl Gradesbook {
+    pub fn new() -> Self { // constructor
         Gradesbook { 
             grades: Vec::new(),
         }
@@ -185,19 +185,19 @@ impl Input<usize> for Gradesbook {
 /*-----------------------------------------------------------------------*/
 
 // ------------ Enum to define message to for user interaction ------------ \\
-pub enum Messages<'a> {
+pub enum Messages<'a, 'b> {
     Welcome,
-    InformToStartWriteGrades,
+    InformToStartWriteGrades(&'b usize),
     PrintSetOfGrades(&'a Gradesbook),
     GradeAdded,
 }
 
 // Implementation of Display trail to format messages
-impl<'a> fmt::Display for Messages<'a> {
+impl<'a, 'b> fmt::Display for Messages<'a, 'b> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
             Messages::Welcome                   => "Please enter a numer of grades you want to calculate: ",
-            Messages::InformToStartWriteGrades  => return write!(f, "Write {} grades and cofirm by [enter] key. ", 27),
+            Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Write {} grades and cofirm by [enter] key. ", num_of_grades_to_write),
             Messages::GradeAdded                => "Grades added. ",
             Messages::PrintSetOfGrades(gradesbook)  => {
                     let grades_str = gradesbook
@@ -246,6 +246,15 @@ mod tests {
     fn test_welcome_message() {
         let message = format!("{}", Messages::Welcome);
         assert_eq!(message, "Please enter a grade: ");
+    }
+
+    #[test]
+    fn test_a() {
+        let five_grades_needed: usize = 5;
+        let message = format!("{}", Messages::InformToStartWriteGrades(&five_grades_needed));
+
+        assert_eq!(message, "Write 5 grades and cofirm by [enter] key. ");
+
     }
 
     #[test] 
