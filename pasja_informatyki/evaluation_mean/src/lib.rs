@@ -184,15 +184,15 @@ impl Input<usize> for Gradesbook {
 /*-----------------------------------------------------------------------*/
 
 // ------------ Enum to define message to for user interaction ------------ \\
-pub enum Messages<'a, 'b> {
+pub enum Messages<'a> {
     Welcome,
-    InformToStartWriteGrades(&'b usize),
+    InformToStartWriteGrades(usize),
     PrintSetOfGrades(&'a Gradesbook),
     GradeAdded,
 }
 
 // Implementation of Display trail to format messages
-impl<'a, 'b> fmt::Display for Messages<'a, 'b> {
+impl<'a, 'b> fmt::Display for Messages<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
             Messages::Welcome                   => "Please enter a numer of grades you want to calculate: ",
@@ -244,13 +244,13 @@ mod tests {
     #[test]
     fn test_welcome_message() {
         let message = format!("{}", Messages::Welcome);
-        assert_eq!(message, "Please enter a grade: ");
+        assert_eq!(message, "Please enter a numer of grades you want to calculate: ");
     }
 
     #[test]
     fn test_a() {
         let five_grades_needed: usize = 5;
-        let message = format!("{}", Messages::InformToStartWriteGrades(&five_grades_needed));
+        let message = format!("{}", Messages::InformToStartWriteGrades(five_grades_needed));
 
         assert_eq!(message, "Write 5 grades and cofirm by [enter] key. ");
 
