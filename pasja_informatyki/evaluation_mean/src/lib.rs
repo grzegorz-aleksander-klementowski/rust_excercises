@@ -2,7 +2,7 @@ use std::fmt;
 
 // struct to store all grades
 pub struct Gradesbook {
-     grades: Vec<f32>,
+     pub grades: Vec<f32>,
 }
 
 // implementation of Gradesbook for grades with constructor, getter and validations
@@ -14,12 +14,12 @@ impl Gradesbook {
     }
 
     // add grade to Gradebook
-    fn add(&mut self, grade: f32) {
+    pub fn add(&mut self, grade: f32) {
             self.grades.push(grade); 
         }
 
     // gettet for grades
-    fn show_grades(&self) -> &Vec<f32> { 
+    pub fn show_grades(&self) -> &Vec<f32> { 
         &self.grades
     }
 
@@ -62,7 +62,7 @@ impl Validator<usize> for Gradesbook {
 /*----------------------------------------------------------------------*/
 
 // -------------- traits interaface for Input functions -------------- \\
-trait Input<T> {
+pub trait Input<T> {
     //fn read_input(&mut self) -> Result<f32, ErrMessages>;
     fn read_input(&mut self) -> Result<T, ErrMessages>;
     fn get_valid_input_with_attempts(&mut self) -> T; // use `read_input` function result to get grade and unwrap it
@@ -76,7 +76,6 @@ impl Input<f32> for Gradesbook {
     fn read_input(&mut self) -> Result<f32, ErrMessages> {
         use std::io::{ self };
         let mut grade = String::new();
-        // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
         match io::stdin().read_line(&mut grade) {
             Ok(_)   => {
                 match grade.trim().parse::<f32>() {
@@ -114,6 +113,7 @@ impl Input<f32> for Gradesbook {
                 }
             }
         }
+
     }
 
    fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
@@ -129,10 +129,9 @@ impl Input<f32> for Gradesbook {
 
 impl Input<usize> for Gradesbook {
 
-    fn read_input(&mut self) -> Result<usize, ErrMessages> {
+     fn read_input(&mut self) -> Result<usize, ErrMessages> {
         use std::io::{ self };
         let mut num_of_needed_grades = String::new();
-        // println!("{}", Messages::Welcome); // First welcome to ask about numer [CHEK IT]
         match io::stdin().read_line(&mut num_of_needed_grades) {
             Ok(_)   => {
                 match num_of_needed_grades.trim().parse::<usize>() {
