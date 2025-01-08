@@ -14,17 +14,17 @@ impl Gradesbook {
     }
 
     // add grade to Gradebook
-    pub fn add(&mut self, grade: f32) {
+    fn add(&mut self, grade: f32) {
             self.grades.push(grade); 
         }
 
     // gettet for grades
-    pub fn show_grades(&self) -> &Vec<f32> { 
+    fn show_grades(&self) -> &Vec<f32> { 
         &self.grades
     }
 
     // calculate mean of grades
-    fn evaluation_mean(&self) -> f32 {
+    pub fn evaluation_mean(&self) -> f32 {
         let number_of_grades: &usize = &self.show_grades().len();
         let number_of_grades_float: f32 = *number_of_grades as f32;
         let grades_sum: f32 = self.show_grades().iter().sum::<f32>() as f32;
@@ -41,7 +41,7 @@ trait Validator<T> {
 // integer+half. Which 0.5 represent „+” (ei. '4.5' represent '4+')
 impl Validator<f32> for Gradesbook {
     fn validate(&mut self, grade: f32) -> Result<(), ErrMessages> {
-        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { self.grades.push(grade); Ok(()) }
+        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) { Ok(()) }
         else { Err(ErrMessages::GradeOutOfRange) } 
     }
 }
@@ -118,7 +118,7 @@ impl Input<f32> for Gradesbook {
 
    fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
         let mut numer_of_added_grades: usize = 0;
-        while numer_of_added_grades <= numer_of_needed_grades_to_add {
+        while numer_of_added_grades < numer_of_needed_grades_to_add {
             let grade: f32 = self.get_valid_input_with_attempts();
             self.add(grade);
             numer_of_added_grades += 1;
@@ -172,7 +172,7 @@ impl Input<usize> for Gradesbook {
 
     fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
         let mut numer_of_added_grades: usize = 0;
-        while numer_of_added_grades <= numer_of_needed_grades_to_add {
+        while numer_of_added_grades < numer_of_needed_grades_to_add {
             let grade: f32 = self.get_valid_input_with_attempts();
             self.add(grade);
             numer_of_added_grades += 1;
@@ -188,7 +188,7 @@ pub enum Messages<'a> {
     Welcome,
     InformToStartWriteGrades(usize),
     PrintSetOfGrades(&'a Gradesbook),
-    GradeAdded,
+    PrintEvaluationMean(f32)
 }
 
 // Implementation of Display trail to format messages
@@ -197,14 +197,14 @@ impl<'a, 'b> fmt::Display for Messages<'a> {
         let message = match self {
             Messages::Welcome                   => "Please enter a numer of grades you want to calculate: ",
             Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Write {} grades and cofirm by [enter] key. ", num_of_grades_to_write),
-            Messages::GradeAdded                => "Grades added. ",
+            Messages::PrintEvaluationMean(mean) => return write!(f, "mean: {}", mean),
             Messages::PrintSetOfGrades(gradesbook)  => {
                     let grades_str = gradesbook
                         .show_grades()
                         .iter()
                         .map(|grade| grade.to_string())
                         .collect::<Vec<String>>()
-                        .join("\n");
+                        .join("\t");
                     let formatted_message = format!("Grades:\n{}", grades_str);
                     return write!(f, "{}", formatted_message);
             }
@@ -261,7 +261,7 @@ mod tests {
        let list_of_grades: Vec<f32>= vec![3.0, 4.5, 5.0 , 3.5, 4.0, 2.5];
        let test_gradesbook = Gradesbook { grades: list_of_grades };
        let message = format!("{}", Messages::PrintSetOfGrades(&test_gradesbook));
-       assert_eq!(message, "Grades:\n3\n4.5\n5\n3.5\n4\n2.5");
+       assert_eq!(message, "Grades:\n3\t4.5\t5\t3.5\t4\t2.5");
     }
 
     #[test]
