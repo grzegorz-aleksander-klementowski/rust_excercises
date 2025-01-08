@@ -24,11 +24,13 @@ impl Gradesbook {
     }
 
     // calculate mean of grades
-    pub fn evaluation_mean(&self) -> f32 {
+        pub fn evaluation_mean(&self) -> f32 {
         let number_of_grades: &usize = &self.show_grades().len();
         let number_of_grades_float: f32 = *number_of_grades as f32;
         let grades_sum: f32 = self.show_grades().iter().sum::<f32>() as f32;
-        grades_sum / number_of_grades_float
+        let mean: f32 = grades_sum / number_of_grades_float;
+
+        (mean * 100.0).round() / 100.0
     }
 }
 
