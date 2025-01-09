@@ -5,8 +5,8 @@ fn main() {
     println!("{}", Messages::Welcome);    
     let number_of_inserted_grades: usize = dzinnik_ocen_gradesbook.get_valid_input_with_attempts();
     println!("{}", Messages::InformToStartWriteGrades(number_of_inserted_grades));
-    <Gradesbook as Input<usize>>::add_with_input_many_times(&mut dzinnik_ocen_gradesbook, number_of_inserted_grades);
+    dzinnik_ocen_gradesbook.add_with_input_many_times(number_of_inserted_grades);
     println!("{}", Messages::PrintSetOfGrades(&dzinnik_ocen_gradesbook));
-    let grades_mean: f32 = dzinnik_ocen_gradesbook.evaluation_mean();
+    let grades_mean: f32 = dzinnik_ocen_gradesbook.weighted_average();
     println!("{}", Messages::PrintEvaluationMean(grades_mean));
 }

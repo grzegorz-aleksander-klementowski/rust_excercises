@@ -38,18 +38,13 @@ impl Gradesbook {
     }
 
     // calculate mean of grades
-    pub fn evaluation_mean(&self) -> f32 {
-        let number_of_grades: &usize = &self.show_grades().len();
-        let number_of_grades_float: f32 = *number_of_grades as f32;
-
+    pub fn weighted_average(&self) -> f32 {
         let sum_weighted: f32 = self.show_grades().iter()
             .map(|(grade, weight)| grade * weight)
             .sum();
-
         let total_weights: f32 = self.show_grades().iter()
             .map(|(_, weight)| weight)
             .sum();
-
         let weighted_average: f32 = sum_weighted/total_weights;
 
         (weighted_average * 100.0).round() / 100.0
@@ -269,7 +264,7 @@ mod tests {
        let list_of_grades: Vec<(f32, f32)>= vec![(3.0, 1.0), (4.5, 2.0), (5.0, 2.0) , (3.5, 3.0), (4.0, 1.0), (2.5, 3.0)];
        let test_gradesbook = Gradesbook { grades: list_of_grades };
        let message = format!("{}", Messages::PrintSetOfGrades(&test_gradesbook));
-       assert_eq!(message, "Grades:\n3\t4.5\t5\t3.5\t4\t2.5");
+       assert_eq!(message, "Grades:\ngrade: 3 | weight: 1\t4.5\t5\t3.5\t4\t2.5");
     }
 
     #[test]
@@ -280,7 +275,7 @@ mod tests {
         for &grade in grade_array.iter() { 
             test_gradesbook.add(grade);
         }
-        assert_eq!(test_gradesbook.show_grades(), &vec!(5.5, 2.5, 4.0));
+        assert_eq!(test_gradesbook.show_grades(), &vec!((5.5, 1.0), (2.5, 2.0), (4.0, 3.0)));
     }
     
     #[test]
@@ -321,20 +316,9 @@ mod tests {
     }
 
     #[test]
-    fn test_evaluation_mean() {
+    fn test_agarage_weight() {
         let mut test_gradesbook = Gradesbook::new();
-        test_gradesbook.grades = vec![5.0, 2.5, 3.0, 4.0, 4.5];
-        assert_eq!(3.8, test_gradesbook.evaluation_mean());
+        test_gradesbook.grades = vec![(5.5, 1.0), (2.5, 2.0), (4.0, 3.0), (4.5, 2.0)];
+        assert_eq!(3.94, test_gradesbook.weighted_average());
     }
-
-/*    #[test]
-    fn test_get_valid_grade_with_attempts() {
-        let mut test_gradesbook = Gradesbook::new();
-        fn test_read_input_grade(_: &mut Gradesbook) -> Result<f32, ErrMessages> {
-            return Ok(5.0);
-        }
-        let grade: f32 = test_gradesbook.get_valid_grade_with_attempts();
-        assert_eq!(5.0, grade);
-    }
-*/
 }
