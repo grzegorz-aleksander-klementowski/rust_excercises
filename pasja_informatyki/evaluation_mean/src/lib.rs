@@ -1,4 +1,5 @@
 use std::fmt;
+use std::io::{self, Write};
 
 // struct to store all grades
 pub struct Gradesbook {
@@ -27,12 +28,21 @@ impl Gradesbook {
     pub fn add_with_input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
         let mut numer_of_added_grades: usize = 0;
         while numer_of_added_grades < numer_of_needed_grades_to_add {
-            println!("{}", Messages::InformToInsertGrade);
+
+            // print!("{}", Messages::InformToInsertGrade);
+            print!("ocena: ");
+            io::stdout().flush().unwrap();
             let grade: f32 = self.get_valid_input_with_attempts();
-            println!("{}", Messages::InformToInsertWeight);
+
+            //print!("{}", Messages::InformToInsertWeight);
+            print!("waga: ");
+            io::stdout().flush().unwrap();
             let weight: f32 = self.get_valid_input_with_attempts();
-            let grade_with_wage: (f32, f32) = (grade, weight);
-            self.add(grade_with_wage);
+
+            
+            println!();
+            self.add((grade, weight));
+
             numer_of_added_grades += 1;
         }
     }
@@ -91,7 +101,6 @@ pub trait Input<T> {
 impl Input<f32> for Gradesbook {
 
     fn read_input(&mut self) -> Result<f32, ErrMessages> {
-        use std::io::{ self };
         let mut grade = String::new();
         match io::stdin().read_line(&mut grade) {
             Ok(_)   => {
@@ -138,7 +147,6 @@ impl Input<f32> for Gradesbook {
 impl Input<usize> for Gradesbook {
 
      fn read_input(&mut self) -> Result<usize, ErrMessages> {
-        use std::io::{ self };
         let mut num_of_needed_grades = String::new();
         match io::stdin().read_line(&mut num_of_needed_grades) {
             Ok(_)   => {
