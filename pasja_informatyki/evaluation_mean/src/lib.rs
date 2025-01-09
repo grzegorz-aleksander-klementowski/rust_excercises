@@ -2,7 +2,7 @@ use std::fmt;
 
 // struct to store all grades
 pub struct Gradesbook {
-     pub grades: Vec<f32>,
+     pub grades: Vec<(f32, f32)>,
 }
 
 // implementation of Gradesbook for grades with constructor, getter and validations
@@ -13,25 +13,48 @@ impl Gradesbook {
         }
     }
 
-    // add grade to Gradebook
-    fn add(&mut self, grade: f32) {
-            self.grades.push(grade); 
-        }
-
     // gettet for grades
-    fn show_grades(&self) -> &Vec<f32> { 
+    fn show_grades(&self) -> &Vec<(f32, f32)> { 
         &self.grades
     }
 
+    // add grade to Gradebook
+    fn add(&mut self, grade_with_wage: (f32, f32)) {
+            self.grades.push(grade_with_wage); 
+        }
+
+    // use input trait to add grades with weight to Gradesbook
+    pub fn add_with_input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
+        let mut numer_of_added_grades: usize = 0;
+        while numer_of_added_grades < numer_of_needed_grades_to_add {
+            println!("{}", Messages::InformToInsertGrade);
+            let grade: f32 = self.get_valid_input_with_attempts();
+            println!("{}", Messages::InformToInsertWeight);
+            let weight: f32 = self.get_valid_input_with_attempts();
+            let grade_with_wage: (f32, f32) = (grade, weight);
+            self.add(grade_with_wage);
+            numer_of_added_grades += 1;
+        }
+    }
+
     // calculate mean of grades
-        pub fn evaluation_mean(&self) -> f32 {
+    pub fn evaluation_mean(&self) -> f32 {
         let number_of_grades: &usize = &self.show_grades().len();
         let number_of_grades_float: f32 = *number_of_grades as f32;
-        let grades_sum: f32 = self.show_grades().iter().sum::<f32>() as f32;
-        let mean: f32 = grades_sum / number_of_grades_float;
 
-        (mean * 100.0).round() / 100.0
+        let sum_weighted: f32 = self.show_grades().iter()
+            .map(|(grade, weight)| grade * weight)
+            .sum();
+
+        let total_weights: f32 = self.show_grades().iter()
+            .map(|(_, weight)| weight)
+            .sum();
+
+        let weighted_average: f32 = sum_weighted/total_weights;
+
+        (weighted_average * 100.0).round() / 100.0
     }
+
 }
 
 // ------------- trait definition for validation ------------- \\
@@ -47,8 +70,6 @@ impl Validator<f32> for Gradesbook {
         else { Err(ErrMessages::GradeOutOfRange) } 
     }
 }
-
-
 
 // trait validete input usize numers to check if the user input correct number of needed grade \\
 //to insert
@@ -68,7 +89,6 @@ pub trait Input<T> {
     //fn read_input(&mut self) -> Result<f32, ErrMessages>;
     fn read_input(&mut self) -> Result<T, ErrMessages>;
     fn get_valid_input_with_attempts(&mut self) -> T; // use `read_input` function result to get grade and unwrap it
-    fn input_many_times(&mut self, numer_of_many_times_input: usize);
 }
 
 // Implementation Input to Gredesbook that read line, sent the line to validation,
@@ -118,15 +138,6 @@ impl Input<f32> for Gradesbook {
 
     }
 
-   fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
-        let mut numer_of_added_grades: usize = 0;
-        while numer_of_added_grades < numer_of_needed_grades_to_add {
-            let grade: f32 = self.get_valid_input_with_attempts();
-            self.add(grade);
-            numer_of_added_grades += 1;
-        }
-    }
-
 }
 
 impl Input<usize> for Gradesbook {
@@ -172,15 +183,6 @@ impl Input<usize> for Gradesbook {
         }
     }
 
-    fn input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
-        let mut numer_of_added_grades: usize = 0;
-        while numer_of_added_grades < numer_of_needed_grades_to_add {
-            let grade: f32 = self.get_valid_input_with_attempts();
-            self.add(grade);
-            numer_of_added_grades += 1;
-        }
-    }
-
 }
 
 /*-----------------------------------------------------------------------*/
@@ -188,6 +190,8 @@ impl Input<usize> for Gradesbook {
 // ------------ Enum to define message to for user interaction ------------ \\
 pub enum Messages<'a> {
     Welcome,
+    InformToInsertGrade,
+    InformToInsertWeight,
     InformToStartWriteGrades(usize),
     PrintSetOfGrades(&'a Gradesbook),
     PrintEvaluationMean(f32)
@@ -199,12 +203,14 @@ impl<'a, 'b> fmt::Display for Messages<'a> {
         let message = match self {
             Messages::Welcome                   => "Please enter a numer of grades you want to calculate: ",
             Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Write {} grades and cofirm by [enter] key. ", num_of_grades_to_write),
-            Messages::PrintEvaluationMean(mean) => return write!(f, "mean: {}", mean),
+            Messages::InformToInsertGrade           => "grade: ",
+            Messages::InformToInsertWeight          => "weight: ",
+            Messages::PrintEvaluationMean(mean)     => return write!(f, "mean: {}", mean),
             Messages::PrintSetOfGrades(gradesbook)  => {
                     let grades_str = gradesbook
                         .show_grades()
                         .iter()
-                        .map(|grade| grade.to_string())
+                        .map(|(grade, weight)| format!("grade: {grade} | weight: {weight}"))
                         .collect::<Vec<String>>()
                         .join("\t");
                     let formatted_message = format!("Grades:\n{}", grades_str);
@@ -260,7 +266,7 @@ mod tests {
 
     #[test] 
     fn test_print_evaluation() {
-       let list_of_grades: Vec<f32>= vec![3.0, 4.5, 5.0 , 3.5, 4.0, 2.5];
+       let list_of_grades: Vec<(f32, f32)>= vec![(3.0, 1.0), (4.5, 2.0), (5.0, 2.0) , (3.5, 3.0), (4.0, 1.0), (2.5, 3.0)];
        let test_gradesbook = Gradesbook { grades: list_of_grades };
        let message = format!("{}", Messages::PrintSetOfGrades(&test_gradesbook));
        assert_eq!(message, "Grades:\n3\t4.5\t5\t3.5\t4\t2.5");
@@ -269,7 +275,7 @@ mod tests {
     #[test]
     fn test_add() {
         let mut test_gradesbook = Gradesbook::new();
-        let grade_array: [f32; 3] = [5.5, 2.5, 4.0];
+        let grade_array: [(f32, f32); 3] = [(5.5, 1.0), (2.5, 2.0), (4.0, 3.0)];
 
         for &grade in grade_array.iter() { 
             test_gradesbook.add(grade);
