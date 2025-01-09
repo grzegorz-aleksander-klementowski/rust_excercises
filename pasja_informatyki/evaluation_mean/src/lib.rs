@@ -190,6 +190,24 @@ impl Input<usize> for Gradesbook {
 
 /*-----------------------------------------------------------------------*/
 
+// ------------ System configurations trait ------------ \\
+
+
+pub struct System;
+
+pub trait Terminal {
+    fn end_terminal_key(&self);
+}
+
+impl Terminal for System {
+    fn end_terminal_key(&self) {
+        println!("{}", Messages::WindowsExiting);
+        let _ = io::stdout().flush();
+        let mut buffer = String::new();
+        let _ = io::stdin().read_line(&mut buffer);
+    }
+}
+
 // ------------ Enum to define message to for user interaction ------------ \\
 pub enum Messages<'a> {
     Welcome,
@@ -239,8 +257,8 @@ impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
         ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ".to_string(),
-        ErrMessages::InvalidInput(error) => format!("Aliquam numerus. Failed to read input: {}", error),
-        ErrMessages::InvalidNumberOfNeededGrades => "Gradus feriunt. Numer of needed grades is too big or equals zero! Try use lower numer, up to 100000. ".to_string(),
+        ErrMessages::InvalidInput(error) => format!("Aliquam numerus. Nie udało się odczytać wiersza: {}", error),
+        ErrMessages::InvalidNumberOfNeededGrades => "Gradus feriunt. Zooosiu, numer, który wpisujesz jest albo za duży, albo wpisałaś zero! Spróbuj wpisać mniejszy numer (tak do 100000) albo liczbę większą nić 0. ".to_string(),
         
         };
         write!(f, "Error: {}", err_message)
@@ -257,7 +275,7 @@ mod tests {
     #[test]
     fn test_welcome_message() {
         let message = format!("{}", Messages::Welcome);
-        assert_eq!(message, "Please enter a numer of grades you want to calculate: ");
+        assert_eq!(message, "Witaj Kochana Zosieńko :** To jest program specjalnie stworzony dla Ciebie, abyś mogła w łatwy i szybki sposób obliczyć swoj oceny na swoim obliczniku. Wpisz ilość ocen, z jakich chcesz obliczyć średnią: ");
     }
 
     #[test]
@@ -265,7 +283,7 @@ mod tests {
         let five_grades_needed: usize = 5;
         let message = format!("{}", Messages::InformToStartWriteGrades(five_grades_needed));
 
-        assert_eq!(message, "Write 5 grades and cofirm by [enter] key. ");
+        assert_eq!(message, "Wpisz 5 i potwierdź przez przycisk wejścia [enter]. ");
 
     }
 
@@ -274,7 +292,7 @@ mod tests {
        let list_of_grades: Vec<(f32, f32)>= vec![(3.0, 1.0), (4.5, 2.0), (5.0, 2.0) , (3.5, 3.0), (4.0, 1.0), (2.5, 3.0)];
        let test_gradesbook = Gradesbook { grades: list_of_grades };
        let message = format!("{}", Messages::PrintSetOfGrades(&test_gradesbook));
-       assert_eq!(message, "Grades:\nocena: 3 | waga: 1\tocena: 4.5 | waga: 2\tocena: 5 | waga: 2\tocena: 3.5 | waga: 3\tocena: 4 | waga: 1\tocena: 2.5 | waga: 3");
+       assert_eq!(message, "Oceny:\nocena: 3 | waga: 1\tocena: 4.5 | waga: 2\tocena: 5 | waga: 2\tocena: 3.5 | waga: 3\tocena: 4 | waga: 1\tocena: 2.5 | waga: 3");
     }
 
     #[test]

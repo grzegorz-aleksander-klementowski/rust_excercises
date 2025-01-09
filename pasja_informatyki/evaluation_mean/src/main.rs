@@ -1,4 +1,4 @@
-use evaluation_mean::{Gradesbook, Messages, Input};
+use evaluation_mean::{Gradesbook, Messages, Input, System, Terminal};
 
 fn main() {
     let mut dzinnik_ocen_gradesbook: Gradesbook = Gradesbook::new();
@@ -9,4 +9,6 @@ fn main() {
     println!("{}", Messages::PrintSetOfGrades(&dzinnik_ocen_gradesbook));
     let grades_mean: f32 = dzinnik_ocen_gradesbook.weighted_average();
     println!("{}", Messages::PrintEvaluationMean(grades_mean));
+
+    System.end_terminal_key();
 }
