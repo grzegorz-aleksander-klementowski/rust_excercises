@@ -26,16 +26,16 @@ impl Gradesbook {
 
     // use input trait to add grades with weight to Gradesbook
     pub fn add_with_input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
-        let mut numer_of_added_grades: usize = 0;
-        while numer_of_added_grades < numer_of_needed_grades_to_add {
+        let mut numer_of_added_grades: usize = 1;
+        while numer_of_added_grades <= numer_of_needed_grades_to_add {
 
-            // print!("{}", Messages::InformToInsertGrade);
-            print!("ocena: ");
+            println!("{numer_of_added_grades}.:");
+
+            print!("{}", Messages::InformToInsertGrade);
             io::stdout().flush().unwrap();
             let grade: f32 = self.get_valid_input_with_attempts();
 
-            //print!("{}", Messages::InformToInsertWeight);
-            print!("waga: ");
+            print!("{}", Messages::InformToInsertWeight);
             io::stdout().flush().unwrap();
             let weight: f32 = self.get_valid_input_with_attempts();
 
@@ -133,7 +133,7 @@ impl Input<f32> for Gradesbook {
                     if attempts < max_attempts {
                         eprintln!("{}", e);
                     } else { // Extreme error - cannot read line
-                        eprintln!("Too many attemps to read line. Exiting.");
+                        eprintln!("Za duuuużo prób Zosieńko :c Wychodzę…");
                         std::process::exit(1);
                     }
                 }
@@ -178,7 +178,7 @@ impl Input<usize> for Gradesbook {
                     if attempts < max_attempts {
                         eprintln!("{}", e);
                     } else { // Extreme error - cannot read line
-                        eprintln!("Too many attemps to read line. Exiting.");
+                        eprintln!("Za duuuużo prób Zosieńko :c Wychodzę…");
                         std::process::exit(1);
                     }
                 }
@@ -197,28 +197,30 @@ pub enum Messages<'a> {
     InformToInsertWeight,
     InformToStartWriteGrades(usize),
     PrintSetOfGrades(&'a Gradesbook),
-    PrintEvaluationMean(f32)
+    PrintEvaluationMean(f32),
+    WindowsExiting
 }
 
 // Implementation of Display trail to format messages
 impl<'a, 'b> fmt::Display for Messages<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
-            Messages::Welcome                   => "Please enter a numer of grades you want to calculate: ",
-            Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Write {} grades and cofirm by [enter] key. ", num_of_grades_to_write),
-            Messages::InformToInsertGrade           => "grade: ",
-            Messages::InformToInsertWeight          => "weight: ",
-            Messages::PrintEvaluationMean(mean)     => return write!(f, "mean: {}", mean),
+            Messages::Welcome                   => "Witaj Kochana Zosieńko :** To jest program specjalnie stworzony dla Ciebie, abyś mogła w łatwy i szybki sposób obliczyć swoj oceny na swoim obliczniku. Wpisz ilość ocen, z jakich chcesz obliczyć średnią: ",
+            Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Wpisz {} i potwierdź przez przycisk wejścia [enter]. ", num_of_grades_to_write),
+            Messages::InformToInsertGrade           => "ocena: ",
+            Messages::InformToInsertWeight          => "waga: ",
+            Messages::PrintEvaluationMean(mean)     => return write!(f, "\nOto Twoja średnia: {}. Powodzenia w następnym semestrze :3", mean),
             Messages::PrintSetOfGrades(gradesbook)  => {
                     let grades_str = gradesbook
                         .show_grades()
                         .iter()
-                        .map(|(grade, weight)| format!("grade: {grade} | weight: {weight}"))
+                        .map(|(grade, weight)| format!("ocena: {grade} | waga: {weight}"))
                         .collect::<Vec<String>>()
                         .join("\t");
-                    let formatted_message = format!("Grades:\n{}", grades_str);
+                    let formatted_message = format!("Oceny:\n{}", grades_str);
                     return write!(f, "{}", formatted_message);
             }
+            Messages::WindowsExiting            => "Program zakończył się kochanie :* Życzę Ci duuuużo wspaniałych ocen c:",
         };
         write!(f, "{}", message)
     }
@@ -272,7 +274,7 @@ mod tests {
        let list_of_grades: Vec<(f32, f32)>= vec![(3.0, 1.0), (4.5, 2.0), (5.0, 2.0) , (3.5, 3.0), (4.0, 1.0), (2.5, 3.0)];
        let test_gradesbook = Gradesbook { grades: list_of_grades };
        let message = format!("{}", Messages::PrintSetOfGrades(&test_gradesbook));
-       assert_eq!(message, "Grades:\ngrade: 3 | weight: 1\t4.5\t5\t3.5\t4\t2.5");
+       assert_eq!(message, "Grades:\nocena: 3 | waga: 1\tocena: 4.5 | waga: 2\tocena: 5 | waga: 2\tocena: 3.5 | waga: 3\tocena: 4 | waga: 1\tocena: 2.5 | waga: 3");
     }
 
     #[test]
