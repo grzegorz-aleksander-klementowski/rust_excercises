@@ -14,7 +14,6 @@ pub struct ZapiskiOsobowe {
 }
 
 
-/*
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -32,4 +31,3 @@ mod tests {
 
     }
 }
-*/
