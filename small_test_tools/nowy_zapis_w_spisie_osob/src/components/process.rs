@@ -1,6 +1,6 @@
 // process
 
-use crate::{ ZapiskiOsobowe, output, input };
+use crate::{ ZapiskiOsobowe,output, input::Wejście };
 
 
 impl ZapiskiOsobowe {
@@ -20,10 +20,10 @@ impl ZapiskiOsobowe {
         zapiski.nagłówek_dalnomównik = zapiski.ułóż(5);
 
         zapiski
-        }
+    }
 
     fn ułóż(&self, lp: usize) -> String {
-        let zapisek = <dyn input::Wejście>::pobierz_zapisek_z_próbami(self);
+        let zapisek = self.pobierz_zapisek_z_próbami();
         format!("{}{}", lp, zapisek)
     }
 }
