@@ -1,6 +1,6 @@
 // process
 
-use crate::{ ZapiskiOsobowe,output, input::Wejście };
+use crate::{ ZapiskiOsobowe,output::WiadomościDoUżytkownika, input::Wejście };
 
 
 impl ZapiskiOsobowe {
@@ -13,17 +13,17 @@ impl ZapiskiOsobowe {
             nagłówek_dalnomównik: String::new(),
         };
 
-        zapiski.nagłówek_fn = zapiski.ułóż(1);
-        zapiski.nagłówek_n = zapiski.ułóż(2);
-        zapiski.nagłówek_zrzeszenie = zapiski.ułóż(3);
-        zapiski.nagłówek_poczta = zapiski.ułóż(4);
-        zapiski.nagłówek_dalnomównik = zapiski.ułóż(5);
+        zapiski.nagłówek_fn = zapiski.ułóż(WiadomościDoUżytkownika::ZapytanieOImię);
+        zapiski.nagłówek_n = zapiski.ułóż(WiadomościDoUżytkownika::ZapytanieONazwisko);
+        zapiski.nagłówek_zrzeszenie = zapiski.ułóż(WiadomościDoUżytkownika::ZapytanieOZrzeszenie);
+        zapiski.nagłówek_poczta = zapiski.ułóż(WiadomościDoUżytkownika::ZapytanieOPocztę);
+        zapiski.nagłówek_dalnomównik = zapiski.ułóż(WiadomościDoUżytkownika::ZapytanieONumerDalnomównika);
 
         zapiski
     }
 
-    fn ułóż(&self, lp: usize) -> String {
+    fn ułóż(&self, wiadomość: WiadomościDoUżytkownika) -> String {
         let zapisek = self.pobierz_zapisek_z_próbami();
-        format!("{}{}", lp, zapisek)
+        format!("{}{}", wiadomość, zapisek)
     }
 }
