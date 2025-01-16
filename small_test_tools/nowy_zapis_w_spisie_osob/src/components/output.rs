@@ -2,7 +2,7 @@
 
 use std::fmt;
 use std::io;
-use crate::config; // config file include arrays with content of error messages
+use crate::{ config, ZapiskiOsobowe }; // config file include arrays with content of error messages
 
 // Enum for VCF cards headers
 pub enum NagłówkiVCF {
@@ -29,8 +29,6 @@ impl fmt::Display for NagłówkiVCF {
     }
 }
 
-
-
 // Enum for Messages for a use
 pub enum WiadomościDoUżytkownika {
     Przywitanie,
@@ -51,6 +49,12 @@ impl fmt::Display for WiadomościDoUżytkownika {
             WiadomościDoUżytkownika::ZapytanieOPocztę => write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[4]),
             WiadomościDoUżytkownika::ZapytanieONumerDalnomównika => write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[5]),
         }
+    }
+}
+
+impl fmt::Display for ZapiskiOsobowe {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", "") // to finish later - add ZapiskiOsobowe to format for final output
     }
 }
 
