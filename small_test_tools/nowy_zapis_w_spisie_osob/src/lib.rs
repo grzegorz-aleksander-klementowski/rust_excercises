@@ -34,12 +34,7 @@ mod tests{
         assert_eq!(wynik,
 r#"BEGIN:VCARD
 VERSION:2.0
-FN:imię
-N:nazwisko
-ORG:zrzeszenie
-EMAIL;TYPE=INTERNET:poczta
-TEL;TYPE=CELL:dalnomównik
-END:VCARD"#);
+FN:imięN:nazwiskoORG:zrzeszenieEMAIL;TYPE=INTERNET:pocztaTEL;TYPE=CELL:dalnomównikEND:VCARD"#);
     }
 
     #[test]
@@ -47,8 +42,8 @@ END:VCARD"#);
         let udawacz_fn: String = String::from("fn:Strzeżymir");
         let udaawacz_n: String = String::from("n:Myśliciel");
 
-        let nagłówek_fn_do_nazwy_pliku: String = udawacz_fn.chars().skip(3).collect();
-        let nagłówek_n_do_nazwy_pliku: String  = udaawacz_n.chars().skip(2).collect();
+        let nagłówek_fn_do_nazwy_pliku: String = udawacz_fn.trim().chars().skip(3).collect();
+        let nagłówek_n_do_nazwy_pliku: String  = udaawacz_n.trim().chars().skip(2).collect();
 
         let wynik: String = format!("styczność_{}_{}.cvf", nagłówek_fn_do_nazwy_pliku, nagłówek_n_do_nazwy_pliku);
 
