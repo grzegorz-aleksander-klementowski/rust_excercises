@@ -18,18 +18,27 @@ pub struct ZapiskiOsobowe {
 mod tests{
     use super::*;
 
+    #[test]
     fn sprawdzian_zapisków() {
         let zapisek_sprawdzający: ZapiskiOsobowe = ZapiskiOsobowe { 
             zaczynajka_karty_vcf: output::NagłówkiVCF::BeginVcard.to_string(), 
-            nagłówek_fn: String::from("imię"), 
-            nagłówek_n: String::from("nazwisko"), 
-            nagłówek_zrzeszenie: String::from("zrzeszenie"), 
-            nagłówek_poczta: String::from("poczta"), 
-            nagłówek_dalnomównik: String::from("dalnomównik"), 
+            nagłówek_fn:            String::from("imię"), 
+            nagłówek_n:             String::from("nazwisko"), 
+            nagłówek_zrzeszenie:    String::from("zrzeszenie"), 
+            nagłówek_poczta:        String::from("poczta"), 
+            nagłówek_dalnomównik:   String::from("dalnomównik"), 
             kończajka_karty_vcf: output::NagłówkiVCF::EndVcard.to_string(), 
         };
 
-        let wynik: String = String::from("sprawdzian");
-        assert_eq!(wynik, "sprawdzian");
+        let wynik = format!("{}", zapisek_sprawdzający);
+        assert_eq!(wynik, "
+BEGIN:VCARD\nVERSION:2.0\n
+FN:\n
+N:\n
+ORG:\n
+EMAIL;TYPE=INTERNET:\n
+TEL;TYPE=CELL:\n
+END:VCARD
+");
     }
 }

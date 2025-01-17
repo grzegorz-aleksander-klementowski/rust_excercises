@@ -54,7 +54,7 @@ impl fmt::Display for WiadomościDoUżytkownika {
 
 impl fmt::Display for ZapiskiOsobowe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", "") // to finish later - add ZapiskiOsobowe to format for final output
+        write!(f, "{}", "sprawdzian") // to finish later - add ZapiskiOsobowe to format for final output
     }
 }
 
