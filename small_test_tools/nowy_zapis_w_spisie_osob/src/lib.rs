@@ -41,4 +41,18 @@ EMAIL;TYPE=INTERNET:poczta
 TEL;TYPE=CELL:dalnomównik
 END:VCARD"#);
     }
+
+    #[test]
+    fn sprawdzian_zapisywania_nazw_z_cvf() {
+        let udawacz_fn: String = String::from("fn:Strzeżymir");
+        let udaawacz_n: String = String::from("n:Myśliciel");
+
+        let nagłówek_fn_do_nazwy_pliku: String = udawacz_fn.chars().skip(3).collect();
+        let nagłówek_n_do_nazwy_pliku: String  = udaawacz_n.chars().skip(2).collect();
+
+        let wynik: String = format!("styczność_{}_{}.cvf", nagłówek_fn_do_nazwy_pliku, nagłówek_n_do_nazwy_pliku);
+
+        assert_eq!(wynik, "styczność_Strzeżymir_Myśliciel.cvf")
+
+    }
 }

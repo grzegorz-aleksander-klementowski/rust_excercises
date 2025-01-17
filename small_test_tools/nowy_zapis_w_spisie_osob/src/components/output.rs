@@ -77,7 +77,10 @@ pub trait Wyjście {
 
 impl Wyjście for ZapiskiOsobowe {
     fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) {
-        let nazwa_pliku: String = format!("zapisek.cvf"/*, &self.nagłówek_fn, &self.nagłówek_n*/);
+
+        let nagłówek_fn_do_nazwy_pliku: String = self.nagłówek_fn.chars().skip(3).collect();
+        let nagłówek_n_do_nazwy_pliku: String  = self.nagłówek_n.chars().skip(2).collect();
+        let nazwa_pliku: String = format!("styczność_{}_{}.cvf", nagłówek_fn_do_nazwy_pliku, nagłówek_n_do_nazwy_pliku);
         let wynik_z_zapiania_pliku: Result<(), io::Error> = fs::write(nazwa_pliku, zawartość_do_pliku);
         match wynik_z_zapiania_pliku {
             Ok(())      => println!("{}", WiadomościDoUżytkownika::PotwierdzenieZapisaniaPliku),
