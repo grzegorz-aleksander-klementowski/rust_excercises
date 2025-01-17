@@ -58,7 +58,7 @@ impl fmt::Display for WiadomościDoUżytkownika {
 // format ZapiskiOsobowe to final cvf card
 impl fmt::Display for ZapiskiOsobowe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}\n{}\n{}\n{}\n{}\n{}\n{}", 
+        write!(f, "{}\n{}{}{}{}{}{}", 
                &self.zaczynajka_karty_vcf, 
                &self.nagłówek_fn,
                &self.nagłówek_n,
