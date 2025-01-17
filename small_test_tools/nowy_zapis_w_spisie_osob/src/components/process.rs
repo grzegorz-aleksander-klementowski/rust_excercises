@@ -1,5 +1,6 @@
 // process
 
+use std::io::{ self, Write };
 use crate::{ 
     output::{ NagłówkiVCF, WiadomościDoUżytkownika },
     input::Wejście,
@@ -19,7 +20,6 @@ impl ZapiskiOsobowe {
             nagłówek_dalnomównik: String::new(),
             kończajka_karty_vcf: NagłówkiVCF::EndVcard.to_string(),
         };
-
         
         zapiski.nagłówek_fn         = zapiski.ułóż(NagłówkiVCF::FN,     WiadomościDoUżytkownika::ZapytanieOImię);
         zapiski.nagłówek_n          = zapiski.ułóż(NagłówkiVCF::N,      WiadomościDoUżytkownika::ZapytanieONazwisko);
@@ -40,6 +40,7 @@ impl ZapiskiOsobowe {
     // add a question for user to create an instance of VCF card
     fn zapytanie_o_zapisek(&self, zapytanie: WiadomościDoUżytkownika) -> String {
         print!("{}", zapytanie);
+        io::stdout().flush().unwrap();
         let zapisek: String = self.pobierz_zapisek_z_próbami();
         zapisek
     }

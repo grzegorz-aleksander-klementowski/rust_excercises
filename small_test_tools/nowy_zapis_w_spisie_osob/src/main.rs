@@ -1,5 +1,7 @@
-use nowy_zapis_w_spisie_osob::*;
+use nowy_zapis_w_spisie_osob::ZapiskiOsobowe;
+use nowy_zapis_w_spisie_osob::components::{ output, input, process };
 
 fn main() {
-    println!("Rozkazownik do zapisków spisób osób.");
+    println!("{}", output::WiadomościDoUżytkownika::Przywitanie);
+    let nowy_zapisek: ZapiskiOsobowe = ZapiskiOsobowe::new();
 }
