@@ -22,11 +22,11 @@ mod tests{
     fn sprawdzian_zapisków() {
         let zapisek_sprawdzający: ZapiskiOsobowe = ZapiskiOsobowe { 
             zaczynajka_karty_vcf: output::NagłówkiVCF::BeginVcard.to_string(), 
-            nagłówek_fn:            String::from("imię"), 
-            nagłówek_n:             String::from("nazwisko"), 
-            nagłówek_zrzeszenie:    String::from("zrzeszenie"), 
-            nagłówek_poczta:        String::from("poczta"), 
-            nagłówek_dalnomównik:   String::from("dalnomównik"), 
+            nagłówek_fn:            String::from("FN:imię"), 
+            nagłówek_n:             String::from("N:nazwisko"), 
+            nagłówek_zrzeszenie:    String::from("ORG:zrzeszenie"), 
+            nagłówek_poczta:        String::from("EMAIL;TYPE=INTERNET:poczta"), 
+            nagłówek_dalnomównik:   String::from("TEL;TYPE=CELL:dalnomównik"), 
             kończajka_karty_vcf: output::NagłówkiVCF::EndVcard.to_string(), 
         };
 

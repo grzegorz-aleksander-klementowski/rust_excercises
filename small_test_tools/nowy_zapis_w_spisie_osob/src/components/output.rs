@@ -58,13 +58,13 @@ impl fmt::Display for WiadomościDoUżytkownika {
 // format ZapiskiOsobowe to final cvf card
 impl fmt::Display for ZapiskiOsobowe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}\n{}{}\n{}{}\n{}{}\n{}{}\n{}{}\n{}", 
+        write!(f, "{}\n{}\n{}\n{}\n{}\n{}\n{}", 
                &self.zaczynajka_karty_vcf, 
-               NagłówkiVCF::FN,     &self.nagłówek_fn,
-               NagłówkiVCF::N,      &self.nagłówek_n,
-               NagłówkiVCF::ORG,    &self.nagłówek_zrzeszenie,
-               NagłówkiVCF::EMAIL,  &self.nagłówek_poczta,
-               NagłówkiVCF::TEL,    &self.nagłówek_dalnomównik,
+               &self.nagłówek_fn,
+               &self.nagłówek_n,
+               &self.nagłówek_zrzeszenie,
+               &self.nagłówek_poczta,
+               &self.nagłówek_dalnomównik,
                &self.kończajka_karty_vcf
                ) 
     }
@@ -72,19 +72,18 @@ impl fmt::Display for ZapiskiOsobowe {
 
 // Traits for output
 pub trait Wyjście {
-    fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) -> Result<(), WiadomościoBłędach>;
+    fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String); 
 }
 
 impl Wyjście for ZapiskiOsobowe {
-    fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) -> Result<(), WiadomościoBłędach> {
-        let nazwa_pliku: String = format!("{}_{}.cvf", &self.nagłówek_fn, &self.nagłówek_n);
+    fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) {
+        let nazwa_pliku: String = format!("zapisek.cvf"/*, &self.nagłówek_fn, &self.nagłówek_n*/);
         let wynik_z_zapiania_pliku: Result<(), io::Error> = fs::write(nazwa_pliku, zawartość_do_pliku);
         match wynik_z_zapiania_pliku {
             Ok(())      => println!("{}", WiadomościDoUżytkownika::PotwierdzenieZapisaniaPliku),
             Err(błąd)   => eprintln!("{}", WiadomościoBłędach::NiepomyślnieZapisanoPlik(błąd)),
         }
 
-        Ok(()) // chiwlowe aby nie było błędu, że zły zwrot
     }
 }
 
