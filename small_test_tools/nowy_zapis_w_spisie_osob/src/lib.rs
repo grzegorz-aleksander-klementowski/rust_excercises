@@ -1,6 +1,6 @@
 // książnica
 pub mod components;
-use components::{config, input, output, process};
+use components::{ config, input, output };
 
 
 pub struct ZapiskiOsobowe {

@@ -1,7 +1,8 @@
 // wyjście
 
-use std::fmt;
 use std::io;
+use std::fmt;
+use std::fs;
 use crate::{ config, ZapiskiOsobowe }; // config file include arrays with content of error messages
 
 // Enum for VCF cards headers
@@ -37,6 +38,7 @@ pub enum WiadomościDoUżytkownika {
     ZapytanieOZrzeszenie,
     ZapytanieOPocztę,
     ZapytanieONumerDalnomównika,
+    PotwierdzenieZapisaniaPliku,
 }
 
 impl fmt::Display for WiadomościDoUżytkownika {
@@ -48,10 +50,12 @@ impl fmt::Display for WiadomościDoUżytkownika {
             WiadomościDoUżytkownika::ZapytanieOZrzeszenie => write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[3]),
             WiadomościDoUżytkownika::ZapytanieOPocztę => write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[4]),
             WiadomościDoUżytkownika::ZapytanieONumerDalnomównika => write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[5]),
+            WiadomościDoUżytkownika::PotwierdzenieZapisaniaPliku => write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[6]),
         }
     }
 }
 
+// format ZapiskiOsobowe to final cvf card
 impl fmt::Display for ZapiskiOsobowe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}\n{}{}\n{}{}\n{}{}\n{}{}\n{}{}\n{}", 
@@ -66,12 +70,31 @@ impl fmt::Display for ZapiskiOsobowe {
     }
 }
 
+// Traits for output
+pub trait Wyjście {
+    fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) -> Result<(), WiadomościoBłędach>;
+}
+
+impl Wyjście for ZapiskiOsobowe {
+    fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) -> Result<(), WiadomościoBłędach> {
+        let nazwa_pliku: String = format!("{}_{}.cvf", &self.nagłówek_fn, &self.nagłówek_n);
+        let wynik_z_zapiania_pliku: Result<(), io::Error> = fs::write(nazwa_pliku, zawartość_do_pliku);
+        match wynik_z_zapiania_pliku {
+            Ok(())      => println!("{}", WiadomościDoUżytkownika::PotwierdzenieZapisaniaPliku),
+            Err(błąd)   => eprintln!("{}", WiadomościoBłędach::NiepomyślnieZapisanoPlik(błąd)),
+        }
+
+        Ok(()) // chiwlowe aby nie było błędu, że zły zwrot
+    }
+}
+
 // Enum for error messages
 #[derive(Debug)]
 pub enum WiadomościoBłędach {
     PróbaOdczytaniaLinii(io::Error),
     PrzekroczonaIlośćPrób,
     WiadomośćSprawdzająca,
+    NiepomyślnieZapisanoPlik(io::Error),
 }
 
 // Dipley trait for displaying messages about ERRORS
@@ -81,7 +104,8 @@ impl<'a> fmt::Display for WiadomościoBłędach {
         match self {
             WiadomościoBłędach::PróbaOdczytaniaLinii(err)   => write!(f, "{}: {}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[0], err),
             WiadomościoBłędach::PrzekroczonaIlośćPrób       => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[1]),
-            WiadomościoBłędach::WiadomośćSprawdzająca       => write!(f, "{}", "Wiadomość sprawdzona"),
+            WiadomościoBłędach::WiadomośćSprawdzająca       => write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[2]),
+            WiadomościoBłędach::NiepomyślnieZapisanoPlik(err)    => write!(f, "{} Błąd: {}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[3], err),
         }
     }
 }
