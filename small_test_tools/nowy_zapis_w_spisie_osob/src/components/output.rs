@@ -54,14 +54,14 @@ impl fmt::Display for WiadomościDoUżytkownika {
 
 impl fmt::Display for ZapiskiOsobowe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}\n{}\n{}\n{}\n{}\n{}\n{}", 
-               NagłówkiVCF::BeginVcard, 
-               NagłówkiVCF::FN,
-               NagłówkiVCF::N,
-               NagłówkiVCF::ORG,
-               NagłówkiVCF::EMAIL,
-               NagłówkiVCF::TEL,
-               NagłówkiVCF::EndVcard
+        write!(f, "{}\n{}{}\n{}{}\n{}{}\n{}{}\n{}{}\n{}", 
+               &self.zaczynajka_karty_vcf, 
+               NagłówkiVCF::FN,     &self.nagłówek_fn,
+               NagłówkiVCF::N,      &self.nagłówek_n,
+               NagłówkiVCF::ORG,    &self.nagłówek_zrzeszenie,
+               NagłówkiVCF::EMAIL,  &self.nagłówek_poczta,
+               NagłówkiVCF::TEL,    &self.nagłówek_dalnomównik,
+               &self.kończajka_karty_vcf
                ) 
     }
 }

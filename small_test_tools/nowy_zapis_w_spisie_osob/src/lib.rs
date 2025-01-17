@@ -31,14 +31,12 @@ mod tests{
         };
 
         let wynik = format!("{}", zapisek_sprawdzający);
-        assert_eq!(wynik, "
-BEGIN:VCARD\nVERSION:2.0\n
-FN:\n
-N:\n
-ORG:\n
-EMAIL;TYPE=INTERNET:\n
-TEL;TYPE=CELL:\n
-END:VCARD
-");
+        assert_eq!(wynik, "BEGIN:VCARD\nVERSION:2.0
+FN:imię
+N:nazwisko
+ORG:zrzeszenie
+EMAIL;TYPE=INTERNET:poczta
+TEL;TYPE=CELL:dalnomównik
+END:VCARD");
     }
 }
