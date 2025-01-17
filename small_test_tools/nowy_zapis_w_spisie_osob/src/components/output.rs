@@ -54,7 +54,15 @@ impl fmt::Display for WiadomościDoUżytkownika {
 
 impl fmt::Display for ZapiskiOsobowe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", "sprawdzian") // to finish later - add ZapiskiOsobowe to format for final output
+        write!(f, "{}\n{}\n{}\n{}\n{}\n{}\n{}", 
+               NagłówkiVCF::BeginVcard, 
+               NagłówkiVCF::FN,
+               NagłówkiVCF::N,
+               NagłówkiVCF::ORG,
+               NagłówkiVCF::EMAIL,
+               NagłówkiVCF::TEL,
+               NagłówkiVCF::EndVcard
+               ) 
     }
 }
 
