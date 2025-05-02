@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use async_trait::*;
 use cqrs_es::*;
 use serde::*;
@@ -63,6 +65,20 @@ impl DomainEvent for InventoryEvent {
 //*** [ERRORS] ***\\
 #[derive(Debug)]
 pub struct InventoryError(String);
+
+impl Display for InventoryError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl std::error::Error for InventoryError {}
+
+impl From<&str> for InventoryError {
+    fn from(message: &str) -> Self {
+        InventoryError()
+    }
+}
 
 fn main() {
     println!("Hello, world!");
