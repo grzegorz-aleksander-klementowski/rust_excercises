@@ -3,6 +3,7 @@ use cqrs_es::*;
 use serde::*;
 use tokio::*;
 
+//*** [EVENTS] ***\\
 #[derive(Debug, serde::Deserialize)]
 pub enum InventoryCommand {
     RegisterProduct {
@@ -43,6 +44,7 @@ pub enum InventoryEvent {
     },
 }
 
+//*** [DOMAIN] ***\\
 impl DomainEvent for InventoryEvent {
     fn event_type(&self) -> String {
         let event_type: &str = match self {
@@ -59,7 +61,6 @@ impl DomainEvent for InventoryEvent {
 }
 
 //*** [ERRORS] ***\\
-
 #[derive(Debug)]
 pub struct InventoryError(String);
 
