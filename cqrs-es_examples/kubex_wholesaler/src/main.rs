@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, io};
 
 use async_trait::*;
 use cqrs_es::*;
@@ -62,9 +62,47 @@ impl DomainEvent for InventoryEvent {
     }
 }
 
+#[derive(Serialize, Deserialize, Default)]
+pub struct Inventory {
+    opened: bool,
+    stock_level: f64,
+}
+
+//*** [EXTERNAL SERVEICES] ***\\
+pub struct InventoryServices;
+
+impl InventoryServices {
+    async fn ship_stock_from_warehouse(
+        &self,
+        warehouse_id: f64,
+        quantity: f64,
+    ) -> Result<(), StockError> {
+        Ok(())
+    }
+
+    async fn validate_invoice(&self, product: &str, invoice: &str) -> Result<(), InvoiceError> {
+        Ok(())
+    }
+}
+
+//*** [AGGREGATE] ***\\
+#[async_trait]
+impl Aggregate for Invetory {
+    type Command = InventoryCommand;
+    type Event = InventoryEvent;
+    type Services = InventoryServices;
+    type InventoryError;
+
+    fn aggragate_type() -> String {
+        "Product".to_string()
+    }
+}
+
 //*** [ERRORS] ***\\
 #[derive(Debug)]
 pub struct InventoryError(String);
+pub struct StockError;
+pub struct InvoiceError;
 
 impl Display for InventoryError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -76,10 +114,9 @@ impl std::error::Error for InventoryError {}
 
 impl From<&str> for InventoryError {
     fn from(message: &str) -> Self {
-        InventoryError()
+        InventoryError(message.to_string())
     }
 }
-
 fn main() {
     println!("Hello, world!");
 }
