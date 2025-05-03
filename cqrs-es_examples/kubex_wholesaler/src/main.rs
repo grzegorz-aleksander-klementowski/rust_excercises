@@ -3,7 +3,6 @@ use std::{fmt::Display, io};
 use async_trait::*;
 use cqrs_es::*;
 use serde::*;
-use tokio::*;
 
 //*** [EVENTS] ***\\
 #[derive(Debug, serde::Deserialize)]
@@ -87,14 +86,49 @@ impl InventoryServices {
 
 //*** [AGGREGATE] ***\\
 #[async_trait]
-impl Aggregate for Invetory {
+impl Aggregate for Inventory {
     type Command = InventoryCommand;
     type Event = InventoryEvent;
     type Services = InventoryServices;
-    type InventoryError;
+    type Error = InventoryError;
 
-    fn aggragate_type() -> String {
+    fn aggregate_type() -> String {
         "Product".to_string()
+    }
+    async fn handle(
+        &self,
+        command: Self::Command,
+        services: &Self::Services,
+    ) -> Result<Vec<Self::Event>, Self::Error> {
+        match command {
+            InventoryCommand::ReceiveStock { quantity } => {
+                let stock_level = self.stock_level + quantity;
+                Ok(vec![InventoryEvent::StockReceived {
+                    quantity,
+                    stock_level,
+                }])
+            }
+            _ => Ok(vec![]),
+        }
+    }
+
+    fn apply(&mut self, event: Self::Event) {
+        match event {
+            InventoryEvent::RegisteredProduct { .. } => self.opened = true,
+            InventoryEvent::StockReceived {
+                quantity,
+                stock_level,
+            } => self.stock_level = stock_level,
+            InventoryEvent::StockShipped {
+                quantity,
+                stock_level,
+            } => self.stock_level = stock_level,
+            InventoryEvent::InvoiceIssued {
+                invoice_number,
+                total_amount,
+                stock_level,
+            } => self.stock_level = stock_level,
+        }
     }
 }
 
@@ -117,6 +151,32 @@ impl From<&str> for InventoryError {
         InventoryError(message.to_string())
     }
 }
+
+#[cfg(test)]
+mod aggregate_tests {
+    use super::*;
+    use cqrs_es::test::TestFramework;
+
+    type AccountTestFramework = TestFramework<Inventory>;
+
+    #[test]
+    fn test_stock_received() {
+        let previous = InventoryEvent::StockReceived {
+            quantity: 200.0,
+            stock_level: 200.0,
+        };
+        let expected = InventoryEvent::StockReceived {
+            quantity: (200.0),
+            stock_level: (400.0),
+        };
+
+        AccountTestFramework::with(InventoryServices)
+            .given(vec![previous])
+            .when(InventoryCommand::ReceiveStock { quantity: 200.0 })
+            .then_expect_events(vec![expected]);
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
