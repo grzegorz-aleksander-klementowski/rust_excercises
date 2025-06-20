@@ -120,6 +120,9 @@ impl Aggregate for Inventory {
             }
             InventoryCommand::ShipStock { quantity } => {
                 let stock_level = self.stock_level - quantity;
+                if stock_level < 0_f64 {
+                    return Err(InventoryError::from("Stock is not enought"));
+                }
                 Ok(vec![InventoryEvent::StockShipped {
                     quantity,
                     stock_level,
@@ -219,6 +222,14 @@ mod aggregate_tests {
             .given(vec![previous])
             .when(InventoryCommand::ReceiveStock { quantity: 200.0 })
             .then_expect_events(vec![expected]);
+    }
+
+    #[test]
+    fn test_ship_stock_not_enought_stock() {
+        AccountTestFramework::with(InventoryServices)
+            .given_no_previous_events()
+            .when(InventoryCommand::ShipStock { quantity: 550.0 })
+            .then_expect_error_message(&InventoryError::from("Stock is not enought").to_string());
     }
 }
 
