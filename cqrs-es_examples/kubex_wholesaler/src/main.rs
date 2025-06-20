@@ -118,6 +118,13 @@ impl Aggregate for Inventory {
                     stock_level,
                 }])
             }
+            InventoryCommand::ShipStock { quantity } => {
+                let stock_level = self.stock_level - quantity;
+                Ok(vec![InventoryEvent::StockShipped {
+                    quantity,
+                    stock_level,
+                }])
+            }
             _ => Ok(vec![]),
         }
     }
