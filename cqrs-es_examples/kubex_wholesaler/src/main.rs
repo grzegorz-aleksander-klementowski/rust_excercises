@@ -1,4 +1,4 @@
-use std::{fmt::Display, io};
+use std::{alloc::GlobalAlloc, fmt::Display, io};
 
 use async_trait::*;
 use cqrs_es::*;
@@ -20,6 +20,16 @@ pub enum InventoryCommand {
         invoice_number: String,
         total_amount: f64,
     },
+}
+
+struct SimpleLoggingQuerry {}
+#[async_trait]
+impl Query<Inventory> for SimpleLoggingQuerry {
+    async fn dispatch(&self, aggregate_id: &str, events: &[EventEnvelope<Inventory>]) {
+        for event in events {
+            println!("{}-{}\n{:#?}", aggregate_id, event.sequence, &event.payload);
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -152,6 +162,24 @@ impl From<&str> for InventoryError {
     }
 }
 
+#[tokio::test]
+async fn test_event_store() {
+    let event_store = cqrs_es::mem_store::MemStore::<Inventory>::default();
+    let query = SimpleLoggingQuerry {};
+    let cqrs = CqrsFramework::new(event_store, vec![Box::new(query)], InventoryServices);
+
+    let aggregate_id = "aggregate_instance_A";
+
+    // deposit 7000 zł
+    cqrs.execute(aggregate_id, ReceiveStock { quantity: 7000_f64 }).unwap();
+
+    // write a check 2499.99 zł
+    cqrs.execute(aggregate_id, IssueInvoice{
+        invoice_number: "PL_KUBEX_7226542/06/25.".to_string(),
+        total_amount: 2499.99
+    } )
+}
+
 #[cfg(test)]
 mod aggregate_tests {
     use super::*;
@@ -179,4 +207,4 @@ mod aggregate_tests {
 
 fn main() {
     println!("Hello, world!");
-}
+}let cqrs = CqrsFramework::new(event_store, vec![Box::new(query)]);
