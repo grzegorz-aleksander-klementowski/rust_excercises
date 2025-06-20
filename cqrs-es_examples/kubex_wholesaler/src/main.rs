@@ -171,13 +171,18 @@ async fn test_event_store() {
     let aggregate_id = "aggregate_instance_A";
 
     // deposit 7000 zł
-    cqrs.execute(aggregate_id, ReceiveStock { quantity: 7000_f64 }).unwap();
+    cqrs.execute(aggregate_id, ReceiveStock { quantity: 7000_f64 })
+        .unwrap();
 
     // write a check 2499.99 zł
-    cqrs.execute(aggregate_id, IssueInvoice{
-        invoice_number: "PL_KUBEX_7226542/06/25.".to_string(),
-        total_amount: 2499.99
-    } )
+    cqrs.execute(
+        aggregate_id,
+        IssueInvoice {
+            invoice_number: "PL_KUBEX_7226542/06/25.".to_string(),
+            total_amount: 2499.99,
+        },
+    )
+    .unwrap();
 }
 
 #[cfg(test)]
@@ -207,4 +212,4 @@ mod aggregate_tests {
 
 fn main() {
     println!("Hello, world!");
-}let cqrs = CqrsFramework::new(event_store, vec![Box::new(query)]);
+}
