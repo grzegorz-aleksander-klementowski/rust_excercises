@@ -111,6 +111,9 @@ impl Aggregate for Inventory {
         services: &Self::Services,
     ) -> Result<Vec<Self::Event>, Self::Error> {
         match command {
+            InventoryCommand::RegisterProduct { product_id } => {
+                Ok(vec![InventoryEvent::RegisteredProduct { product_id }])
+            }
             InventoryCommand::ReceiveStock { quantity } => {
                 let stock_level = self.stock_level + quantity;
                 Ok(vec![InventoryEvent::StockReceived {
