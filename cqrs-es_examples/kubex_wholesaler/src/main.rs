@@ -131,6 +131,20 @@ impl Aggregate for Inventory {
                     stock_level,
                 }])
             }
+            InventoryCommand::IssueInvoice {
+                invoice_number,
+                total_amount,
+            } => {
+                let stock_level = self.stock_level - total_amount;
+                if stock_level < 0.0 {
+                    return Err(InventoryError::from("Stock is not enough to issue invoice"));
+                }
+                Ok(vec![InventoryEvent::InvoiceIssued {
+                    invoice_number,
+                    total_amount,
+                    stock_level,
+                }])
+            }
             _ => Ok(vec![]),
         }
     }
