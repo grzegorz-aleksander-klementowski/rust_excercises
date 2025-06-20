@@ -205,12 +205,12 @@ async fn test_event_store() {
     .await
     .unwrap();
 
-    // write a check 2499.99 zł
+    // issue invoice for 2500.00 2500.00 zł
     cqrs.execute(
         aggregate_id,
         InventoryCommand::IssueInvoice {
             invoice_number: "PL_KUBEX_7226542/06/25.".to_string(),
-            total_amount: 2499.99,
+            total_amount: 2500.00,
         },
     )
     .await
@@ -251,5 +251,5 @@ mod aggregate_tests {
 }
 
 fn main() {
-    println!("Hello, world!");
+    println!("The software is tested.");
 }
