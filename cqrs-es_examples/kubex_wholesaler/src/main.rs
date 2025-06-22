@@ -1,18 +1,14 @@
 use std::{alloc::GlobalAlloc, fmt::Display, io};
 
 use async_trait::*;
-use serde::*;
-
 use chrono::{DateTime, Utc};
-use std::collections::HashMap;
-
+use cqrs_es::persist::*;
+use cqrs_es::*;
 use postgres_es::PostgresEventRepository;
 use postgres_es::PostgresViewRepository;
-use postgres_es::PostgresViewRepository;
+use serde::*;
 use sqlx::{Pool, Postgres};
-
-use cqrs_es::persist::{default_postgres_pool, PersistedEventStore};
-use cqrs_es::*;
+use std::collections::HashMap;
 
 //*** [EVENTS] ***\\
 #[derive(Debug, serde::Deserialize)]
@@ -32,7 +28,7 @@ pub enum InventoryCommand {
     },
 }
 
-/// *Metadata* (It sents the CQRS command with metadata)
+/* /// *Metadata* (It sents the CQRS command with metadata)
 pub async fn process_command(
     cqrs: CqrsFramework<Inventory>,
     aggregate_id: &str,
@@ -45,7 +41,7 @@ pub async fn process_command(
     // wykonujemy komendę z dołączonymi metadanymi
     cqrs.execute_with_metadata(aggregate_id, command, metadata)
         .await
-}
+} */
 
 //*** Log Qiery ***\\
 struct SimpleLoggingQuerry {}
@@ -276,17 +272,6 @@ mod aggregate_tests {
     }
 }
 
-/// *** building connection with database and API *** \\\
-async fn configure_repo() -> PersistedEventRepository {
-    let connection_string = "postgresql://test_user:test_pass@localhost:5432/test";
-    let pool: Pool<postgresql> = default_postgress_pool(connection_string).await;
-}
-
-fn configure_view_repository(
-    db_pool: Pool<postgres_es>,
-) -> PostgresViewRepository<InventoryView, Aggregate> {
-}
-
 // *** Building views ***
 // Pojedynczy wpis w dzienniku operacji magazynowych (potem dobuduję wpisy (albo rozbuduje?))
 #[derive(Debug, Clone)]
@@ -347,20 +332,17 @@ impl View<Inventory> for InventoryView {
     }
 }
 
-/// It set the connection with DB and back PersistedEventStore<Inventory>
-pub async fn configure_repo() -> PersistedEventStore<Inventory> {
+/// Ustawia połączenie z PostgreSQL i zwraca PersistedEventStore<Repo, Inventory>
+pub async fn configure_repo(
+) -> cqrs_es::persist::PersistedEventStore<postgres_es::PostgresEventRepository, Inventory> {
     let conn_str = "postgresql://test_user:pass@localhost:5432/kubex_warehouse_stocks";
-    let pool: Pool<Postgres> = default_postgres_pool(conn_str).await;
-    let repo = PostgresEventRepository::new(pool.clone());
-    PersistedEventStore::new(repo)
-}
-
-/// it configure the views
-pub fn configure_view_repository(
-    db_pool: Pool<Postgres>,
-) -> PostgresViewRepository<InventoryView, Inventory> {
-    // pierwszy argument to nazwa tabeli
-    PostgresViewRepository::new("my_view_name", db_pool)
+    // 1) Budujemy pulę połączeń – to funkcja z cqrs_es::persist
+    let pool: sqlx::Pool<sqlx::Postgres> = cqrs_es::persist::default_postgres_pool(conn_str).await;
+    // 2) Repozytorium eventów z postgres-es, dla agregatu Inventory
+    let repo: postgres_es::PostgresEventRepository<Inventory> =
+        postgres_es::PostgresEventRepository::new(pool.clone());
+    // 3) Event store – wrapper wokół repozytorium
+    cqrs_es::persist::PersistedEventStore::new(repo)
 }
 
 fn main() {
