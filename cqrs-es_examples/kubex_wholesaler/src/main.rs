@@ -3,15 +3,16 @@ use std::{alloc::GlobalAlloc, fmt::Display, io};
 use async_trait::*;
 use serde::*;
 
-use cqrs_es::persist::{default_postgres_pool, PersistedEventStore};
-use cqrs_es::*;
+use chrono::{DateTime, Utc};
+use std::collections::HashMap;
 
 use postgres_es::PostgresEventRepository;
 use postgres_es::PostgresViewRepository;
 use postgres_es::PostgresViewRepository;
 use sqlx::{Pool, Postgres};
 
-use chrono::{DateTime, Utc};
+use cqrs_es::persist::{default_postgres_pool, PersistedEventStore};
+use cqrs_es::*;
 
 //*** [EVENTS] ***\\
 #[derive(Debug, serde::Deserialize)]
@@ -29,6 +30,21 @@ pub enum InventoryCommand {
         invoice_number: String,
         total_amount: f64,
     },
+}
+
+/// *Metadata* (It sents the CQRS command with metadata)
+pub async fn process_command(
+    cqrs: CqrsFramework<Inventory>,
+    aggregate_id: &str,
+    command: InventoryCommand,
+) -> Result<(), AggregateError<InventoryError>> {
+    // zbieramy proste metadane – tu tylko znacznik czasu
+    let mut metadata = HashMap::new();
+    metadata.insert("time".to_string(), Utc::now().to_rfc3339());
+
+    // wykonujemy komendę z dołączonymi metadanymi
+    cqrs.execute_with_metadata(aggregate_id, command, metadata)
+        .await
 }
 
 //*** Log Qiery ***\\
