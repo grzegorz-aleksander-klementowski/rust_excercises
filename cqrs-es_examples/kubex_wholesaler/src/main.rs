@@ -299,9 +299,10 @@ pub struct InventoryView {
 }
 
 // updateing the views
-#[async_trait::async_trait]
-impl View<Inventory> for InventoryView {
-    fn update(&mut self, event: &EventEnvelope<Inventory>) {
+
+// updateing the views
+impl cqrs_es::View<Inventory> for InventoryView {
+    fn update(&mut self, event: &cqrs_es::EventEnvelope<Inventory>) {
         match &event.payload {
             InventoryEvent::RegisteredProduct { product_id } => {
                 self.ledger.push(LedgerEntry::new("register", 0.0));
@@ -332,18 +333,12 @@ impl View<Inventory> for InventoryView {
     }
 }
 
-/// Ustawia połączenie z PostgreSQL i zwraca PersistedEventStore<postgres_es::PostgresEventRepository, Inventory>
+/// It set the connection with PostgreSQL and back PersistedEventStore<postgres_es::PostgresEventRepository, Inventory>
 pub async fn configure_repo(
 ) -> cqrs_es::persist::PersistedEventStore<postgres_es::PostgresEventRepository, Inventory> {
     let conn_str = "postgresql://test_user:pass@localhost:5432/kubex_warehouse_stocks";
-
-    // 1) Budujemy pulę połączeń (uwaga: literówka w helperze!)
     let pool = postgres_es::default_postgress_pool(conn_str).await;
-
-    // 2) Tworzymy repozytorium eventów dla agregatu Inventory
     let repo = postgres_es::PostgresEventRepository::new(pool.clone());
-
-    // 3) Jawnie określamy R = PostgresEventRepository i A = Inventory
     cqrs_es::persist::PersistedEventStore::<
         postgres_es::PostgresEventRepository,
         Inventory
