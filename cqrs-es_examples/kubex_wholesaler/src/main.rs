@@ -7,6 +7,7 @@ use cqrs_es::*;
 use postgres_es::PostgresEventRepository;
 use postgres_es::PostgresViewRepository;
 use serde::*;
+use serde::{Deserialize, Serialize};
 use sqlx::{Pool, Postgres};
 use std::collections::HashMap;
 
@@ -273,8 +274,8 @@ mod aggregate_tests {
 }
 
 // *** Building views ***
-// Pojedynczy wpis w dzienniku operacji magazynowych (potem dobuduję wpisy (albo rozbuduje?))
-#[derive(Debug, Clone)]
+// Single ledger entry in db operation logs (potem dobuduję wpisy (albo rozbuduje?))
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LedgerEntry {
     pub kind: String,
     pub amount: f64,
@@ -292,13 +293,11 @@ impl LedgerEntry {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct InventoryView {
     pub ledger: Vec<LedgerEntry>,
     pub stock_level: f64,
 }
-
-// updateing the views
 
 // updateing the views
 impl cqrs_es::View<Inventory> for InventoryView {
