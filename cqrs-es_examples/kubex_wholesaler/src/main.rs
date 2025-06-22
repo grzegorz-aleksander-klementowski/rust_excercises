@@ -22,6 +22,7 @@ pub enum InventoryCommand {
     },
 }
 
+//*** Log Qiery ***\\
 struct SimpleLoggingQuerry {}
 #[async_trait]
 impl Query<Inventory> for SimpleLoggingQuerry {
@@ -248,6 +249,23 @@ mod aggregate_tests {
             .when(InventoryCommand::ShipStock { quantity: 550.0 })
             .then_expect_error_message(&InventoryError::from("Stock is not enought").to_string());
     }
+}
+
+// *** building aplication with database postgresql *** \\
+impl View<Inventory> for InventoryView {
+    fn update(&mut self, event: &EventEnvelope<Inventory>) {
+        match event.payload {
+            InventoryEvent::StockShipped { quantity, stock_level } => {
+                self.ledger push(LedgerEntry::new("ship", *quantity));
+                self.stock_level = *stock_level;
+            }
+        }
+    }
+}
+
+async fn configure_repo() -> PersistedEventRepository {
+    let connection_string = "postgresql://test_user:test_pass@localhost:5432/test";
+    let pool: Pool<postgresql> = default_postgress_pool(connection_string).await;
 }
 
 fn main() {
