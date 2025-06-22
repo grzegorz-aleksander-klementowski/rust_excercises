@@ -29,20 +29,23 @@ pub enum InventoryCommand {
     },
 }
 
-/* /// *Metadata* (It sents the CQRS command with metadata)
-pub async fn process_command(
-    cqrs: CqrsFramework<Inventory>,
+/// *Metadata* (It sents the CQRS command with metadata)
+pub async fn process_command<ES>(
+    cqrs: CqrsFramework<Inventory, ES>,
     aggregate_id: &str,
     command: InventoryCommand,
-) -> Result<(), AggregateError<InventoryError>> {
+) -> Result<(), AggregateError<InventoryError>>
+where
+    ES: cqrs_es::EventStore<Inventory>,
+{
     // zbieramy proste metadane – tu tylko znacznik czasu
-    let mut metadata = HashMap::new();
+    let mut metadata = std::collections::HashMap::new();
     metadata.insert("time".to_string(), Utc::now().to_rfc3339());
 
     // wykonujemy komendę z dołączonymi metadanymi
     cqrs.execute_with_metadata(aggregate_id, command, metadata)
         .await
-} */
+}
 
 //*** Log Qiery ***\\
 struct SimpleLoggingQuerry {}
