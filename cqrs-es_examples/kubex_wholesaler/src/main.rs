@@ -332,17 +332,22 @@ impl View<Inventory> for InventoryView {
     }
 }
 
-/// Ustawia połączenie z PostgreSQL i zwraca PersistedEventStore<Repo, Inventory>
+/// Ustawia połączenie z PostgreSQL i zwraca PersistedEventStore<postgres_es::PostgresEventRepository, Inventory>
 pub async fn configure_repo(
 ) -> cqrs_es::persist::PersistedEventStore<postgres_es::PostgresEventRepository, Inventory> {
     let conn_str = "postgresql://test_user:pass@localhost:5432/kubex_warehouse_stocks";
-    // 1) Budujemy pulę połączeń – to funkcja z cqrs_es::persist
-    let pool: sqlx::Pool<sqlx::Postgres> = cqrs_es::persist::default_postgres_pool(conn_str).await;
-    // 2) Repozytorium eventów z postgres-es, dla agregatu Inventory
-    let repo: postgres_es::PostgresEventRepository<Inventory> =
-        postgres_es::PostgresEventRepository::new(pool.clone());
-    // 3) Event store – wrapper wokół repozytorium
-    cqrs_es::persist::PersistedEventStore::new(repo)
+
+    // 1) Budujemy pulę połączeń (uwaga: literówka w helperze!)
+    let pool = postgres_es::default_postgress_pool(conn_str).await;
+
+    // 2) Tworzymy repozytorium eventów dla agregatu Inventory
+    let repo = postgres_es::PostgresEventRepository::new(pool.clone());
+
+    // 3) Jawnie określamy R = PostgresEventRepository i A = Inventory
+    cqrs_es::persist::PersistedEventStore::<
+        postgres_es::PostgresEventRepository,
+        Inventory
+    >::new_event_store(repo) // :contentReference[oaicite:0]{index=0}
 }
 
 fn main() {
