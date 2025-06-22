@@ -1,8 +1,17 @@
 use std::{alloc::GlobalAlloc, fmt::Display, io};
 
 use async_trait::*;
-use cqrs_es::*;
 use serde::*;
+
+use cqrs_es::persist::{default_postgres_pool, PersistedEventStore};
+use cqrs_es::*;
+
+use postgres_es::PostgresEventRepository;
+use postgres_es::PostgresViewRepository;
+use postgres_es::PostgresViewRepository;
+use sqlx::{Pool, Postgres};
+
+use chrono::{DateTime, Utc};
 
 //*** [EVENTS] ***\\
 #[derive(Debug, serde::Deserialize)]
@@ -251,21 +260,91 @@ mod aggregate_tests {
     }
 }
 
-// *** building aplication with database postgresql *** \\
+/// *** building connection with database and API *** \\\
+async fn configure_repo() -> PersistedEventRepository {
+    let connection_string = "postgresql://test_user:test_pass@localhost:5432/test";
+    let pool: Pool<postgresql> = default_postgress_pool(connection_string).await;
+}
+
+fn configure_view_repository(
+    db_pool: Pool<postgres_es>,
+) -> PostgresViewRepository<InventoryView, Aggregate> {
+}
+
+// *** Building views ***
+// Pojedynczy wpis w dzienniku operacji magazynowych (potem dobuduję wpisy (albo rozbuduje?))
+#[derive(Debug, Clone)]
+pub struct LedgerEntry {
+    pub kind: String,
+    pub amount: f64,
+    pub timestamp: DateTime<Utc>,
+}
+
+/// New ledger`kind` with`amount` and timestampt
+impl LedgerEntry {
+    pub fn new(kind: &str, amount: f64) -> Self {
+        Self {
+            kind: kind.to_string(),
+            amount,
+            timestamp: Utc::now(),
+        }
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct InventoryView {
+    pub ledger: Vec<LedgerEntry>,
+    pub stock_level: f64,
+}
+
+// updateing the views
+#[async_trait::async_trait]
 impl View<Inventory> for InventoryView {
     fn update(&mut self, event: &EventEnvelope<Inventory>) {
-        match event.payload {
-            InventoryEvent::StockShipped { quantity, stock_level } => {
-                self.ledger push(LedgerEntry::new("ship", *quantity));
+        match &event.payload {
+            InventoryEvent::RegisteredProduct { product_id } => {
+                self.ledger.push(LedgerEntry::new("register", 0.0));
+            }
+            InventoryEvent::StockReceived {
+                quantity,
+                stock_level,
+            } => {
+                self.ledger.push(LedgerEntry::new("receive", *quantity));
+                self.stock_level = *stock_level;
+            }
+            InventoryEvent::StockShipped {
+                quantity,
+                stock_level,
+            } => {
+                self.ledger.push(LedgerEntry::new("ship", *quantity));
+                self.stock_level = *stock_level;
+            }
+            InventoryEvent::InvoiceIssued {
+                total_amount,
+                stock_level,
+                ..
+            } => {
+                self.ledger.push(LedgerEntry::new("invoice", *total_amount));
                 self.stock_level = *stock_level;
             }
         }
     }
 }
 
-async fn configure_repo() -> PersistedEventRepository {
-    let connection_string = "postgresql://test_user:test_pass@localhost:5432/test";
-    let pool: Pool<postgresql> = default_postgress_pool(connection_string).await;
+/// It set the connection with DB and back PersistedEventStore<Inventory>
+pub async fn configure_repo() -> PersistedEventStore<Inventory> {
+    let conn_str = "postgresql://test_user:pass@localhost:5432/kubex_warehouse_stocks";
+    let pool: Pool<Postgres> = default_postgres_pool(conn_str).await;
+    let repo = PostgresEventRepository::new(pool.clone());
+    PersistedEventStore::new(repo)
+}
+
+/// it configure the views
+pub fn configure_view_repository(
+    db_pool: Pool<Postgres>,
+) -> PostgresViewRepository<InventoryView, Inventory> {
+    // pierwszy argument to nazwa tabeli
+    PostgresViewRepository::new("my_view_name", db_pool)
 }
 
 fn main() {
