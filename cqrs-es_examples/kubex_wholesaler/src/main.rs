@@ -11,6 +11,10 @@ use serde::{Deserialize, Serialize};
 use sqlx::{Pool, Postgres};
 use std::collections::HashMap;
 
+use cqrs_es::{CqrsFramework, EventStore, View};
+use sqlx::PgPool;
+use tokio;
+
 //*** [EVENTS] ***\\
 #[derive(Debug, serde::Deserialize)]
 pub enum InventoryCommand {
@@ -84,20 +88,20 @@ pub enum InventoryEvent {
 //*** [DOMAIN] ***\\
 impl DomainEvent for InventoryEvent {
     fn event_type(&self) -> String {
-        let event_type: &str = match self {
-            InventoryEvent::RegisteredProduct { .. } => todo!(),
-            InventoryEvent::StockReceived { .. } => todo!(),
-            InventoryEvent::StockShipped { .. } => todo!(),
-            InventoryEvent::InvoiceIssued { .. } => todo!(),
-        };
+        match self {
+            InventoryEvent::RegisteredProduct { .. } => "RegisteredProduct".to_string(),
+            InventoryEvent::StockReceived { .. } => "StockReceived".to_string(),
+            InventoryEvent::StockShipped { .. } => "StockShipped".to_string(),
+            InventoryEvent::InvoiceIssued { .. } => "InvoiceIssued".to_string(),
+        }
     }
 
     fn event_version(&self) -> String {
-        "1.0".to_string()
+        "1.0".to_string() // Jeśli w przyszłości będziesz potrzebował wersjonować zdarzenia,
     }
 }
 
-#[derive(Serialize, Deserialize, Default)]
+#[derive(Serialize, Deserialize, Default, Clone)]
 pub struct Inventory {
     opened: bool,
     stock_level: f64,
@@ -347,6 +351,58 @@ pub async fn configure_repo(
     >::new_event_store(repo) // :contentReference[oaicite:0]{index=0}
 }
 
-fn main() {
-    println!("The software is tested.");
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // 1) W pamięciowy event‐store:
+    let memory_store = mem_store::MemStore::<Inventory>::default();
+    // do CQRS‐u użyjemy jednej instancji, do budowy widoku drugiej (klonujemy Arc wewnątrz)
+    let store_for_view = memory_store.clone();
+
+    // 2) Query logujące każde zdarzenie
+    let logger = SimpleLoggingQuerry {};
+
+    // 3) Budujemy framework CQRS
+    let cqrs = CqrsFramework::new(memory_store, vec![Box::new(logger)], InventoryServices);
+
+    let aggregate_id = "product-123";
+
+    // 4) Wysyłamy komendy
+    cqrs.execute(
+        aggregate_id,
+        InventoryCommand::RegisterProduct {
+            product_id: aggregate_id.to_string(),
+        },
+    )
+    .await?;
+    cqrs.execute(
+        aggregate_id,
+        InventoryCommand::ReceiveStock { quantity: 150.0 },
+    )
+    .await?;
+    cqrs.execute(aggregate_id, InventoryCommand::ShipStock { quantity: 40.0 })
+        .await?;
+    cqrs.execute(
+        aggregate_id,
+        InventoryCommand::IssueInvoice {
+            invoice_number: "INV-2025-0001".to_string(),
+            total_amount: 30.0,
+        },
+    )
+    .await?;
+
+    // 5) Odbudowujemy widok z event‐store
+    let mut view = InventoryView::default();
+    let events = store_for_view.load_events(aggregate_id).await?; // ładuje Vec<EventEnvelope<Inventory>> :contentReference[oaicite:0]{index=0}
+    for env in events {
+        view.update(&env);
+    }
+
+    // 6) Wypisujemy finalny stan
+    println!("\n=== Finalny InventoryView dla '{}' ===", aggregate_id);
+    println!("Stock level: {}", view.stock_level);
+    for entry in view.ledger {
+        println!("- [{:?}] {}: {}", entry.timestamp, entry.kind, entry.amount);
+    }
+
+    Ok(())
 }
