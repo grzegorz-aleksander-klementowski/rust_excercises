@@ -358,13 +358,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // let store_for_view = memory_store.clone();
 
     // persistent_store is for pernament save in DB (using instead of in RAM memory_store
-    let persistent_store = configure_repo().await;
+    let command_store = configure_repo().await;
+    let view_store = configure_repo().await;
 
     // It's querry that log every event
     let logger = SimpleLoggingQuerry {};
 
     // Building CQRS Framework
-    let cqrs = CqrsFramework::new(persistent_store, vec![Box::new(logger)], InventoryServices);
+    let cqrs = CqrsFramework::new(command_store, vec![Box::new(logger)], InventoryServices);
 
     let aggregate_id = "product-123";
 
@@ -392,9 +393,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
     .await?;
 
-    // 5) Odbudowujemy widok z event‐store
+    // 5) rebuilding from event store
     let mut view = InventoryView::default();
-    let events = store_for_view.load_events(aggregate_id).await?; // ładuje Vec<EventEnvelope<Inventory>> :contentReference[oaicite:0]{index=0}
+    let events = view_store.load_events(aggregate_id).await?; // ładuje Vec<EventEnvelope<Inventory>> :contentReference[oaicite:0]{index=0}
     for env in events {
         view.update(&env);
     }
