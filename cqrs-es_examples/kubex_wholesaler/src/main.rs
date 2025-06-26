@@ -353,20 +353,22 @@ pub async fn configure_repo(
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // 1) W pamięciowy event‐store:
-    let memory_store = mem_store::MemStore::<Inventory>::default();
-    // do CQRS‐u użyjemy jednej instancji, do budowy widoku drugiej (klonujemy Arc wewnątrz)
-    let store_for_view = memory_store.clone();
+    // memory_store for in RAM memory storage
+    // let memory_store = mem_store::MemStore::<Inventory>::default();
+    // let store_for_view = memory_store.clone();
 
-    // 2) Query logujące każde zdarzenie
+    // persistent_store is for pernament save in DB (using instead of in RAM memory_store
+    let persistent_store = configure_repo().await;
+
+    // It's querry that log every event
     let logger = SimpleLoggingQuerry {};
 
-    // 3) Budujemy framework CQRS
-    let cqrs = CqrsFramework::new(memory_store, vec![Box::new(logger)], InventoryServices);
+    // Building CQRS Framework
+    let cqrs = CqrsFramework::new(persistent_store, vec![Box::new(logger)], InventoryServices);
 
     let aggregate_id = "product-123";
 
-    // 4) Wysyłamy komendy
+    // sending a command
     cqrs.execute(
         aggregate_id,
         InventoryCommand::RegisterProduct {
