@@ -142,6 +142,10 @@ impl Aggregate for Inventory {
     ) -> Result<Vec<Self::Event>, Self::Error> {
         match command {
             InventoryCommand::RegisterProduct { product_id } => {
+                if self.opened {
+                    // register the product if already was registered
+                    return Err(InventoryError::from("Already registered"));
+                }
                 Ok(vec![InventoryEvent::RegisteredProduct { product_id }])
             }
             InventoryCommand::ReceiveStock { quantity } => {
@@ -409,3 +413,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+// TO DO:
+// - secure duble registration
+// - add interface for executing command and query read data
+// - add more test
+// - split the main file into multible segragate files
