@@ -1,0 +1,58 @@
+mod output;
+pub use output::*;
+use std::ops::Sub;
+
+#[derive(Debug)]
+pub struct KosztCzęściRowerowych {
+    koło_z_silnikiem: u32,
+    bateria: u32,
+    ładowarka: u32,
+    podstawa_do_baterii: u32,
+    adapter: u32, // jako część trzymająca baterię (adapter/bagażnik)
+}
+
+impl KosztCzęściRowerowych {
+    pub fn new(
+        koło_z_silnikiem: u32,
+        bateria: u32,
+        ładowarka: u32,
+        podstawa_do_baterii: u32,
+        adapter: u32,
+    ) -> Self {
+        Self {
+            koło_z_silnikiem,
+            bateria,
+            ładowarka,
+            podstawa_do_baterii,
+            adapter,
+        }
+    }
+}
+impl Sub for KosztCzęściRowerowych {
+    type Output = Self;
+    fn sub(self, inny: Self) -> Self {
+        Self {
+            koło_z_silnikiem: self.koło_z_silnikiem - inny.koło_z_silnikiem,
+            bateria: self.bateria - inny.bateria,
+            ładowarka: self.ładowarka - inny.ładowarka,
+            podstawa_do_baterii: self.podstawa_do_baterii - inny.podstawa_do_baterii,
+            adapter: self.adapter - inny.adapter,
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_obliczania_różnicy() {
+        let testowe_koszty = KosztCzęściRowerowych::new(20, 20, 20, 20, 20);
+        let testowe_koszty_różnicy = KosztCzęściRowerowych::new(5, 5, 5, 5, 5);
+
+        let prawidłowy_wynik = KosztCzęściRowerowych::new(15, 15, 15, 15, 15);
+        let wynik = KosztCzęściRowerowych::sub(testowe_koszty, testowe_koszty_różnicy);
+
+        assert_eq!(wynik, prawidłowy_wynik);
+    }
+}
