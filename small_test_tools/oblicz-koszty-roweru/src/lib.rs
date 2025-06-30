@@ -63,4 +63,12 @@ mod test {
 
         assert_eq!(wynik, prawidłowy_wynik);
     }
+
+    #[test]
+    fn test_sumowanie_kosztów() {
+        let testowe_koszty = KosztCzęściRowerowych::new(1, 1, 1, 1, 1);
+        let wynik = KosztCzęściRowerowych::suma(&testowe_koszty);
+
+        assert_eq!(wynik, 5);
+    }
 }
