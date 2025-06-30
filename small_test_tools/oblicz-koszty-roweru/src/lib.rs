@@ -2,7 +2,7 @@ mod output;
 pub use output::*;
 use std::ops::Sub;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct KosztCzęściRowerowych {
     koło_z_silnikiem: u32,
     bateria: u32,
@@ -26,6 +26,14 @@ impl KosztCzęściRowerowych {
             podstawa_do_baterii,
             adapter,
         }
+    }
+
+    pub fn suma(&self) -> u32 {
+        self.koło_z_silnikiem
+            + self.bateria
+            + self.ładowarka
+            + self.podstawa_do_baterii
+            + self.adapter
     }
 }
 impl Sub for KosztCzęściRowerowych {
