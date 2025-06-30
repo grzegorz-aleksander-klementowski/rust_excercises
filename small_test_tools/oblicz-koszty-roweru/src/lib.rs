@@ -4,20 +4,20 @@ use std::ops::Sub;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct KosztCzęściRowerowych {
-    koło_z_silnikiem: u32,
-    bateria: u32,
-    ładowarka: u32,
-    podstawa_do_baterii: u32,
-    adapter: u32, // jako część trzymająca baterię (adapter/bagażnik)
+    koło_z_silnikiem: i32,
+    bateria: i32,
+    ładowarka: i32,
+    podstawa_do_baterii: i32,
+    adapter: i32, // jako część trzymająca baterię (adapter/bagażnik)
 }
 
 impl KosztCzęściRowerowych {
     pub fn new(
-        koło_z_silnikiem: u32,
-        bateria: u32,
-        ładowarka: u32,
-        podstawa_do_baterii: u32,
-        adapter: u32,
+        koło_z_silnikiem: i32,
+        bateria: i32,
+        ładowarka: i32,
+        podstawa_do_baterii: i32,
+        adapter: i32,
     ) -> Self {
         Self {
             koło_z_silnikiem,
@@ -28,7 +28,7 @@ impl KosztCzęściRowerowych {
         }
     }
 
-    pub fn suma(&self) -> u32 {
+    pub fn suma(&self) -> i32 {
         self.koło_z_silnikiem
             + self.bateria
             + self.ładowarka
@@ -67,7 +67,7 @@ mod test {
     #[test]
     fn test_sumowanie_kosztów() {
         let testowe_koszty = KosztCzęściRowerowych::new(1, 1, 1, 1, 1);
-        let wynik = KosztCzęściRowerowych::suma(&testowe_koszty);
+        let wynik: i32 = KosztCzęściRowerowych::suma(&testowe_koszty);
 
         assert_eq!(wynik, 5);
     }
