@@ -22,14 +22,14 @@ pub struct Cli {
     pub adapter_nowa: i32,
 
     // porzedni zakup (zazwyczaj się nie wpisuje)
-    #[arg(short, long, default_value_t = 1190)]
+    #[arg(long, default_value_t = 1190)]
     pub koło_z_silnikiem_poprzedni: i32,
-    #[arg(short, long, default_value_t = 1198)]
+    #[arg(long, default_value_t = 1198)]
     pub bateria_poprzedni: i32,
-    #[arg(short, long, default_value_t = 129)]
+    #[arg(long, default_value_t = 129)]
     pub ładowarka_poprzedni: i32,
-    #[arg(short, long, default_value_t = 125)]
+    #[arg(long, default_value_t = 125)]
     pub podstawa_do_baterii_poprzedni: i32,
-    #[arg(short, long, default_value_t = 119)]
+    #[arg(long, default_value_t = 119)]
     pub adapter_poprzedni: i32,
 }
