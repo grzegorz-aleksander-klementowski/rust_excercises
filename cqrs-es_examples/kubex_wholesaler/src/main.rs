@@ -415,7 +415,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 // TO DO:
-// - secure duble registration
 // - add interface for executing command and query read data
 // - add more test
 // - split the main file into multible segragate files
