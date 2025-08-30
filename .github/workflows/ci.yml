@@ -1,0 +1,44 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test-all-crates:
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain: [stable, beta, nightly]
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          override: true
+          components: rustfmt, clippy
+      - name: Chache Cargo Registy
+        uses:  actions/cache@v3
+        with:
+            path: ~/.cargo/registry
+            key: ${{ runner.os }}--cargo-registy-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache Cargo build
+        uses: actions/cache@v3
+        with:
+          path: target
+          # thanks to this it shoun't mix affects from different types of Rust
+          key: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
+
+
+      - name: Run Rust fmt check
+        run: cargo fmt --all -- --check
+
+      - name: Build all crates
+        run: cargo build --all --verbose
+
+      - name: Test all crates
+        run: cargo test --all --verbose
