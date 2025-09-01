@@ -1,0 +1,25 @@
+[workspace]
+members = [
+  "./advent_of_code_2024/day_1_historian_hysteria",
+  "./advent_of_code_2024/day_2_Rednosed_reports",
+  "./advent_of_code_2024/day_3_mull_it_over",
+  "./advent_of_code_2024/day_4_ceres_search",
+  "./advent_of_code_2024/day_5_print_queue",
+  "./advent_of_code_2024/day_6_guard_gallivant",
+  "./cqrs-es_examples/kubex_wholesaler",
+  "./no_boilerplate_light_state",
+  "./pasja_informatyki/evaluation_mean",
+  "./pasja_informatyki/fibbonaci_counter",
+  "./pasja_informatyki/lotto_game",
+  "./small_test_tools/automation_mouse_and_keyboard",
+  "./small_test_tools/hex_color_display",
+  "./small_test_tools/nowy_zapis_w_spisie_osob",
+  "./small_test_tools/oblicz-koszty-roweru",
+  "./small_test_tools/odnowienie_pamieci_zamiennej_swap",
+  "./small_test_tools/program_do_mówienia_prawdy",
+  "./small_test_tools/remove_first_word_of_filename",
+  "./small_test_tools/test_curl_vs_reqwest",
+  "./small_test_tools/texty-rusty-sound-",
+  "./small_test_tools/zamień_znak"
+]
+resolver = "2"
