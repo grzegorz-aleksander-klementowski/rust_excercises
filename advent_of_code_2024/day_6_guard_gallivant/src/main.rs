@@ -1,4 +1,4 @@
-use std::collections::{HashSet, HashMap};
+use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -112,7 +112,7 @@ fn main() {
 
         // Aby zapobiec nieskończonej symulacji na gigantycznej mapie, można
         // wprowadzić limit iteracji: max liczba stanów to wysokosc * szerokosc * 4 kierunki
-        
+
         let max_kroki = (wysokosc * szerokosc * 4) + 1;
 
         // (można zmodyfikować wedle uznania, 1 mln to sporo, ale zabezpiecza przed zawieszeniem)

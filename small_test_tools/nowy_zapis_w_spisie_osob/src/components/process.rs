@@ -1,13 +1,13 @@
 // process
 
-use std::io::{ self, Write };
-use crate::{ 
-    output::{ NagłówkiVCF, WiadomościDoUżytkownika },
+use crate::{
     input::Wejście,
+    output::{NagłówkiVCF, WiadomościDoUżytkownika},
     ZapiskiOsobowe,
 };
+use std::io::{self, Write};
 
- // ---------------- &&*&& ---------------- \\
+// ---------------- &&*&& ---------------- \\
 // here is create a new instance of VCF Card \\
 impl ZapiskiOsobowe {
     pub fn new() -> Self {
@@ -20,19 +20,29 @@ impl ZapiskiOsobowe {
             nagłówek_dalnomównik: String::new(),
             kończajka_karty_vcf: NagłówkiVCF::EndVcard.to_string(),
         };
-        
-        zapiski.nagłówek_fn         = zapiski.ułóż(NagłówkiVCF::FN,     WiadomościDoUżytkownika::ZapytanieOImię);
-        zapiski.nagłówek_n          = zapiski.ułóż(NagłówkiVCF::N,      WiadomościDoUżytkownika::ZapytanieONazwisko);
-        zapiski.nagłówek_zrzeszenie = zapiski.ułóż(NagłówkiVCF::ORG,    WiadomościDoUżytkownika::ZapytanieOZrzeszenie);
-        zapiski.nagłówek_poczta     = zapiski.ułóż(NagłówkiVCF::TEL,    WiadomościDoUżytkownika::ZapytanieOPocztę);
-        zapiski.nagłówek_dalnomównik= zapiski.ułóż(NagłówkiVCF::EMAIL,  WiadomościDoUżytkownika::ZapytanieONumerDalnomównika);
-        
+
+        zapiski.nagłówek_fn =
+            zapiski.ułóż(NagłówkiVCF::FN, WiadomościDoUżytkownika::ZapytanieOImię);
+        zapiski.nagłówek_n =
+            zapiski.ułóż(NagłówkiVCF::N, WiadomościDoUżytkownika::ZapytanieONazwisko);
+        zapiski.nagłówek_zrzeszenie = zapiski.ułóż(
+            NagłówkiVCF::ORG,
+            WiadomościDoUżytkownika::ZapytanieOZrzeszenie,
+        );
+        zapiski.nagłówek_poczta =
+            zapiski.ułóż(NagłówkiVCF::TEL, WiadomościDoUżytkownika::ZapytanieOPocztę);
+        zapiski.nagłówek_dalnomównik = zapiski.ułóż(
+            NagłówkiVCF::EMAIL,
+            WiadomościDoUżytkownika::ZapytanieONumerDalnomównika,
+        );
 
         zapiski
     }
 
     // formtat text to create an instance of VCF card
-    fn ułóż(&self, nagłówek_vcf: NagłówkiVCF,  wiadomość: WiadomościDoUżytkownika) -> String {
+    fn ułóż(
+        &self, nagłówek_vcf: NagłówkiVCF, wiadomość: WiadomościDoUżytkownika
+    ) -> String {
         let zapisek = self.zapytanie_o_zapisek(wiadomość);
         format!("{}{}", nagłówek_vcf, zapisek)
     }

@@ -89,4 +89,3 @@ fn parse_mul(chars: &[char], idx: usize) -> Option<(usize, usize, usize)> {
 
     Some((x, y, i))
 }
-

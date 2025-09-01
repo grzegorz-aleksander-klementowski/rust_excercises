@@ -1,6 +1,6 @@
 // ukształtowywanie
 
-const LICZBA_NAGŁÓWKÓW_VCF: usize= 7;
+const LICZBA_NAGŁÓWKÓW_VCF: usize = 7;
 const LICZBA_ZAWARTYCH_WIADOMOŚCI: usize = 8;
 const LICZBA_ZAWARTYCH_WIADOMOŚCI_O_BŁĄDACH: usize = 6;
 

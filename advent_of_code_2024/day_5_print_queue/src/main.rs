@@ -1,6 +1,6 @@
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::collections::{HashMap, HashSet, VecDeque};
 
 fn main() -> std::io::Result<()> {
     let sciezka = "./input";
@@ -8,7 +8,7 @@ fn main() -> std::io::Result<()> {
     let czytnik = BufReader::new(plik);
 
     let mut linie = czytnik.lines().map(|l| l.unwrap());
-    
+
     let mut reguly: Vec<(i32, i32)> = Vec::new();
     let mut aktualizacje: Vec<Vec<i32>> = Vec::new();
 
@@ -24,10 +24,10 @@ fn main() -> std::io::Result<()> {
         }
         if let Some(idx) = linia.find('|') {
             let lewa = &linia[..idx];
-            let prawa = &linia[idx+1..];
+            let prawa = &linia[idx + 1..];
             let x: i32 = lewa.trim().parse().expect("Błąd parsowania liczby");
             let y: i32 = prawa.trim().parse().expect("Błąd parsowania liczby");
-            reguly.push((x,y));
+            reguly.push((x, y));
         }
     }
 
@@ -37,7 +37,8 @@ fn main() -> std::io::Result<()> {
         if linia.is_empty() {
             continue;
         }
-        let strony: Vec<i32> = linia.split(',')
+        let strony: Vec<i32> = linia
+            .split(',')
             .map(|elem| elem.trim().parse().expect("Błąd parsowania strony"))
             .collect();
         aktualizacje.push(strony);
@@ -53,7 +54,7 @@ fn main() -> std::io::Result<()> {
         }
 
         // Sprawdzamy reguły dla aktualizacji
-        for &(x,y) in &reguly {
+        for &(x, y) in &reguly {
             if let (Some(ix), Some(iy)) = (indeksy.get(&x), indeksy.get(&y)) {
                 // Musi być x przed y
                 if ix >= iy {
@@ -66,11 +67,14 @@ fn main() -> std::io::Result<()> {
 
         // Jeśli doszliśmy tu, aktualizacja jest poprawna
         let n = aktualizacja.len();
-        let srodkowy_indeks = n/2;
+        let srodkowy_indeks = n / 2;
         suma_srodkowych_poprawnych += aktualizacja[srodkowy_indeks];
     }
 
-    println!("Suma środkowych stron poprawnych aktualizacji: {}", suma_srodkowych_poprawnych);
+    println!(
+        "Suma środkowych stron poprawnych aktualizacji: {}",
+        suma_srodkowych_poprawnych
+    );
 
     // TERAZ DRUGA CZĘŚĆ:
     // Dla każdej niepoprawnej aktualizacji posortujemy strony wg reguł.
@@ -90,7 +94,7 @@ fn main() -> std::io::Result<()> {
             stopnie_wejscia.insert(s, 0);
         }
 
-        for &(x,y) in &reguly {
+        for &(x, y) in &reguly {
             if zbior_stron.contains(&x) && zbior_stron.contains(&y) {
                 // Dodajemy krawędź x -> y
                 graf.get_mut(&x).unwrap().push(y);
@@ -122,12 +126,14 @@ fn main() -> std::io::Result<()> {
 
         // Załóżmy, że zawsze uda się posortować wszystkie strony
         let n = wynik_sortowania.len();
-        let srodkowy_indeks = n/2;
+        let srodkowy_indeks = n / 2;
         suma_srodkowych_niepoprawnych += wynik_sortowania[srodkowy_indeks];
     }
 
-    println!("Suma środkowych stron niepoprawnych aktualizacji po poprawieniu: {}", suma_srodkowych_niepoprawnych);
+    println!(
+        "Suma środkowych stron niepoprawnych aktualizacji po poprawieniu: {}",
+        suma_srodkowych_niepoprawnych
+    );
 
     Ok(())
 }
-

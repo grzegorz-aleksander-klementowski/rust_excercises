@@ -1,7 +1,6 @@
-use nowy_zapis_w_spisie_osob::ZapiskiOsobowe;
 use nowy_zapis_w_spisie_osob::components::output;
 use nowy_zapis_w_spisie_osob::components::output::Wyjście;
-
+use nowy_zapis_w_spisie_osob::ZapiskiOsobowe;
 
 fn main() {
     println!("{}", output::WiadomościDoUżytkownika::Przywitanie);

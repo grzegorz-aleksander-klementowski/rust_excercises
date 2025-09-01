@@ -27,7 +27,10 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("Liczba bezpiecznych raportów (z tłumikiem): {}", liczba_bezpiecznych);
+    println!(
+        "Liczba bezpiecznych raportów (z tłumikiem): {}",
+        liczba_bezpiecznych
+    );
 
     Ok(())
 }
@@ -39,9 +42,7 @@ fn czy_bezpieczny(poziomy: &[i32]) -> bool {
     }
 
     // Sprawdź, czy różnice są w zakresie 1..=3
-    let różnice: Vec<i32> = poziomy.windows(2)
-        .map(|para| para[1] - para[0])
-        .collect();
+    let różnice: Vec<i32> = poziomy.windows(2).map(|para| para[1] - para[0]).collect();
 
     let wszystkie_poprawne_różnice = różnice.iter().all(|&r| r.abs() >= 1 && r.abs() <= 3);
 
@@ -65,4 +66,3 @@ fn czy_bezpieczny_po_usunięciu(poziomy: &[i32]) -> bool {
     }
     false
 }
-

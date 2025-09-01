@@ -3,7 +3,6 @@ use std::io;
 fn main() {
     println!("Witaj! Jestem obliczanikowym Swinksenm. \nZadaj mi pytanie a prawdę Ci powiem…");
 
-
     loop {
         let mut pytanie = String::new();
 
