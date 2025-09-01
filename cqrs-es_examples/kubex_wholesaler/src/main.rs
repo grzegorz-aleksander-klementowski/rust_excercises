@@ -1,18 +1,11 @@
-use std::{alloc::GlobalAlloc, fmt::Display, io};
+use std::fmt::Display;
 
 use async_trait::*;
 use chrono::{DateTime, Utc};
-use cqrs_es::persist::*;
 use cqrs_es::*;
-use postgres_es::PostgresEventRepository;
-use postgres_es::PostgresViewRepository;
-use serde::*;
 use serde::{Deserialize, Serialize};
-use sqlx::{Pool, Postgres};
-use std::collections::HashMap;
 
 use cqrs_es::{CqrsFramework, EventStore, View};
-use sqlx::PgPool;
 use tokio;
 
 //*** [EVENTS] ***\\

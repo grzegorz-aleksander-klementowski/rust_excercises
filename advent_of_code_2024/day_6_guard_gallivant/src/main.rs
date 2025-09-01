@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -93,7 +93,7 @@ fn main() {
     let start_c = pozycja_straznika.1;
 
     // Funkcja sprawdzająca czy dane pole to przeszkoda
-    let mut czy_przeszkoda = |r: isize, c: isize, mapa: &Vec<Vec<char>>| {
+    let czy_przeszkoda = |r: isize, c: isize, mapa: &Vec<Vec<char>>| {
         if r < 0 || c < 0 || r >= wysokosc as isize || c >= szerokosc as isize {
             // Poza mapą
             true
@@ -103,7 +103,7 @@ fn main() {
     };
 
     // Funkcja sprawdzająca czy symulacja z nową przeszkodą prowadzi do pętli
-    let mut sprawdz_petle = |mapa: &Vec<Vec<char>>| -> bool {
+    let sprawdz_petle = |mapa: &Vec<Vec<char>>| -> bool {
         let mut r = start_r;
         let mut c = start_c;
         let mut kier = kierunek_straznika;

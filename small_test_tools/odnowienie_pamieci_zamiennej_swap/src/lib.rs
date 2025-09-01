@@ -1,4 +1,3 @@
-use rpassword::read_password;
 use std::process::{Command, ExitStatus};
 
 pub enum Swap {

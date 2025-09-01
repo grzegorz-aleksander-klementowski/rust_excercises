@@ -3,7 +3,7 @@ use clap::Parser;
 
 use cli::Cli;
 use oblicz_koszty_roweru::{self, KosztCzęściRowerowych};
-use std::{fmt, ops::Sub, process::Output};
+use std::ops::Sub;
 
 fn main() {
     // let poprzedni_zakup = KosztCzęściRowerowych::new(1190, 1198, 129, 125, 119);

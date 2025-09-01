@@ -1,7 +1,6 @@
 mod cli;
 mod output;
 
-pub use output::*;
 use std::ops::Sub;
 
 #[derive(Debug, PartialEq, Eq)]
