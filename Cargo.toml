@@ -6,7 +6,6 @@ members = [
   "./advent_of_code_2024/day_4_ceres_search",
   "./advent_of_code_2024/day_5_print_queue",
   "./advent_of_code_2024/day_6_guard_gallivant",
-  "./cqrs-es_examples/kubex_wholesaler",
   "./no_boilerplate_light_state",
   "./pasja_informatyki/evaluation_mean",
   "./pasja_informatyki/fibbonaci_counter",
