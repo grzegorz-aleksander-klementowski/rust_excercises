@@ -58,6 +58,12 @@ impl Gradesbook {
     }
 }
 
+impl Default for Gradesbook {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 // ------------- trait definition for validation ------------- \\
 trait Validator<T> {
     fn validate(&mut self, value: T) -> Result<(), ErrMessages>;
