@@ -58,6 +58,7 @@ impl Gradesbook {
     }
 }
 
+// ------------- Defaul implementation for Gradesbook ------------- \\
 impl Default for Gradesbook {
     fn default() -> Self {
         Self::new()
@@ -73,7 +74,7 @@ trait Validator<T> {
 // integer+half. Which 0.5 represent „+” (ei. '4.5' represent '4+')
 impl Validator<f32> for Gradesbook {
     fn validate(&mut self, grade: f32) -> Result<(), ErrMessages> {
-        if (grade >= 1.0 && grade <= 6.0) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) {
+        if (1.0..=6.0).contains(&grade) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) {
             Ok(())
         } else {
             Err(ErrMessages::GradeOutOfRange)
