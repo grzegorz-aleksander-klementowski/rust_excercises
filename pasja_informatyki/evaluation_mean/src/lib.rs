@@ -83,7 +83,7 @@ impl Validator<f32> for Gradesbook {
 }
 
 // trait validete input usize numers to check if the user input correct number of needed grade \\
-//to insert
+//to insert using de morgan rule in the condition
 impl Validator<usize> for Gradesbook {
     fn validate(&mut self, num_of_needed_grades: usize) -> Result<(), ErrMessages> {
         if !(1..=100000).contains(&num_of_needed_grades) {
