@@ -113,8 +113,8 @@ impl Input<f32> for Gradesbook {
                     Ok(grade) => {
                         match self.validate(grade) {
                             // number goes to validation
-                            Ok(()) => return Ok(grade),
-                            Err(e) => return Err(e),
+                            Ok(()) => Ok(grade),
+                            Err(e) => Err(e),
                         }
                     }
                     Err(e) => Err(ErrMessages::InvalidInput(Box::new(e))),
