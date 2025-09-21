@@ -135,7 +135,7 @@ impl Input<f32> for Gradesbook {
                 Err(e) => {
                     attempts += 1;
                     if attempts < max_attempts {
-                        eprintln!("{}", e);
+                        eprintln!("{e}");
                     } else {
                         // Extreme error - cannot read line
                         eprintln!("Za duuuużo prób Zosieńko :c Wychodzę…");
