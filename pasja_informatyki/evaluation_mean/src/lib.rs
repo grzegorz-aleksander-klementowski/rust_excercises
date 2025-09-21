@@ -86,7 +86,7 @@ impl Validator<f32> for Gradesbook {
 //to insert
 impl Validator<usize> for Gradesbook {
     fn validate(&mut self, num_of_needed_grades: usize) -> Result<(), ErrMessages> {
-        if num_of_needed_grades > 100000 || num_of_needed_grades < 1 {
+        if !(1..=100000).contains(&num_of_needed_grades) {
             Err(ErrMessages::InvalidNumberOfNeededGrades)
         } else {
             Ok(())
