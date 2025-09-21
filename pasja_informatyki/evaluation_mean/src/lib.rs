@@ -156,8 +156,8 @@ impl Input<usize> for Gradesbook {
                     Ok(num_of_needed_grades) => {
                         match self.validate(num_of_needed_grades) {
                             // number goes to validation
-                            Ok(()) => return Ok(num_of_needed_grades),
-                            Err(e) => return Err(e),
+                            Ok(()) => Ok(num_of_needed_grades),
+                            Err(e) => Err(e),
                         }
                     }
                     Err(e) => Err(ErrMessages::InvalidInput(Box::new(e))),
