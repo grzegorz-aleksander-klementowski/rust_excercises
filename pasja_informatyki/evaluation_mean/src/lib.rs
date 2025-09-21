@@ -178,7 +178,7 @@ impl Input<usize> for Gradesbook {
                 Err(e) => {
                     attempts += 1;
                     if attempts < max_attempts {
-                        eprintln!("{}", e);
+                        eprintln!("{e}");
                     } else {
                         // Extreme error - cannot read line
                         eprintln!("Za duuuużo prób Zosieńko :c Wychodzę…");
@@ -221,14 +221,14 @@ pub enum Messages<'a> {
 }
 
 // Implementation of Display trail to format messages
-impl<'a, 'b> fmt::Display for Messages<'a> {
+impl<'a> fmt::Display for Messages<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
             Messages::Welcome                   => "Witaj Kochana Zosieńko :** To jest program specjalnie stworzony dla Ciebie, abyś mogła w łatwy i szybki sposób obliczyć swoj oceny na swoim obliczniku. Wpisz ilość ocen, z jakich chcesz obliczyć średnią: ",
-            Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Wpisz {} i potwierdź przez przycisk wejścia [enter]. ", num_of_grades_to_write),
+            Messages::InformToStartWriteGrades(num_of_grades_to_write)  => return write!(f, "Wpisz {num_of_grades_to_write} i potwierdź przez przycisk wejścia [enter]. "),
             Messages::InformToInsertGrade           => "ocena: ",
             Messages::InformToInsertWeight          => "waga: ",
-            Messages::PrintEvaluationMean(mean)     => return write!(f, "\nOto Twoja średnia: {}. Powodzenia w następnym semestrze :3", mean),
+            Messages::PrintEvaluationMean(mean)     => return write!(f, "\nOto Twoja średnia: {mean}. Powodzenia w następnym semestrze :3"),
             Messages::PrintSetOfGrades(gradesbook)  => {
                     let grades_str = gradesbook
                         .show_grades()
@@ -236,12 +236,12 @@ impl<'a, 'b> fmt::Display for Messages<'a> {
                         .map(|(grade, weight)| format!("ocena: {grade} | waga: {weight}"))
                         .collect::<Vec<String>>()
                         .join("\t");
-                    let formatted_message = format!("Oceny:\n{}", grades_str);
-                    return write!(f, "{}", formatted_message);
+                    let formatted_message = format!("Oceny:\n{grades_str}");
+                    return write!(f, "{formatted_message}");
             }
             Messages::WindowsExiting            => "Program zakończył się kochanie :* Życzę Ci duuuużo wspaniałych ocen c:",
         };
-        write!(f, "{}", message)
+        write!(f, "{message}")
     }
 }
 
@@ -258,10 +258,10 @@ impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
         ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ".to_string(),
-        ErrMessages::InvalidInput(error) => format!("Aliquam numerus. Nie udało się odczytać wiersza: {}", error),
+        ErrMessages::InvalidInput(error) => format!("Aliquam numerus. Nie udało się odczytać wiersza: {error}"),
         ErrMessages::InvalidNumberOfNeededGrades => "Gradus feriunt. Zooosiu, numer, który wpisujesz jest albo za duży, albo wpisałaś zero! Spróbuj wpisać mniejszy numer (tak do 100000) albo liczbę większą nić 0. ".to_string(),
         };
-        write!(f, "Error: {}", err_message)
+        write!(f, "Error: {err_message}")
     }
 }
 /*-----------------------------------------------------------------*/
