@@ -13,8 +13,8 @@ impl Wejście for ZapiskiOsobowe {
         // check if hte program can read the line up to 3 times before exit in case of constant failing
         let mut zapisek = String::new();
         match io::stdin().read_line(&mut zapisek) {
-            Ok(_) => return Ok(zapisek),
-            Err(err) => return Err(output::WiadomościoBłędach::PróbaOdczytaniaLinii(err)),
+            Ok(_) => Ok(zapisek),
+            Err(err) => Err(output::WiadomościoBłędach::PróbaOdczytaniaLinii(err)),
         }
     }
 
@@ -29,7 +29,7 @@ impl Wejście for ZapiskiOsobowe {
                 Ok(zapisek) => return zapisek,
                 Err(błąd) => {
                     próby += 1;
-                    eprintln!("{}", błąd);
+                    eprintln!("{błąd}");
                 }
             }
         }
