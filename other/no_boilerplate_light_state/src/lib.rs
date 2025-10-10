@@ -2,20 +2,20 @@ struct Light<State> {
     state: State,
 }
 
-struct On;
-struct Off;
-
-impl Light<Off> {
-    fn new() -> Self {
-        Light { state: Off }
-    }
-    fn turn_on(self) -> Light<On> {
-        Light { state: On }
-    }
+enum State {
+    On,
+    Off,
 }
-impl Light<On> {
-    fn turn_off(self) -> Light<Off> {
-        Light { state: Off }
+
+impl Light<State> {
+    fn new() -> Self {
+        Light { state: State::Off }
+    }
+    fn turn_on(self) -> Light<State> {
+        Light { state: State::Off }
+    }
+    fn turn_off(self) -> Light<State> {
+        Light { state: State::Off }
     }
 }
 
