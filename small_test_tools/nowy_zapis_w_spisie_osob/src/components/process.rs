@@ -44,14 +44,20 @@ impl ZapiskiOsobowe {
         &self, nagłówek_vcf: NagłówkiVCF, wiadomość: WiadomościDoUżytkownika
     ) -> String {
         let zapisek = self.zapytanie_o_zapisek(wiadomość);
-        format!("{}{}", nagłówek_vcf, zapisek)
+        format!("{nagłówek_vcf}{zapisek}")
     }
 
     // add a question for user to create an instance of VCF card
     fn zapytanie_o_zapisek(&self, zapytanie: WiadomościDoUżytkownika) -> String {
-        print!("{}", zapytanie);
+        print!("{zapytanie}");
         io::stdout().flush().unwrap();
         let zapisek: String = self.pobierz_zapisek_z_próbami();
         zapisek
+    }
+}
+
+impl Default for ZapiskiOsobowe {
+    fn default() -> Self {
+        Self::new()
     }
 }
