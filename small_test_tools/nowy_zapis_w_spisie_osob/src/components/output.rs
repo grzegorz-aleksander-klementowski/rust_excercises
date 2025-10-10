@@ -95,8 +95,7 @@ pub trait Wyjście {
 
 impl Wyjście for ZapiskiOsobowe {
     fn wyjście_do_pliku_cvf(&self, zawartość_do_pliku: String) {
-        let nazwa_pliku: String =
-            format!("zapisek.cvf" /*, &self.nagłówek_fn, &self.nagłówek_n*/);
+        let nazwa_pliku: String = "zapisek.cvf".to_string();
         let wynik_z_zapiania_pliku: Result<(), io::Error> =
             fs::write(nazwa_pliku, zawartość_do_pliku);
         match wynik_z_zapiania_pliku {
@@ -117,7 +116,7 @@ pub enum WiadomościoBłędach {
 
 // Dipley trait for displaying messages about ERRORS
 
-impl<'a> fmt::Display for WiadomościoBłędach {
+impl fmt::Display for WiadomościoBłędach {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             WiadomościoBłędach::PróbaOdczytaniaLinii(err) => {
