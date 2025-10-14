@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "./other/no_boilerplate_light_state",
+  "./other/light-state-domain-driven",
   "./pasja_informatyki/evaluation_mean",
   "./pasja_informatyki/fibbonaci_counter",
   "./pasja_informatyki/lotto_game",
