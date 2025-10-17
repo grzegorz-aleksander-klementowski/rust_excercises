@@ -4,6 +4,7 @@ pub struct Light {
     state: State,
 }
 
+#[derive(PartialEq)]
 pub enum State {
     On,
     Off,
@@ -22,6 +23,14 @@ impl Light {
     pub fn turn_off(&mut self) -> &mut Self {
         self.state = State::Off;
         self
+    }
+
+    pub fn is_on(&self) -> bool {
+        self.state == State::On
+    }
+
+    pub fn is_off(&self) -> bool {
+        self.state == State::On
     }
 
     pub fn show_status(&self) {
