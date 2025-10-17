@@ -33,6 +33,12 @@ impl Light {
     }
 }
 
+impl Default for Light {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 pub fn correct_transition() {
     // let bedroom_light = Light::new();
     // let bedroom_light = bedroom_light.turn_on().turn_off().turn_on();
