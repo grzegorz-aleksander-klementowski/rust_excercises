@@ -24,7 +24,7 @@ impl Light {
         self
     }
 
-    pub fn show_status<'a>(&self) {
+    pub fn show_status(&self) {
         let status: &str = match self.state {
             State::On => "On",
             State::Off => "Off",
