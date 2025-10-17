@@ -30,7 +30,7 @@ impl Light {
     }
 
     pub fn is_off(&self) -> bool {
-        self.state == State::On
+        self.state == State::Off
     }
 
     pub fn show_status(&self) {
@@ -75,5 +75,16 @@ mod tests {
         let mut light = Light::new();
         light.turn_off();
         assert!(matches!(light.state, State::Off));
+    }
+
+    #[test]
+    fn test_check_status_is_off_and_is_on() {
+        let mut light = Light::new();
+        assert!(light.is_off());
+        assert!(!light.is_on());
+
+        light.turn_on();
+        assert!(light.is_on());
+        assert!(!light.is_off());
     }
 }
