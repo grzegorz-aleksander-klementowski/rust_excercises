@@ -1,7 +1,7 @@
 // TO–DO: domain-specific handling (e.g., logging, emitting an event, avoiding an expensive write);
 
-pub struct Light<State> {
-    state: State,
+pub struct Light<T> {
+    state: T,
 }
 
 pub enum State {
@@ -14,13 +14,14 @@ impl Light<State> {
         Light { state: State::Off }
     }
 
-    pub fn turn_on(&mut self) /* -> Light<State> */
-    {
+    pub fn turn_on(&mut self) -> &mut Self {
         self.state = State::On;
+        self
     }
 
-    pub fn turn_off(&mut self) {
+    pub fn turn_off(&mut self) -> &mut Self {
         self.state = State::Off;
+        self
     }
 
     pub fn show_status<'a>(&self) {
