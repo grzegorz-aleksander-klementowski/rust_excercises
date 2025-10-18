@@ -1,5 +1,7 @@
 // TO–DO: domain-specific handling (e.g., logging, emitting an event, avoiding an expensive write);
 
+mod validate;
+
 pub struct Light {
     state: State,
 }
@@ -16,8 +18,9 @@ impl Light {
     }
 
     pub fn turn_on(&mut self) -> &mut Self {
-        self.state = State::On;
+        /* self.state = State::On;
         self
+        if self.is_off() {} */
     }
 
     pub fn turn_off(&mut self) -> &mut Self {
