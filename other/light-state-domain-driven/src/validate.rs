@@ -20,7 +20,9 @@ impl Validate for Light {
         &'a_fn self,
         action: State,
     ) -> Result<Self::Ok<'a_fn>, Self::Err> {
-        if self.is_on() && action == State::Off {
+        if self.is_off() && action == State::On {
+            todo!()
+        } else {
             todo!()
         }
     }

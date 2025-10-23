@@ -21,6 +21,7 @@ impl Light {
         /* self.state = State::On;
         self
         if self.is_off() {} */
+        todo!()
     }
 
     pub fn turn_off(&mut self) -> &mut Self {
