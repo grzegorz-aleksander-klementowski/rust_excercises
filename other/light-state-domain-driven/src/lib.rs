@@ -1,5 +1,7 @@
 // TO–DO: domain-specific handling (e.g., logging, emitting an event, avoiding an expensive write);
 
+use validate::Validate;
+
 mod validate;
 
 pub struct Light {
@@ -12,15 +14,13 @@ pub enum State {
     Off,
 }
 
+// Defining the light behavior
 impl Light {
     pub fn new() -> Self {
         Light { state: State::Off }
     }
 
     pub fn turn_on(&mut self) -> &mut Self {
-        /* self.state = State::On;
-        self
-        if self.is_off() {} */
         todo!()
     }
 
