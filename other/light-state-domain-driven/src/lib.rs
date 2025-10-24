@@ -1,6 +1,6 @@
 // TO–DO: domain-specific handling (e.g., logging, emitting an event, avoiding an expensive write);
 
-use validate::Validate;
+use validate::{LightError, Validate};
 
 mod validate;
 
@@ -20,8 +20,9 @@ impl Light {
         Light { state: State::Off }
     }
 
-    pub fn turn_on(&mut self) -> &mut Self {
-        todo!()
+    pub fn turn_on(&mut self) -> Result<&mut Self, LightError> {
+        let mut res_validation = &self.validate_repeatation(State::On);
+        res_validation?
     }
 
     pub fn turn_off(&mut self) -> &mut Self {

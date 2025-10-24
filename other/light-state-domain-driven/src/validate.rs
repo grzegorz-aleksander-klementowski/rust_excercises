@@ -1,8 +1,5 @@
 use crate::{Light, State};
 // Trait to validate functions in the program especially Light structure functions
-// Example implementation using a Generic Associated Type (GAT)
-// This could be simplified to `type Ok = &Self`, but left intentionally
-// to demonstrate understanding of lifetime-dependent associated types.
 pub trait Validate {
     type Ok<'a_type>
     where
@@ -11,7 +8,7 @@ pub trait Validate {
 
     // Using GAT (Generic Associated Type)
     fn validate_repeatation<'a_fn>(
-        &'a_fn self,
+        &'a_fn mut self,
         action: State,
     ) -> Result<Self::Ok<'a_fn>, Self::Err>; // in Self::Ok<'a_fn lifetimes 'a_fn will subsitute 'a_type (subsitution of lifetimes parameters)
 }
@@ -25,12 +22,12 @@ impl Validate for Light {
     type Err = LightError;
 
     fn validate_repeatation<'a_fn>(
-        &'a_fn self,
+        &'a_fn mut self,
         action: State,
     ) -> Result<Self::Ok<'a_fn>, Self::Err> {
         match (self.is_on(), action) {
-            (false, State::On) => Ok(&self),
-            (true, State::Off) => Ok(&self),
+            (false, State::On) => Ok(self),
+            (true, State::Off) => Ok(self),
             (false, State::Off) => Err(LightError::AlredyOff),
             (true, State::On) => Err(LightError::AlredyOn),
         }
