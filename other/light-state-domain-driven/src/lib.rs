@@ -26,9 +26,10 @@ impl Light {
         Ok(res_validation)
     }
 
-    pub fn turn_off(&mut self) -> &mut Self {
-        self.state = State::Off;
-        self
+    pub fn turn_off(&mut self) -> Result<&mut Self, LightError> {
+        let res_validation: &mut Light = self.validate_repeatation(State::Off)?;
+        res_validation.state = State::Off;
+        Ok(res_validation)
     }
 
     pub fn is_on(&self) -> bool {
