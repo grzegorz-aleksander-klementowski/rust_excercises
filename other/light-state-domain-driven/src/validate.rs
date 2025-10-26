@@ -18,7 +18,7 @@ pub trait Validate {
 // To turn off the light, the light need to be turned on and the intention of the
 // …action is turn the light off.
 impl Validate for Light {
-    type Ok<'a_type> = &'a_type Self;
+    type Ok<'a_type> = &'a_type mut Self;
     type Err = LightError;
 
     fn validate_repeatation<'a_fn>(
