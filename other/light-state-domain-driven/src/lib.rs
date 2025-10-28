@@ -2,7 +2,7 @@
 
 use validate::{LightError, Validate};
 
-mod validate;
+pub mod validate;
 
 pub struct Light {
     state: State,
@@ -26,10 +26,9 @@ impl Light {
         Ok(res_validation)
     }
 
-    pub fn turn_off(&mut self) -> Result<&mut Self, LightError> {
-        let res_validation: &mut Light = self.validate_repeatation(State::Off)?;
-        res_validation.state = State::Off;
-        Ok(res_validation)
+    pub fn turn_off(&mut self) -> &mut Self {
+        self.state = State::Off;
+        self
     }
 
     pub fn is_on(&self) -> bool {
@@ -53,11 +52,6 @@ impl Default for Light {
     fn default() -> Self {
         Self::new()
     }
-}
-
-pub fn correct_transition() {
-    // let bedroom_light = Light::new();
-    // let bedroom_light = bedroom_light.turn_on().turn_off().turn_on();
 }
 
 #[cfg(test)]
@@ -93,5 +87,11 @@ mod tests {
         light.turn_on();
         assert!(light.is_on());
         assert!(!light.is_off());
+    }
+
+    #[test]
+    fn correct_transition() {
+        // let bedroom_light = Light::new();
+        // let bedroom_light = bedroom_light.turn_on().turn_off().turn_on();
     }
 }

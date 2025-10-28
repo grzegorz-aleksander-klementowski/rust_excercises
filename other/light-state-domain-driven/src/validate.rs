@@ -35,6 +35,7 @@ impl Validate for Light {
 }
 
 // enumeration of possible LightErrors
+#[derive(Debug)]
 pub enum LightError {
     AlredyOn,
     AlredyOff,

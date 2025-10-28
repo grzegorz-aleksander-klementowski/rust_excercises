@@ -5,9 +5,14 @@
 4. Testy scenariuszy – np. test pokazujący ciąg przejść w correct_transition
 5. Więcej stanów – dodanie Broken, Dimmed itp., żeby ćwiczyć maszynę stanów. */
 
-use no_boilerplate_light_state::*;
+use light_state_domain_driven::{validate::LightError, Light};
 
-fn main() {
+fn main() -> Result<(), LightError> {
+    run()?;
+    Ok(())
+}
+
+fn run() -> Result<(), LightError> {
     let mut sample_light_1 = Light::new();
     let mut sample_light_2 = Light::new();
 
@@ -17,7 +22,7 @@ fn main() {
 
     // Action 2
     sample_light_1.turn_on();
-    sample_light_2.turn_off().turn_on().turn_off().turn_on();
+    //sample_light_2.turn_off()?.turn_on().turn_off().turn_on();
     sample_light_1.show_status(); // should be on
     sample_light_2.show_status(); // should be on
 
@@ -26,4 +31,5 @@ fn main() {
     sample_light_2.turn_off();
     sample_light_1.show_status(); // should be off
     sample_light_2.show_status(); // should be off
+    Ok(())
 }
