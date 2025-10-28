@@ -62,39 +62,60 @@ mod tests {
     use super::*;
 
     #[test]
-    fn new_light_starts() {
+    fn test_new_light_starts() {
         let light = Light::new();
-        assert!(matches!(light.state, State::Off));
+        assert!(light.is_off());
     }
 
     #[test]
-    fn turn_off_sets_state_to_on() {
+    fn test_turn_off_sets_state_to_on() -> Result<(), LightError> {
         let mut light = Light::new();
-        light.turn_on();
-        assert!(matches!(light.state, State::On));
+        light.turn_on()?;
+        assert!(light.is_on());
+        Ok(())
     }
 
     #[test]
-    fn turn_on_sets_state_to_off() {
+    fn test_turn_on_sets_state_to_off() -> Result<(), LightError> {
         let mut light = Light::new();
-        light.turn_off();
-        assert!(matches!(light.state, State::Off));
+        light.state = State::On;
+        light.turn_off()?;
+        assert!(light.is_off());
+        Ok(())
     }
 
     #[test]
-    fn test_check_status_is_off_and_is_on() {
+    fn test_check_status_is_off_and_is_on() -> Result<(), LightError> {
         let mut light = Light::new();
         assert!(light.is_off());
         assert!(!light.is_on());
 
-        light.turn_on();
+        light.turn_on()?;
         assert!(light.is_on());
         assert!(!light.is_off());
+        Ok(())
     }
 
     #[test]
-    fn correct_transition() {
-        // let bedroom_light = Light::new();
-        // let bedroom_light = bedroom_light.turn_on().turn_off().turn_on();
+    fn test_correct_transition() -> Result<(), LightError> {
+        let mut light = Light::new();
+        assert!(light.is_off());
+
+        light.turn_on()?;
+        assert!(light.is_on());
+
+        light.turn_off()?;
+        assert!(light.is_off());
+
+        light.turn_on()?;
+        assert!(light.is_on());
+
+        light.turn_off()?.turn_on()?;
+        assert!(light.is_on());
+
+        light.turn_off()?.turn_on()?.turn_off()?;
+        assert!(light.is_off());
+
+        Ok(())
     }
 }
