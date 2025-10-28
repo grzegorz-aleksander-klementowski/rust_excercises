@@ -8,7 +8,7 @@ pub struct Light {
     state: State,
 }
 
-#[derive(PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub enum State {
     On,
     Off,
@@ -21,14 +21,17 @@ impl Light {
     }
 
     pub fn turn_on(&mut self) -> Result<&mut Self, LightError> {
-        let res_validation: &mut Light = self.validate_repeatation(State::On)?;
-        res_validation.state = State::On;
-        Ok(res_validation)
+        let action = State::On; // for dynamic transistion it easy to use `action` as fn argument
+        self.validate_repeatation(action)?;
+        self.state = action;
+        Ok(self)
     }
 
-    pub fn turn_off(&mut self) -> &mut Self {
-        self.state = State::Off;
-        self
+    pub fn turn_off(&mut self) -> Result<&mut Self, LightError> {
+        let action = State::Off; // for dynamic transistion it easy to use `action` as fn argument
+        self.validate_repeatation(action)?;
+        self.state = action;
+        Ok(self)
     }
 
     pub fn is_on(&self) -> bool {
