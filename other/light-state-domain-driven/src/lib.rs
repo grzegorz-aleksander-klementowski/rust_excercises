@@ -1,5 +1,7 @@
 // TO–DO: domain-specific handling (e.g., logging, emitting an event, avoiding an expensive write);
 
+use std::fmt::Display;
+
 use validate::{LightError, Validate};
 
 pub mod validate;
@@ -41,19 +43,21 @@ impl Light {
     pub fn is_off(&self) -> bool {
         self.state == State::Off
     }
-
-    pub fn show_status(&self) {
-        let status: &str = match self.state {
-            State::On => "On",
-            State::Off => "Off",
-        };
-        println!("status: {status}");
-    }
 }
 
 impl Default for Light {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+impl Display for Light {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let status: &str = match self.state {
+            State::Off => "Off",
+            State::On => "On",
+        };
+        write!(f, "status: {status}")
     }
 }
 
@@ -93,6 +97,35 @@ mod tests {
         light.turn_on()?;
         assert!(light.is_on());
         assert!(!light.is_off());
+        Ok(())
+    }
+
+    #[test]
+    fn test_error_handling_if_light_allready_off() -> Result<(), LightError> {
+        let mut light = Light::new(); // The default state of a new light is off.
+        let result_light = light.turn_off();
+        assert!(matches!(result_light, Err(LightError::AlredyOff)));
+        Ok(())
+    }
+
+    #[test]
+    fn test_error_handling_if_light_allready_on() -> Result<(), LightError> {
+        let mut light = Light::new(); // The default state of a new light is off.
+        light.turn_on()?;
+        let result_light = light.turn_on();
+
+        assert!(matches!(result_light, Err(LightError::AlredyOn)));
+        Ok(())
+    }
+
+    #[test]
+    fn test_show_status() -> Result<(), LightError> {
+        let light_turned_off = Light::new();
+        let mut light_turned_on = Light::new();
+        light_turned_on.turn_on()?;
+
+        assert_eq!(format!("{light_turned_off}"), "status: Off");
+        assert_eq!(format!("{light_turned_on}"), "status: On");
         Ok(())
     }
 
