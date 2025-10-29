@@ -1,7 +1,6 @@
 # rust_excercises
 [![CI](https://github.com/grzegorz-aleksander-klementowski/Rust-Book-examples-exercises/actions/workflows/ci.yml/badge.svg)](https://github.com/grzegorz-aleksander-klementowski/Rust-Book-examples-exercises/actions/workflows/ci.yml)
-[![CI](https://github.com/grzegorz-aleksander-klementowski/Rust-Book-examples-exercises/actions/workflows/ci.yml/badge.svg)](https://github.com/grzegorz-aleksander-klementowski/Rust-Book-examples-exercises/actions/workflows/ci.yml)
-
+[![Clippy Lints](https://img.shields.io/badge/Clippy-clean-brightgreen)](#)
 Cargo workspace that gathers bite-sized experiments, study notes, and quick utility prototypes. The active crates are listed in `Cargo.toml` and mirrored in the sections below.
 
 ## Getting Started
