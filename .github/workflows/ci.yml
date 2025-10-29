@@ -1,3 +1,4 @@
+
 name: CI
 
 on: [push, pull_request]
@@ -15,26 +16,33 @@ jobs:
 
     steps:
       - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.toolchain }}
           override: true
           components: rustfmt, clippy
-      - name: Chache Cargo Registy
-        uses:  actions/cache@v3
+
+      - name: Cache Cargo registry
+        uses: actions/cache@v3
         with:
-            path: ~/.cargo/registry
-            key: ${{ runner.os }}--cargo-registy-${{ hashFiles('**/Cargo.lock') }}
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-registry-
 
       - name: Cache Cargo build
         uses: actions/cache@v3
         with:
           path: target
-          # thanks to this it shoun't mix affects from different types of Rust
           key: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-
 
+      - name: Run Clippy check
+        run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Run Rust fmt check
+      - name: Run Rustfmt check
         run: cargo fmt --all -- --check
 
       - name: Build all crates
@@ -42,3 +50,4 @@ jobs:
 
       - name: Test all crates
         run: cargo test --all --verbose
+
