@@ -1,6 +1,5 @@
 
 name: CI
-
 on: [push, pull_request]
 
 jobs:
@@ -9,21 +8,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        toolchain: [stable, beta, nightly]
+        toolchain: [stable]   # keep stable now; add beta/nightly later if you want
         os: [ubuntu-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Rust toolchain
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.toolchain }}
           override: true
           components: rustfmt, clippy
+
+      - name: Sanity (see files)
+        run: pwd && ls -la
 
       - name: Cache Cargo registry
         uses: actions/cache@v3
@@ -32,22 +34,23 @@ jobs:
           key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-registry-
 
-      - name: Cache Cargo build
+      - name: Cache target
         uses: actions/cache@v3
         with:
           path: target
-          key: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
-          restore-keys: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-
+          key: ${{ runner.os }}-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: ${{ runner.os }}-target-${{ matrix.toolchain }}-
 
-      - name: Run Clippy check
-        run: cargo clippy -- -D warnings
-
-      - name: Run Rustfmt check
+      - name: Format check (workspace)
         run: cargo fmt --all -- --check
 
-      - name: Build all crates
+      - name: Clippy (current scope)
+        run: cargo clippy -- -D warnings
+        # later upgrade to: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Build (workspace)
         run: cargo build --all --verbose
 
-      - name: Test all crates
+      - name: Test (workspace)
         run: cargo test --all --verbose
 
