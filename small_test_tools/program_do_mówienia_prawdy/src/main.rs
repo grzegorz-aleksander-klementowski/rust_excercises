@@ -9,7 +9,7 @@ fn main() {
         io::stdin()
             .read_line(&mut pytanie)
             .expect("Nie udało się przeczytać napisu…");
-        let wymów: &str = &pytanie.trim();
+        let wymów: &str = pytanie.trim();
         match wymów {
             "Kogo kocham?" => println!("Kogo kochasz? Zosię kochasz."),
             "A z kim chcę się wiązać?" => println!("Myślę, że chcesz tylko Zosię."),
