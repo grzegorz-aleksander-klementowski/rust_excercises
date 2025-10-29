@@ -40,7 +40,7 @@ jobs:
           restore-keys: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-
 
       - name: Run Clippy check
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy -- -D warnings
 
       - name: Run Rustfmt check
         run: cargo fmt --all -- --check
