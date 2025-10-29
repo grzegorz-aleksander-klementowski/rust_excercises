@@ -1,4 +1,6 @@
 # rust_excercises
+[![CI Status](https://img.shields.io/badge/CI-passing-brightgreen)](#)
+[![Clippy Lints](https://img.shields.io/badge/Clippy-clean-brightgreen)](#)
 
 Cargo workspace that gathers bite-sized experiments, study notes, and quick utility prototypes. The active crates are listed in `Cargo.toml` and mirrored in the sections below.
 
