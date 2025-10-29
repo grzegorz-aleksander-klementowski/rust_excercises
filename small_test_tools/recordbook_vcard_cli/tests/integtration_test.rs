@@ -1,5 +1,5 @@
 // intergration tests
-use nowy_zapis_w_spisie_osob::components;
+use recordbook_vcard_cli::components;
 
 #[test]
 fn sprawdzian_współpracy_z_wyjściem() {

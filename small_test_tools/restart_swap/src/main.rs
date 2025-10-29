@@ -1,4 +1,4 @@
-use odnowienie_pamieci_zamiennej_swap::Swap;
+use restart_swap::Swap;
 
 fn main() {
     match Swap::Off.execute() {
