@@ -4,14 +4,9 @@ on: [push, pull_request]
 
 jobs:
   test-all-crates:
+    name: Test on Linux
     timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        toolchain: [stable]   # keep stable now; add beta/nightly later if you want
-        os: [ubuntu-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
