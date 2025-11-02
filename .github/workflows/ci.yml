@@ -1,5 +1,5 @@
-
 name: CI
+
 on: [push, pull_request]
 
 jobs:
@@ -8,49 +8,37 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        toolchain: [stable]   # keep stable now; add beta/nightly later if you want
+        toolchain: [stable, beta, nightly]
         os: [ubuntu-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install Rust
+      - name: Checkout code
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.toolchain }}
           override: true
           components: rustfmt, clippy
-
-      - name: Sanity (see files)
-        run: pwd && ls -la
-
-      - name: Cache Cargo registry
-        uses: actions/cache@v3
+      - name: Chache Cargo Registy
+        uses:  actions/cache@v3
         with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-registry-
+            path: ~/.cargo/registry
+            key: ${{ runner.os }}--cargo-registy-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Cache target
+      - name: Cache Cargo build
         uses: actions/cache@v3
         with:
           path: target
-          key: ${{ runner.os }}-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
-          restore-keys: ${{ runner.os }}-target-${{ matrix.toolchain }}-
+          # thanks to this it shoun't mix affects from different types of Rust
+          key: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
 
-      - name: Format check (workspace)
+
+      - name: Run Rust fmt check
         run: cargo fmt --all -- --check
 
-      - name: Clippy (current scope)
-        run: cargo clippy -- -D warnings
-        # later upgrade to: cargo clippy --all-targets --all-features -- -D warnings
-
-      - name: Build (workspace)
+      - name: Build all crates
         run: cargo build --all --verbose
 
-      - name: Test (workspace)
+      - name: Test all crates
         run: cargo test --all --verbose
-

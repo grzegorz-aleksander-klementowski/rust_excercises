@@ -1,4 +1,4 @@
-// use reqwest;
+use reqwest;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     for i in 0..100 {

@@ -33,6 +33,6 @@ fn main() {
     let różnica = KosztCzęściRowerowych::sub(nowy_zakup, poprzedni_zakup);
     let wartość_dopłaty = KosztCzęściRowerowych::suma(&różnica);
 
-    println!("Różnica w częściach: {różnica}");
-    println!("Więc nalezy dopłacić: {wartość_dopłaty}");
+    println!("Różnica w częściach: {}", różnica);
+    println!("Więc nalezy dopłacić: {}", wartość_dopłaty);
 }
