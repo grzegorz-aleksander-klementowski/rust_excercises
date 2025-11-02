@@ -5,47 +5,35 @@ on: [push, pull_request]
 jobs:
   test-all-crates:
     name: Test on Linux
-    timeout-minutes: 15
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: ${{ matrix.toolchain }}
-          override: true
           components: rustfmt, clippy
+
+      # automatic cache for  Cargo/target
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
 
       - name: Sanity (see files)
         run: pwd && ls -la
 
-      - name: Cache Cargo registry
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-registry-
-
-      - name: Cache target
-        uses: actions/cache@v3
-        with:
-          path: target
-          key: ${{ runner.os }}-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
-          restore-keys: ${{ runner.os }}-target-${{ matrix.toolchain }}-
-
-      - name: Format check (workspace)
+      - name: Check formatting
         run: cargo fmt --all -- --check
 
-      - name: Clippy (current scope)
+      # later change for `cargo clippy --all-targets --all-features -- -D warnings`
+      - name: Clippy
         run: cargo clippy -- -D warnings
-        # later upgrade to: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Build (workspace)
+      - name: Build
         run: cargo build --all --verbose
 
-      - name: Test (workspace)
+      - name: Test
         run: cargo test --all --verbose
 
