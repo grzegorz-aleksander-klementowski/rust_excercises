@@ -55,7 +55,7 @@ impl Message {
             Message::LottoResults(lotto_result_set) => {
                 println!("LottoResults: ");
                 for number in &lotto_result_set.set {
-                    println!("( {} )", number);
+                    println!("( {number} )");
                     beep();
                     stop_for_seconds(1);
                 }
@@ -103,15 +103,13 @@ pub fn generate_lotto_set() -> Result<[Option<u8>; 6], &'static str> {
                 }
             }
             Err(e) => {
-                let error_message = format!(
-                    "Generation of lotto set failed due to an error. Additionally: {}",
-                    e
-                );
+                let error_message =
+                    format!("Generation of lotto set failed due to an error. Additionally: {e}");
                 return Err(Box::leak(error_message.into_boxed_str()));
             }
         }
     }
-    return Ok(lotto_numer_arr);
+    Ok(lotto_numer_arr)
 }
 
 /// Converts the result of the Lotto set generation to an array of u8.
@@ -130,11 +128,11 @@ pub fn generate_lotto_set_output(
                     }
                 }
             }
-            return lotto_set;
+            lotto_set
         }
         Err(e) => {
-            eprintln!("Error: {}", e);
-            return [0u8; 6];
+            eprintln!("Error: {e}");
+            [0u8; 6]
         }
     }
 }

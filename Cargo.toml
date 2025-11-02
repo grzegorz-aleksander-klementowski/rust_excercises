@@ -1,14 +1,14 @@
 [workspace]
 members = [
-  "./other/no_boilerplate_light_state",
+  "./other/light-state-domain-driven",
   "./pasja_informatyki/evaluation_mean",
   "./pasja_informatyki/fibbonaci_counter",
   "./pasja_informatyki/lotto_game",
   "./small_test_tools/hex_color_display",
-  "./small_test_tools/nowy_zapis_w_spisie_osob",
   "./small_test_tools/oblicz-koszty-roweru",
-  "./small_test_tools/odnowienie_pamieci_zamiennej_swap",
   "./small_test_tools/program_do_mówienia_prawdy",
+  "./small_test_tools/recordbook_vcard_cli",
+  "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
 ]

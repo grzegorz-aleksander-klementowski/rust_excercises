@@ -11,8 +11,8 @@ fn hex_to_rgb(hex: &str) -> Option<(u8, u8, u8)> {
 
 pub fn print_color(hex: &str) {
     if let Some((r, g, b)) = hex_to_rgb(hex) {
-        println!("\x1b[48;2;{};{};{}m   {}   \x1b[0m", r, g, b, hex);
+        println!("\x1b[48;2;{r};{g};{b}m   {hex}   \x1b[0m");
     } else {
-        eprintln!("Invalid hex color: {}", hex);
+        eprintln!("Invalid hex color: {hex}");
     }
 }

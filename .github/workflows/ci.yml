@@ -1,44 +1,39 @@
-name: CI
 
+name: CI
 on: [push, pull_request]
 
 jobs:
   test-all-crates:
+    name: Test on Linux
+    runs-on: ubuntu-latest
     timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        toolchain: [stable, beta, nightly]
-        os: [ubuntu-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout code
-        uses: actions-rs/toolchain@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: ${{ matrix.toolchain }}
-          override: true
           components: rustfmt, clippy
-      - name: Chache Cargo Registy
-        uses:  actions/cache@v3
-        with:
-            path: ~/.cargo/registry
-            key: ${{ runner.os }}--cargo-registy-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Cache Cargo build
-        uses: actions/cache@v3
-        with:
-          path: target
-          # thanks to this it shoun't mix affects from different types of Rust
-          key: ${{ runner.os }}-cargo-target-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.toml') }}
+      # automatic cache for  Cargo/target
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
 
+      - name: Sanity (see files)
+        run: pwd && ls -la
 
-      - name: Run Rust fmt check
+      - name: Check formatting
         run: cargo fmt --all -- --check
 
-      - name: Build all crates
+      # later change for `cargo clippy --all-targets --all-features -- -D warnings`
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Build
         run: cargo build --all --verbose
 
-      - name: Test all crates
+      - name: Test
         run: cargo test --all --verbose
+
