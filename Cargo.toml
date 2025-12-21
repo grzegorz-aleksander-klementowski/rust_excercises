@@ -4,6 +4,9 @@ members = [
   "./pasja_informatyki/odc-4/lotto_game",
   "./pasja_informatyki/odc-5/evaluation_mean",
   "./pasja_informatyki/odc-5/fibbonaci_counter",
+  "./pasja_informatyki/odc-5/simple-example-srednia",
+  "./pasja_informatyki/odc-6/cli-month-end-day-checker",
+  "./pasja_informatyki/odc-6/two-num-cli-calculator",
   "./small_test_tools/hex_color_display",
   "./small_test_tools/oblicz-koszty-roweru",
   "./small_test_tools/program_do_mówienia_prawdy",
@@ -11,5 +14,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "pasja_informatyki/odc-5/simple-example-srednia", "pasja_informatyki/odc-6/two-num-cli-calculator"]
+]
 resolver = "2"
