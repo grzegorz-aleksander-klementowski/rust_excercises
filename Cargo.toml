@@ -11,5 +11,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "pasja_informatyki/odc-5/simple-example-srednia"]
+, "pasja_informatyki/odc-5/simple-example-srednia", "pasja_informatyki/odc-6/two-num-cli-calculator"]
 resolver = "2"

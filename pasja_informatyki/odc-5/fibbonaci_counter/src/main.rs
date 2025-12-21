@@ -1,4 +1,3 @@
-use core::f64;
 use num_bigint::BigUint;
 use num_traits::{One, Zero};
 use std::io::Write;
