@@ -7,6 +7,7 @@ members = [
   "./pasja_informatyki/odc-5/simple-example-srednia",
   "./pasja_informatyki/odc-6/cli-month-end-day-checker",
   "./pasja_informatyki/odc-6/two-num-cli-calculator",
+  "./pasja_informatyki/odc-7/contact-file-managing",
   "./small_test_tools/hex_color_display",
   "./small_test_tools/oblicz-koszty-roweru",
   "./small_test_tools/program_do_mówienia_prawdy",

@@ -1,0 +1,6 @@
+[package]
+name = "contact-file-managing"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
