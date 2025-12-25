@@ -1,4 +1,8 @@
+// This is excercies of C++ style (build with this intention)
+
 use std::array;
+use std::io;
+use std::io::Write;
 
 fn main() {
     // The variables prepeared according to the training way – to train arrays and match
@@ -20,7 +24,7 @@ fn main() {
     let mut nr_linii = 1;
     // Parse the loaded file into particular string array variables.
     for linia in quiz.lines() {
-        println!("Nr lini: {nr_linii}");
+        //println!("Nr lini: {nr_linii}");
 
         match nr_linii {
             1 => temat = linia.to_string(),
@@ -40,10 +44,45 @@ fn main() {
             if nr_pytania >= 5 {
                 break;
             }
-            println!("Przypisuje nr pytania: {nr_pytania}");
+            //println!("Przypisuje nr pytania: {nr_pytania}");
         }
         nr_linii += 1;
     }
 
-    println!("{nick:?}");
+    // Interact with the user
+    let mut punkty: usize = 0;
+
+    for nr_pytania in 0..LICZBA_PYTAŃ {
+        // Print the question for the user
+        println!("Pytanie {}: {}", nr_pytania + 1, treść[nr_pytania]);
+        println!("A. {}", odp_a[nr_pytania]);
+        println!("B. {}", odp_b[nr_pytania]);
+        println!("C. {}", odp_c[nr_pytania]);
+        println!("D. {}", odp_d[nr_pytania]);
+
+        // Ask about the user answer
+        print!("Twoja odpowiedź: ");
+        io::stdout().flush().expect("Nie mogę wyczyścić linii");
+        let mut odpowiedz = String::new();
+        io::stdin()
+            .read_line(&mut odpowiedz)
+            .expect("Nie mogę przeczytać odpowiedzi.");
+        let odpowiedz = odpowiedz.trim();
+
+        // Check if the answer is correct
+        if poprawna_odp[nr_pytania] == odpowiedz {
+            println!(
+                "To jest poprawna_odp! \n poprawna: {}\nużytkownika: {}\n",
+                poprawna_odp[nr_pytania], odpowiedz
+            );
+            punkty += 1;
+        } else {
+            println!(
+                "Błędna odpowiedź! \n poprawna: {}\nużytkownika: {}\n",
+                poprawna_odp[nr_pytania], odpowiedz
+            );
+        }
+    }
+
+    println!("{nick} zdobył {punkty} punktów");
 }
