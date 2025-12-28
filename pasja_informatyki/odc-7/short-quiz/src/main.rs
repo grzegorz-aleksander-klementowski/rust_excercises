@@ -6,9 +6,10 @@ use std::io::Write;
 
 fn main() {
     // The variables prepeared according to the training way – to train arrays and match
-    let mut temat = String::new();
-    let mut nick = String::new();
     const LICZBA_PYTAŃ: usize = 5;
+
+    let mut temat = String::new();
+    let mut ksywka = String::new();
 
     let mut treść: [String; LICZBA_PYTAŃ] = array::from_fn(|_| String::new());
     let mut odp_a: [String; LICZBA_PYTAŃ] = array::from_fn(|_| String::new());
@@ -28,7 +29,7 @@ fn main() {
 
         match nr_linii {
             1 => temat = linia.to_string(),
-            2 => nick = linia.to_string(),
+            2 => ksywka = linia.to_string(),
 
             3 => treść[nr_pytania] = linia.to_string(),
             4 => odp_a[nr_pytania] = linia.to_string(),
@@ -50,6 +51,8 @@ fn main() {
     }
 
     // Interact with the user
+    println!("Temat: {temat}");
+    println!("Ksywka: {ksywka}");
     let mut punkty: usize = 0;
 
     for nr_pytania in 0..LICZBA_PYTAŃ {
@@ -73,10 +76,8 @@ fn main() {
 
             if odpowiedz == "a" || odpowiedz == "b" || odpowiedz == "c" || odpowiedz == "d" {
                 break;
-            } else {
-                eprintln!("Nie ma takiej odpowiedzi! {odpowiedz}");
-                continue;
             }
+            eprintln!("Nie ma takiej odpowiedzi! {odpowiedz}");
         }
 
         // Check if the answer is correct
@@ -94,5 +95,5 @@ fn main() {
         }
     }
 
-    println!("{nick} zdobył {punkty} punktów");
+    println!("{ksywka} zdobył {punkty} punktów");
 }

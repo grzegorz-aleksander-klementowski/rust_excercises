@@ -1,5 +1,5 @@
 Programowanie w C++
-Miroslaw Zelent
+Miroslaw Zelent (autor)
 Typ zmiennych o nazwie float przechowuje:
 liczby calkowite
 napisy
