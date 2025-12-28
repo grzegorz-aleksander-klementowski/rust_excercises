@@ -39,9 +39,10 @@ pub enum Message {
 }
 
 impl Message {
-    /// Creates a new LottoResults message with the given set of numbers.
-    pub fn new_lotto_set(content_of_set: [u8; 6]) -> Message {
-        Message::LottoResults(LottoSet {
+    /// Creates a new `LottoResults` message with the given set of numbers.
+    #[must_use]
+    pub const fn new_lotto_set(content_of_set: [u8; 6]) -> Self {
+        Self::LottoResults(LottoSet {
             set: content_of_set,
         })
     }
@@ -49,10 +50,10 @@ impl Message {
     /// Prints the message to the console.
     pub fn print_message(&self) {
         match self {
-            Message::Welcome => println!(
+            Self::Welcome => println!(
                 "Hello!\n In 3 second the blocade will be realesed and the drawing will start!"
             ),
-            Message::LottoResults(lotto_result_set) => {
+            Self::LottoResults(lotto_result_set) => {
                 println!("LottoResults: ");
                 for number in &lotto_result_set.set {
                     println!("( {number} )");
@@ -80,6 +81,11 @@ fn generate_lotto_num_for_set(set: &[Option<u8>; 6]) -> Result<u8, &'static str>
 }
 
 /// Generates a set of 6 unique Lotto numbers.
+///
+/// # Errors
+///
+/// If the number in the set is empty → return error. The set can't be empty to keep the program
+/// works.
 pub fn generate_lotto_set() -> Result<[Option<u8>; 6], &'static str> {
     let mut lotto_numer_arr: [Option<u8>; 6] = [None; 6];
     for i in 0..6 {
@@ -113,6 +119,7 @@ pub fn generate_lotto_set() -> Result<[Option<u8>; 6], &'static str> {
 }
 
 /// Converts the result of the Lotto set generation to an array of u8.
+#[must_use]
 pub fn generate_lotto_set_output(
     lotto_set_result: Result<[Option<u8>; 6], &'static str>,
 ) -> [u8; 6] {
@@ -120,12 +127,11 @@ pub fn generate_lotto_set_output(
     match lotto_set_result {
         Ok(set_of_options) => {
             for (i, option_number) in set_of_options.iter().enumerate() {
-                match option_number {
-                    Some(value) => lotto_set[i] = *value,
-                    None => {
-                        lotto_set[i] = 0;
-                        eprintln!("Error durring lotto set generation.");
-                    }
+                if let Some(value) = option_number {
+                    lotto_set[i] = *value;
+                } else {
+                    lotto_set[i] = 0;
+                    eprintln!("Error durring lotto set generation.");
                 }
             }
             lotto_set
