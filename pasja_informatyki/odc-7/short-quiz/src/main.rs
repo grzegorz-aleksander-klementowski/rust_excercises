@@ -61,13 +61,23 @@ fn main() {
         println!("D. {}", odp_d[nr_pytania]);
 
         // Ask about the user answer
-        print!("Twoja odpowiedź: ");
-        io::stdout().flush().expect("Nie mogę wyczyścić linii");
         let mut odpowiedz = String::new();
-        io::stdin()
-            .read_line(&mut odpowiedz)
-            .expect("Nie mogę przeczytać odpowiedzi.");
-        let odpowiedz = odpowiedz.trim();
+        loop {
+            odpowiedz.clear();
+            print!("Twoja odpowiedź: ");
+            io::stdout().flush().expect("Nie mogę wyczyścić linii");
+            io::stdin()
+                .read_line(&mut odpowiedz)
+                .expect("Nie mogę przeczytać odpowiedzi.");
+            let odpowiedz = odpowiedz.trim().to_lowercase();
+
+            if odpowiedz == "a" || odpowiedz == "b" || odpowiedz == "c" || odpowiedz == "d" {
+                break;
+            } else {
+                eprintln!("Nie ma takiej odpowiedzi! {odpowiedz}");
+                continue;
+            }
+        }
 
         // Check if the answer is correct
         if poprawna_odp[nr_pytania] == odpowiedz {
