@@ -67,12 +67,12 @@ impl Message {
 
 /// Generates a random Lotto number that is not already in the set.
 fn generate_lotto_num_for_set(set: &[Option<u8>; 6]) -> Result<u8, &'static str> {
+    let mut attemps: u8 = 0;
     loop {
         let lotto_number: u8 = rand::thread_rng().gen_range(1..=49);
         if !set.contains(&Some(lotto_number)) {
             return Ok(lotto_number);
         }
-        let mut attemps: u8 = 0;
         attemps += 1;
         if attemps > 100 {
             return Err("Too many attemps to generate lotto set. ");
@@ -95,7 +95,7 @@ pub fn generate_lotto_set() -> Result<[Option<u8>; 6], &'static str> {
                 lotto_numer_arr[i] = Some(value);
                 match lotto_numer_arr[i] {
                     Some(value) => {
-                        if !(1..49).contains(&value) {
+                        if !(1..=49).contains(&value) {
                             return Err(
                                 "Lotto number generation failed. The number is out of range. ",
                             );
