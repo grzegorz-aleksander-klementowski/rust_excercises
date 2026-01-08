@@ -15,5 +15,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "pasja_informatyki/odc-7/read-contact-file", "pasja_informatyki/odc-7/short-quiz", "pasja_informatyki/odc-8/concatenation", "pasja_informatyki/odc-8/find-a-string", "pasja_informatyki/odc-8/guess-gender-by-name", "pasja_informatyki/odc-8/rewrite-word-in-reverse"]
+, "pasja_informatyki/odc-7/read-contact-file", "pasja_informatyki/odc-7/short-quiz", "pasja_informatyki/odc-8/concatenation", "pasja_informatyki/odc-8/find-a-string", "pasja_informatyki/odc-8/guess-gender-by-name", "pasja_informatyki/odc-8/rewrite-word-in-reverse", "pasja_informatyki/odc-9/meter-conversion"]
 resolver = "2"
