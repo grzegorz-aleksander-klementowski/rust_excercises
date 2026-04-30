@@ -9,6 +9,17 @@ enum LiczbaDniMiesiąca {
     DwadziściaDziewięć, // 29
 }
 
+impl std::fmt::Display for LiczbaDniMiesiąca {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            LiczbaDniMiesiąca::Trzydzieści => write!(f, "30"),
+            LiczbaDniMiesiąca::TrzydzieściJeden => write!(f, "31"),
+            LiczbaDniMiesiąca::DwadzieściaOsiem => write!(f, "28"),
+            LiczbaDniMiesiąca::DwadziściaDziewięć => write!(f, "29"),
+        }
+    }
+}
+
 // Priting that allow write after the print
 fn print_in_line(s: &str) -> Result<(), std::io::Error> {
     print!("{s}");
