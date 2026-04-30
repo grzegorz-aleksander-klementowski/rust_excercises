@@ -47,7 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let rok = stdin_num()?;
     let mut rok_przystępny = false;
 
-    if (rok % 100 == 0 && rok % 400 == 0) || rok % 4 == 0 {
+    if (rok % 4 == 0 && rok % 100 != 0) || (rok % 400 == 0) {
         rok_przystępny = true;
     }
 
@@ -60,6 +60,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         13.. => panic!("Nieprawidłowy numer miesiąca"), // VALIDATOIN → invalid mouth number→
         _ => LiczbaDniMiesiąca::Trzydzieści,
     };
+
+    println!("Ten miesiąc ma {ile_dni_miesiąca} dni.");
 
     Ok(())
 }
