@@ -1,13 +1,17 @@
+/*
+3. Napisz program służący do konwersji wartości temperatury podanej w stopniach Celsjusza na stopnie w skali Fahrenheita
+
+```
+F = 32 + 9/5 C
+
+4. I odwrotnie.
+``` */
+
 use std::{
     fmt::Display,
     ops::{Add, Div, Mul, Sub},
 };
 
-/* Napisz program służący do konwersji wartości temperatury podanej w stopniach Celsjusza na stopnie w skali Fahrenheita
-
-```
-F = 32 + 9/5 C
-``` */
 #[derive(Clone, Copy)]
 struct Celsius<T>(T)
 where
@@ -174,7 +178,7 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let c = self.0;
-        write!(f, "{c} C°")
+        write!(f, "{c:.2} C°")
     }
 }
 
@@ -191,6 +195,18 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let c = self.0;
-        write!(f, "{c} F°")
+        write!(f, "{c:.2} F°")
     }
+}
+
+fn main() {
+    println!("Example of the conversion: C → F");
+    let celsius_to_calculate = Celsius(100.0);
+    let fahrenheit_calculated: Fahrenheit<f32> = celsius_to_calculate.into();
+    println!("{celsius_to_calculate} is {fahrenheit_calculated}.");
+
+    println!("Example of the conversion: F → C");
+    let fahrenheit_to_calculate = Fahrenheit(100.0);
+    let celsius_calculated: Celsius<f32> = fahrenheit_to_calculate.into();
+    println!("{fahrenheit_to_calculate} is {celsius_calculated}.");
 }
