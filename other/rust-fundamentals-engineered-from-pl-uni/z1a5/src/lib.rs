@@ -63,12 +63,11 @@ mod test {
     }
 
     fn test_boudaries_ranges() {
-        // TO DO!
         let time1 = Time(Hour(1), Minute(0), Second(0));
         let time2 = Time(Hour(1), Minute(0), Second(0));
 
         let result = time1 - time2;
 
-        assert_eq!(result, Time(Hour(1), Minute(0), Second(0)));
+        assert_eq!(result, Time(Hour(0), Minute(0), Second(0)));
     }
 }
