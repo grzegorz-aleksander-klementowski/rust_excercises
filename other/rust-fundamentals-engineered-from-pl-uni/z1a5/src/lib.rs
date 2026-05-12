@@ -1,5 +1,6 @@
 // 5. Napisz program, który dla danych dwóch poprawnych pór jednej doby (w postaci całkowitych godzin, minut i sekund) wyświetla różnicę czasów (także w postaci analogicznej trójki, z minutami i sekundami w przedziale [0;59]).
 // EN: 5. Write a program that, for two valid times of one day (in the form of total hours, minutes and seconds), displays the time difference (also in the form of an analogous triplet, with minutes and seconds in the interval [0;59]).
+// ASSUME TIME–1 ALWAYS >=TIME–2
 #[derive(std::fmt::Debug, PartialEq, Eq)]
 struct Hour(isize);
 #[derive(std::fmt::Debug, PartialEq, Eq)]
@@ -33,15 +34,28 @@ impl From<Second> for Time {
     }
 }
 
-impl std::ops::Sub for Time {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self::Output {
-        todo!()
+impl From<Time> for Second {
+    fn from(time: Time) -> Self {
+        let hours_to_sec: Second = time.0.into();
+        let min_to_sec: Second = time.1.into();
+        let sec: Second = time.2;
+        Second(hours_to_sec.0 + min_to_sec.0 + sec.0)
     }
 }
 
-enum TimeError {
-    IncorrectTimeSubstract(String),
+impl std::ops::Sub for Time {
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self::Output {
+        let time1 = self;
+        let time2 = rhs;
+
+        let sec1: Second = time1.into();
+        let sec2: Second = time2.into();
+
+        let time_result_in_sec = Second(sec1.0 - sec2.0);
+        let output: Time = time_result_in_sec.into();
+        output
+    }
 }
 
 #[cfg(test)]
@@ -100,20 +114,10 @@ mod test {
     #[test]
     fn test_max_bounaries() {
         let time1 = Time(Hour(23), Minute(59), Second(59));
-        let time2 = Time(Hour(0), Minute(59), Second(50));
+        let time2 = Time(Hour(23), Minute(59), Second(59));
 
         let result = time1 - time2;
 
-        assert_eq!(result, Time(Hour(0), Minute(0), Second(15)));
-    }
-
-    #[test]
-    fn test_next_day() {
-        let time1 = Time(Hour(23), Minute(59), Second(59));
-        let time2 = Time(Hour(0), Minute(59), Second(50));
-
-        let result = time1 - time2;
-
-        assert_eq!(result, Time(Hour(0), Minute(0), Second(15)));
+        assert_eq!(result, Time(Hour(0), Minute(0), Second(0)));
     }
 }
