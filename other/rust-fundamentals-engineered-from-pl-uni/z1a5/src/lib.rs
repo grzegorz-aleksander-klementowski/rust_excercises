@@ -15,23 +15,23 @@ impl From<Hour> for Second {
     }
 }
 
-/* impl From<Second> for Hour {
-    fn from(value: Second) -> Self {
-        Hour(value.0 / 3600)
-    }
-} */
-
 impl From<Minute> for Second {
     fn from(value: Minute) -> Self {
         Second(value.0 * 60)
     }
 }
 
-/* impl From<Second> for Minute {
+impl From<Second> for Time {
     fn from(value: Second) -> Self {
-        Minute(value.0 / 60)
+        let sec = value.0;
+        let h = Hour(sec / 3600);
+        let sec = sec % 3600;
+        let min = Minute(sec / 60);
+        let sec = Second(sec % 60);
+
+        Time(h, min, sec)
     }
-} */
+}
 
 impl std::ops::Sub for Time {
     type Output = Self;
@@ -40,10 +40,15 @@ impl std::ops::Sub for Time {
     }
 }
 
+enum TimeError {
+    IncorrectTimeSubstract(String),
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
 
+    #[test]
     fn test_difference_time() {
         let time1 = Time(Hour(2), Minute(25), Second(15));
         let time2 = Time(Hour(1), Minute(5), Second(45));
@@ -52,7 +57,7 @@ mod test {
 
         assert_eq!(result, Time(Hour(1), Minute(19), Second(30)));
     }
-
+    #[test]
     fn test_if_eq_zero() {
         let time1 = Time(Hour(1), Minute(0), Second(0));
         let time2 = Time(Hour(1), Minute(0), Second(0));
@@ -62,12 +67,53 @@ mod test {
         assert_eq!(result, Time(Hour(0), Minute(0), Second(0)));
     }
 
-    fn test_boudaries_ranges() {
+    #[test]
+    fn test_borrow_minutes_one() {
         let time1 = Time(Hour(1), Minute(10), Second(0));
         let time2 = Time(Hour(0), Minute(20), Second(0));
 
         let result = time1 - time2;
 
         assert_eq!(result, Time(Hour(0), Minute(50), Second(0)));
+    }
+
+    #[test]
+    fn test_borrow_seconds() {
+        let time1 = Time(Hour(2), Minute(10), Second(5));
+        let time2 = Time(Hour(1), Minute(9), Second(50));
+
+        let result = time1 - time2;
+
+        assert_eq!(result, Time(Hour(1), Minute(0), Second(15)));
+    }
+
+    #[test]
+    fn test_borrow_minutes_two() {
+        let time1 = Time(Hour(2), Minute(0), Second(5));
+        let time2 = Time(Hour(1), Minute(59), Second(50));
+
+        let result = time1 - time2;
+
+        assert_eq!(result, Time(Hour(0), Minute(0), Second(15)));
+    }
+
+    #[test]
+    fn test_max_bounaries() {
+        let time1 = Time(Hour(23), Minute(59), Second(59));
+        let time2 = Time(Hour(0), Minute(59), Second(50));
+
+        let result = time1 - time2;
+
+        assert_eq!(result, Time(Hour(0), Minute(0), Second(15)));
+    }
+
+    #[test]
+    fn test_next_day() {
+        let time1 = Time(Hour(23), Minute(59), Second(59));
+        let time2 = Time(Hour(0), Minute(59), Second(50));
+
+        let result = time1 - time2;
+
+        assert_eq!(result, Time(Hour(0), Minute(0), Second(15)));
     }
 }
