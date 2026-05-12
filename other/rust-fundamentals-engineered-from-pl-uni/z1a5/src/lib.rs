@@ -2,13 +2,13 @@
 // EN: 5. Write a program that, for two valid times of one day (in the form of total hours, minutes and seconds), displays the time difference (also in the form of an analogous triplet, with minutes and seconds in the interval [0;59]).
 // ASSUME TIME–1 ALWAYS >=TIME–2
 #[derive(std::fmt::Debug, PartialEq, Eq)]
-struct Hour(isize);
+pub struct Hour(pub isize);
 #[derive(std::fmt::Debug, PartialEq, Eq)]
-struct Minute(isize);
+pub struct Minute(pub isize);
 #[derive(std::fmt::Debug, PartialEq, Eq)]
-struct Second(isize);
+pub struct Second(pub isize);
 #[derive(std::fmt::Debug, PartialEq, Eq)]
-struct Time(Hour, Minute, Second);
+pub struct Time(pub Hour, pub Minute, pub Second);
 
 impl From<Hour> for Second {
     fn from(value: Hour) -> Self {
