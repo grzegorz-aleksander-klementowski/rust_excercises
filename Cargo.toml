@@ -25,5 +25,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "other/rust-fundamentals-engineered-from-pl-uni/z1a5"]
+, "other/rust-fundamentals-engineered-from-pl-uni/z1a5", "other/rust-fundamentals-engineered-from-pl-uni/z1a6"]
 resolver = "2"
