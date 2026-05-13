@@ -2,21 +2,48 @@
 // 6. Write a program that calculates the factorial of a given number. Do the task in two ways - using a while/loop loop and using a for loop.
 
 trait Factorial {
-    fn factorial(n: usize) -> Self;
+    fn factorial(self) -> Self;
 }
 
 impl Factorial for usize {
-    fn factorial(n: usize) -> Self {
+    // === EXAMPLE WITH `FOR` ===
+    fn factorial(self) -> Self {
+        let mut result: usize = 1;
+
+        for n in 1..=self {
+            result *= n;
+        }
+        result
+    }
+
+    // === EXAMPLE WITH `WHILE` ===
+    // fn factorial(n: usize) -> Self {
+    //     let mut count: usize = 1;
+    //     let mut result: usize = 1;
+    //
+    //     while count <= n {
+    //         result *= count;
+    //         count += 1;
+    //     }
+    //
+    //     result
+    // }
+
+    // === EXAMPLE WITH LOOP ===
+    /* fn factorial(self) -> Self {
         let mut count: usize = 1;
         let mut result: usize = 1;
 
-        while count <= n {
-            result *= count;
-            count += 1;
+        loop {
+            if count <= self {
+                result *= count;
+                count += 1;
+            } else {
+                break;
+            }
         }
-
         result
-    }
+    } */
 }
 
 fn main() {
@@ -24,6 +51,6 @@ fn main() {
 
     println!("3! = {f}");
 
-    let f = usize::factorial(10);
+    let f = 10.factorial();
     println!("10! = {f}");
 }
