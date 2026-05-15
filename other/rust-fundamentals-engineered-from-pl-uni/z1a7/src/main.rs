@@ -8,16 +8,11 @@ trait Reverse {
 impl Reverse for String {
     // === MANUAL „HEAVY” WAY
     fn reverse(self) -> Self {
+        let str_bytes = self.as_bytes();
         let mut rev_s = String::new();
 
-        for char_pos in (0..self.len()).rev() {
-            let char = self.chars().nth(char_pos);
-            match char {
-                Some(ch) => rev_s.push(ch),
-                None => {
-                    eprintln!("No character in position {char_pos} of string {self}");
-                }
-            }
+        for i in (0..str_bytes.len()).rev() {
+            rev_s.push(str_bytes[i] as char);
         }
 
         rev_s
