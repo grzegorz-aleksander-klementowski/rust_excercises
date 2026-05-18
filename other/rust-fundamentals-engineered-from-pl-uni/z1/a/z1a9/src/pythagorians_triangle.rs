@@ -47,6 +47,57 @@ impl GeometricCondition for PythagoreanTriangle {
             range_from = 1;
         }
 
+        // === EXAMPLE WITH `loop` LOOP ===
+        /* loop {
+            let a = range_from;
+            let a_sqr = a * a;
+
+            let mut b = a + 1;
+            loop {
+                let b_sqr = b * b;
+                let c = ((a_sqr + b_sqr) as f32).sqrt() as usize;
+                let p_triangle = Self::new(a, b, c);
+
+                if p_triangle.satisfies_condition() {
+                    break triangles_in_range_list.push(p_triangle);
+                }
+
+                b += 1;
+                if b >= range_to - 1 {
+                    break;
+                }
+            }
+
+            range_from += 1;
+            if range_from >= range_to - 2 {
+                break;
+            }
+        } */
+
+        // === EXAMPLE WITH `while` LOOP ===
+        /* while range_from <= range_to - 1 {
+            let a = range_from;
+            let a_sqr = a * a;
+
+            let mut b = a + 1;
+            while b <= range_to - 2 {
+                let b_sqr = b * b;
+
+                let c = ((a_sqr + b_sqr) as f32).sqrt() as usize;
+
+                let p_triangle = Self::new(a, b, c);
+
+                if p_triangle.satisfies_condition() {
+                    triangles_in_range_list.push(p_triangle);
+                }
+
+                b += 1;
+            }
+
+            range_from += 1;
+        } */
+
+        // === EXAMPLE WITH `for` LOOP ===
         for a in range_from..=range_to - 2 {
             let a_sqr = a * a;
 
