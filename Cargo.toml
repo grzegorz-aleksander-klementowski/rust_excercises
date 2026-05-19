@@ -31,5 +31,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "other/rust-fundamentals-engineered-from-pl-uni/z2/a/z2"]
+, "other/rust-fundamentals-engineered-from-pl-uni/z2/a/z2", "other/rust-fundamentals-engineered-from-pl-uni/z2/a/z3"]
 resolver = "2"
