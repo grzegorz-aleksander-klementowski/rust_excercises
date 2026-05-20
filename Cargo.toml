@@ -13,6 +13,9 @@ members = [
   "./other/rust-fundamentals-engineered-from-pl-uni/z2/a/z2",
   "./other/rust-fundamentals-engineered-from-pl-uni/z2/a/z3",
   "./other/rust-fundamentals-engineered-from-pl-uni/z2/a/z4_perfect_number",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z2/a/z5_czynniki_pierwsze",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z2/a/z6_pow_mod",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z2/b/z1_sort_in_descending_ord",
   "./pasja_informatyki/odc-4/lotto_game",
   "./pasja_informatyki/odc-5/evaluation_mean",
   "./pasja_informatyki/odc-5/fibbonaci_counter",
@@ -34,5 +37,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "other/rust-fundamentals-engineered-from-pl-uni/z2/a/z5_czynniki_pierwsze", "other/rust-fundamentals-engineered-from-pl-uni/z2/a/z6_pow_mod"]
+]
 resolver = "2"
