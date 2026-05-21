@@ -8,7 +8,8 @@ pub struct Gradesbook {
 
 // implementation of Gradesbook for grades with constructor, getter and validations
 impl Gradesbook {
-    #[must_use] pub const fn new() -> Self {
+    #[must_use]
+    pub const fn new() -> Self {
         // constructor
         Self { grades: Vec::new() }
     }
@@ -45,7 +46,8 @@ impl Gradesbook {
     }
 
     // calculate mean of grades
-    #[must_use] pub fn weighted_average(&self) -> f32 {
+    #[must_use]
+    pub fn weighted_average(&self) -> f32 {
         let sum_weighted: f32 = self
             .show_grades()
             .iter()

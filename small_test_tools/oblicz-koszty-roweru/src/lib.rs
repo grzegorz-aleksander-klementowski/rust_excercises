@@ -13,7 +13,8 @@ pub struct KosztCzęściRowerowych {
 }
 
 impl KosztCzęściRowerowych {
-    #[must_use] pub const fn new(
+    #[must_use]
+    pub const fn new(
         koło_z_silnikiem: i32,
         bateria: i32,
         ładowarka: i32,
@@ -29,7 +30,8 @@ impl KosztCzęściRowerowych {
         }
     }
 
-    #[must_use] pub const fn suma(&self) -> i32 {
+    #[must_use]
+    pub const fn suma(&self) -> i32 {
         self.koło_z_silnikiem
             + self.bateria
             + self.ładowarka

@@ -6,7 +6,8 @@ pub enum Swap {
 }
 
 impl Swap {
-    #[must_use] pub const fn switch(&self) -> &'static str {
+    #[must_use]
+    pub const fn switch(&self) -> &'static str {
         match self {
             Self::On => "swapoff",
             Self::Off => "swapon",

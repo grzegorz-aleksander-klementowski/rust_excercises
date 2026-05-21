@@ -18,7 +18,8 @@ pub enum State {
 
 // Defining the light behavior
 impl Light {
-    #[must_use] pub const fn new() -> Self {
+    #[must_use]
+    pub const fn new() -> Self {
         Self { state: State::Off }
     }
 
@@ -36,11 +37,13 @@ impl Light {
         Ok(self)
     }
 
-    #[must_use] pub fn is_on(&self) -> bool {
+    #[must_use]
+    pub fn is_on(&self) -> bool {
         self.state == State::On
     }
 
-    #[must_use] pub fn is_off(&self) -> bool {
+    #[must_use]
+    pub fn is_off(&self) -> bool {
         self.state == State::Off
     }
 }

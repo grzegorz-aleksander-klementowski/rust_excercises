@@ -45,9 +45,8 @@ FN:imięN:nazwiskoORG:zrzeszenieEMAIL;TYPE=INTERNET:pocztaTEL;TYPE=CELL:dalnomó
         let nagłówek_fn_do_nazwy_pliku: String = udawacz_fn.trim().chars().skip(3).collect();
         let nagłówek_n_do_nazwy_pliku: String = udaawacz_n.trim().chars().skip(2).collect();
 
-        let wynik: String = format!(
-            "styczność_{nagłówek_fn_do_nazwy_pliku}_{nagłówek_n_do_nazwy_pliku}.cvf"
-        );
+        let wynik: String =
+            format!("styczność_{nagłówek_fn_do_nazwy_pliku}_{nagłówek_n_do_nazwy_pliku}.cvf");
 
         assert_eq!(wynik, "styczność_Strzeżymir_Myśliciel.cvf");
     }
