@@ -7,7 +7,7 @@ const fn collatz_solver(num: usize) -> usize {
     let mut n = num;
     while n != 1 {
         // if n is even
-        if n % 2 == 0 {
+        if n.is_multiple_of(2) {
             // println!("it's even");
             n /= 2;
         } else {
