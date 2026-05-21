@@ -5,7 +5,7 @@ fn sort3(a: i32, b: i32, c: i32) -> (i32, i32, i32) {
     let mut result = [a, b, c];
     result.sort_unstable();
 
-    (result[0], result[1], result[2])
+    result.into()
 }
 
 fn main() {

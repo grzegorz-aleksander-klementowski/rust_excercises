@@ -20,7 +20,7 @@ impl PrimeFactorization for usize {
         let mut check_div = 2;
 
         while n > 1 {
-            if n % check_div == 0 {
+            if n.is_multiple_of(check_div) {
                 v_prime_n.push(check_div);
                 n /= check_div;
             } else {

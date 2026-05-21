@@ -9,7 +9,7 @@ fn is_perfect_num(n: usize) -> bool {
         return false;
     }
 
-    let divisors_sum: usize = (1..n).filter(|x| n % x == 0).sum();
+    let divisors_sum: usize = (1..n).filter(|x| n.is_multiple_of(*x)).sum();
 
     divisors_sum == n
 }

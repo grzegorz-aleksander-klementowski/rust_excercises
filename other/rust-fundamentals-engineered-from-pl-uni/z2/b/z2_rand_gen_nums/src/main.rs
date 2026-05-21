@@ -3,7 +3,6 @@
 //     ```
 //     fn rand(seed: &mut ..., min_rand: ..., max_rand: ...) -> ...
 //     ```
-//
 //     Każde losowanie oczywiście zmienia też ziarno.
 //     Możesz wybrać któryś z: [https://en.wikipedia.org/wiki/Linear_congruential_generator](https://en.wikipedia.org/wiki/Linear_congruential_generator)
 
@@ -20,4 +19,5 @@ use askusr::AskForData;
 
 fn main() {
     let seed: usize = AskForData::ask_for_data("Provide the seed to generate a number: ");
+    println!("to–do: {seed}");
 }
