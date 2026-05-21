@@ -16,6 +16,8 @@
 //    Each draw, of course, also changes the seed.
 //    You can choose one of: [https://en.wikipedia.org/wiki/Linear_congruential_generator](https://en.wikipedia.org/wiki/Linear_congruential_generator)
 
+use askusr::AskForData;
+
 fn main() {
-    println!("Hello, world!");
+    let seed: usize = AskForData::ask_for_data("Provide the seed to generate a number: ");
 }
