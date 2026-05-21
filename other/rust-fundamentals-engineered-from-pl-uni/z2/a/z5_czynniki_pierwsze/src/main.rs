@@ -1,7 +1,7 @@
 // 5. Napisz funkcję, która wyświetla rozkład podanej liczby na czynniki pierwsze.
 // 5. Write a function that displays the prime factorization of a given number.
 
-use gak_core::ask_for_data::AskForData;
+use askusr::AskForData;
 
 trait PrimeFactorization {
     fn prime_factorization(&self) -> Vec<Self>

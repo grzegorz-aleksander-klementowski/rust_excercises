@@ -2,7 +2,7 @@
 //
 // 4. Write a function that answers the question whether its argument is a perfect number.
 
-use gak_core::ask_for_data::AskForData;
+use askusr::AskForData;
 
 fn is_perfect_num(n: usize) -> bool {
     if n == 0 {

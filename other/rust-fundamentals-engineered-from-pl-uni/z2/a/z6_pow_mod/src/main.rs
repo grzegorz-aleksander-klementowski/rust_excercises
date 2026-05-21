@@ -8,7 +8,7 @@
 //    * Tip 1: use the property of the remainder of division for the product (or: modulo product).
 //    * Tip 2: For possible time optimization, use the fast exponentiation algorithm.
 
-use gak_core::ask_for_data::AskForData;
+use askusr::AskForData;
 
 trait ToPower {
     fn pow_mod(self, n: Self, p: Self) -> Self;

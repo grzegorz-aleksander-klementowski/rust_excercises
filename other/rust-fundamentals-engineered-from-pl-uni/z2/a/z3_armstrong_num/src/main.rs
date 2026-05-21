@@ -2,7 +2,7 @@
 //
 // 3. Write a function that answers the question whether its argument is an Armstrong number.
 
-use gak_core::ask_for_data::AskForData;
+use askusr::AskForData;
 
 fn is_armstrong(n: usize) -> bool {
     let mut v_num: Vec<usize> = Vec::new();

@@ -1,5 +1,5 @@
 [package]
-name = "z4_perfect_number"
+name = "z3_armstrong_num"
 version = "0.1.0"
 edition = "2024"
 
