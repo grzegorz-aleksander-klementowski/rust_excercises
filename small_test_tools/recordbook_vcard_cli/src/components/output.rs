@@ -19,15 +19,15 @@ pub enum NagłówkiVCF {
 impl fmt::Display for NagłówkiVCF {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            NagłówkiVCF::BeginVcard => {
+            Self::BeginVcard => {
                 write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[0])
             }
-            NagłówkiVCF::FN => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[1]),
-            NagłówkiVCF::N => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[2]),
-            NagłówkiVCF::ORG => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[3]),
-            NagłówkiVCF::EMAIL => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[4]),
-            NagłówkiVCF::TEL => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[5]),
-            NagłówkiVCF::EndVcard => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[6]),
+            Self::FN => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[1]),
+            Self::N => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[2]),
+            Self::ORG => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[3]),
+            Self::EMAIL => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[4]),
+            Self::TEL => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[5]),
+            Self::EndVcard => write!(f, "{}", config::NAGŁÓWKI_ZAPISKÓW_OSOBOWYCH_VCF[6]),
         }
     }
 }
@@ -46,25 +46,25 @@ pub enum WiadomościDoUżytkownika {
 impl fmt::Display for WiadomościDoUżytkownika {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            WiadomościDoUżytkownika::Przywitanie => {
+            Self::Przywitanie => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[0])
             }
-            WiadomościDoUżytkownika::ZapytanieOImię => {
+            Self::ZapytanieOImię => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[1])
             }
-            WiadomościDoUżytkownika::ZapytanieONazwisko => {
+            Self::ZapytanieONazwisko => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[2])
             }
-            WiadomościDoUżytkownika::ZapytanieOZrzeszenie => {
+            Self::ZapytanieOZrzeszenie => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[3])
             }
-            WiadomościDoUżytkownika::ZapytanieOPocztę => {
+            Self::ZapytanieOPocztę => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[4])
             }
-            WiadomościDoUżytkownika::ZapytanieONumerDalnomównika => {
+            Self::ZapytanieONumerDalnomównika => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[5])
             }
-            WiadomościDoUżytkownika::PotwierdzenieZapisaniaPliku => {
+            Self::PotwierdzenieZapisaniaPliku => {
                 write!(f, "{}", config::ZAWARTOŚCI_WIADOMOŚCI[6])
             }
         }
@@ -119,16 +119,16 @@ pub enum WiadomościoBłędach {
 impl fmt::Display for WiadomościoBłędach {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            WiadomościoBłędach::PróbaOdczytaniaLinii(err) => {
+            Self::PróbaOdczytaniaLinii(err) => {
                 write!(f, "{}: {}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[0], err)
             }
-            WiadomościoBłędach::PrzekroczonaIlośćPrób => {
+            Self::PrzekroczonaIlośćPrób => {
                 write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[1])
             }
-            WiadomościoBłędach::WiadomośćSprawdzająca => {
+            Self::WiadomośćSprawdzająca => {
                 write!(f, "{}", config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[2])
             }
-            WiadomościoBłędach::NiepomyślnieZapisanoPlik(err) => write!(
+            Self::NiepomyślnieZapisanoPlik(err) => write!(
                 f,
                 "{} Błąd: {}",
                 config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[3],

@@ -137,7 +137,7 @@ where
         + Display
         + Copy,
 {
-    fn into_inner(self) -> T {
+    const fn into_inner(self) -> T {
         self.0
     }
 }
@@ -146,7 +146,7 @@ impl<T> Fahrenheit<T>
 where
     T: Add<Output = T> + Clone + Div<Output = T> + Mul<Output = T> + Display + Copy,
 {
-    fn into_inner(self) -> T {
+    const fn into_inner(self) -> T {
         self.0
     }
 }

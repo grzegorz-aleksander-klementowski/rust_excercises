@@ -8,7 +8,7 @@ trait Factorial {
 impl Factorial for usize {
     // === EXAMPLE WITH `FOR` ===
     fn factorial(self) -> Self {
-        let mut result: usize = 1;
+        let mut result: Self = 1;
 
         for n in 1..=self {
             result *= n;

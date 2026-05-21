@@ -12,6 +12,6 @@ fn sprawdzian_współpracy_z_wyjściem() {
 
 #[test]
 fn sprawdzan_współpracy_z_zapiskami_ustawiającymi() {
-    let wynik: String = format!("{}", components::config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[2]);
+    let wynik: String = components::config::ZAWARTOŚĆ_WIADOMOŚCI_O_BŁĘDACH[2].to_string();
     assert_eq!(wynik, "Wiadomość sprawdzająca");
 }

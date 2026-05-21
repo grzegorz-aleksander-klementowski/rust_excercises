@@ -9,7 +9,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if (year % 100 != 0 && year % 4 == 0) || year % 400 == 0 {
         println!("This year is affordable.");
     } else {
-        println!("This year is not affordable.")
+        println!("This year is not affordable.");
     }
 
     Ok(())

@@ -27,12 +27,9 @@ pub fn show_asci_table(range: RangeInclusive<u8>) {
 
     let mut is_three_num = false;
     for asci_n in range {
-        match asci_n {
-            0..100 => println!("| {asci_n}  | {}  |", asci_n as char),
-            100..=255 => {
-                println!("| {asci_n} | {}  |", asci_n as char);
-                is_three_num = true;
-            }
+        if let 0..100 = asci_n { println!("| {asci_n}  | {}  |", asci_n as char) } else {
+            println!("| {asci_n} | {}  |", asci_n as char);
+            is_three_num = true;
         }
     }
 

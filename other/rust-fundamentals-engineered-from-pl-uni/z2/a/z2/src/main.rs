@@ -2,7 +2,7 @@
 //
 // 2. Write a function that, for a given positive integer n, returns the number of iterations in which we reach one in the Collatz problem (e.g. for n = 12 the result is 9).
 
-fn collatz_solver(num: usize) -> usize {
+const fn collatz_solver(num: usize) -> usize {
     let mut collatz_iterator = 0;
     let mut n = num;
     while n != 1 {

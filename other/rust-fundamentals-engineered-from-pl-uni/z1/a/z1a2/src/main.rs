@@ -12,10 +12,10 @@ enum LiczbaDniMiesiąca {
 impl std::fmt::Display for LiczbaDniMiesiąca {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            LiczbaDniMiesiąca::Trzydzieści => write!(f, "30"),
-            LiczbaDniMiesiąca::TrzydzieściJeden => write!(f, "31"),
-            LiczbaDniMiesiąca::DwadzieściaOsiem => write!(f, "28"),
-            LiczbaDniMiesiąca::DwadziściaDziewięć => write!(f, "29"),
+            Self::Trzydzieści => write!(f, "30"),
+            Self::TrzydzieściJeden => write!(f, "31"),
+            Self::DwadzieściaOsiem => write!(f, "28"),
+            Self::DwadziściaDziewięć => write!(f, "29"),
         }
     }
 }

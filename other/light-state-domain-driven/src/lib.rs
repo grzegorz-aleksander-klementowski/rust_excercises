@@ -10,7 +10,7 @@ pub struct Light {
     state: State,
 }
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum State {
     On,
     Off,
@@ -18,8 +18,8 @@ pub enum State {
 
 // Defining the light behavior
 impl Light {
-    pub fn new() -> Self {
-        Light { state: State::Off }
+    #[must_use] pub const fn new() -> Self {
+        Self { state: State::Off }
     }
 
     pub fn turn_on(&mut self) -> Result<&mut Self, LightError> {
@@ -36,11 +36,11 @@ impl Light {
         Ok(self)
     }
 
-    pub fn is_on(&self) -> bool {
+    #[must_use] pub fn is_on(&self) -> bool {
         self.state == State::On
     }
 
-    pub fn is_off(&self) -> bool {
+    #[must_use] pub fn is_off(&self) -> bool {
         self.state == State::Off
     }
 }

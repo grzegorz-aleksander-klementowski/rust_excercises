@@ -1,8 +1,6 @@
 // 1. Wyświetl tabelę widzialnych znaków ASCII wraz z kodami (od 33 do 126).
 // 1. Display the table of visible ASCII characters and codes (from 33 to 126).
 
-use std::u8;
-
 use z1::AskForData;
 use z1::show_asci_table;
 

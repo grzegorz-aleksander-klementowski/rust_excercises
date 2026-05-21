@@ -16,7 +16,7 @@ pub struct PythagoreanTriangle {
 
 // Constructor
 impl PythagoreanTriangle {
-    fn new(a: usize, b: usize, c: usize) -> Self {
+    const fn new(a: usize, b: usize, c: usize) -> Self {
         Self { a, b, c }
     }
 }
@@ -101,7 +101,7 @@ impl GeometricCondition for PythagoreanTriangle {
         for a in range_from..=range_to - 2 {
             let a_sqr = a * a;
 
-            for b in a + 1..=range_to - 1 {
+            for b in (a + 1)..range_to {
                 let b_sqr = b * b;
 
                 let c = ((a_sqr + b_sqr) as f32).sqrt() as usize;

@@ -12,13 +12,13 @@ pub struct Time(pub Hour, pub Minute, pub Second);
 
 impl From<Hour> for Second {
     fn from(value: Hour) -> Self {
-        Second(value.0 * 3600)
+        Self(value.0 * 3600)
     }
 }
 
 impl From<Minute> for Second {
     fn from(value: Minute) -> Self {
-        Second(value.0 * 60)
+        Self(value.0 * 60)
     }
 }
 
@@ -30,16 +30,16 @@ impl From<Second> for Time {
         let min = Minute(sec / 60);
         let sec = Second(sec % 60);
 
-        Time(h, min, sec)
+        Self(h, min, sec)
     }
 }
 
 impl From<Time> for Second {
     fn from(time: Time) -> Self {
-        let hours_to_sec: Second = time.0.into();
-        let min_to_sec: Second = time.1.into();
-        let sec: Second = time.2;
-        Second(hours_to_sec.0 + min_to_sec.0 + sec.0)
+        let hours_to_sec: Self = time.0.into();
+        let min_to_sec: Self = time.1.into();
+        let sec: Self = time.2;
+        Self(hours_to_sec.0 + min_to_sec.0 + sec.0)
     }
 }
 
@@ -53,7 +53,7 @@ impl std::ops::Sub for Time {
         let sec2: Second = time2.into();
 
         let time_result_in_sec = Second(sec1.0 - sec2.0);
-        let output: Time = time_result_in_sec.into();
+        let output: Self = time_result_in_sec.into();
         output
     }
 }

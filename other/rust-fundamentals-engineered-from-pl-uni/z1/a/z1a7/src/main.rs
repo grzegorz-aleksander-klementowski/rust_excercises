@@ -9,7 +9,7 @@ impl Reverse for String {
     // === MANUAL „HEAVY” WAY
     fn reverse(self) -> Self {
         let str_bytes = self.as_bytes();
-        let mut rev_s = String::new();
+        let mut rev_s = Self::new();
 
         for i in (0..str_bytes.len()).rev() {
             rev_s.push(str_bytes[i] as char);
@@ -26,7 +26,7 @@ impl Reverse for usize {
     fn reverse(self) -> Self {
         self.to_string()
             .reverse()
-            .parse::<usize>()
+            .parse::<Self>()
             .expect("Can't parse the number!")
     }
 }
