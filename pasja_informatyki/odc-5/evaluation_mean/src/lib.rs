@@ -8,13 +8,14 @@ pub struct Gradesbook {
 
 // implementation of Gradesbook for grades with constructor, getter and validations
 impl Gradesbook {
-    pub fn new() -> Self {
+    #[must_use]
+    pub const fn new() -> Self {
         // constructor
-        Gradesbook { grades: Vec::new() }
+        Self { grades: Vec::new() }
     }
 
     // gettet for grades
-    fn show_grades(&self) -> &Vec<(f32, f32)> {
+    const fn show_grades(&self) -> &Vec<(f32, f32)> {
         &self.grades
     }
 
@@ -45,6 +46,7 @@ impl Gradesbook {
     }
 
     // calculate mean of grades
+    #[must_use]
     pub fn weighted_average(&self) -> f32 {
         let sum_weighted: f32 = self
             .show_grades()
@@ -86,10 +88,10 @@ impl Validator<f32> for Gradesbook {
 //to insert using de morgan rule in the condition
 impl Validator<usize> for Gradesbook {
     fn validate(&mut self, num_of_needed_grades: usize) -> Result<(), ErrMessages> {
-        if !(1..=100000).contains(&num_of_needed_grades) {
-            Err(ErrMessages::InvalidNumberOfNeededGrades)
-        } else {
+        if (1..=100_000).contains(&num_of_needed_grades) {
             Ok(())
+        } else {
+            Err(ErrMessages::InvalidNumberOfNeededGrades)
         }
     }
 }
@@ -221,7 +223,7 @@ pub enum Messages<'a> {
 }
 
 // Implementation of Display trail to format messages
-impl<'a> fmt::Display for Messages<'a> {
+impl fmt::Display for Messages<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let message = match self {
             Messages::Welcome                   => "Witaj Kochana Zosieńko :** To jest program specjalnie stworzony dla Ciebie, abyś mogła w łatwy i szybki sposób obliczyć swoj oceny na swoim obliczniku. Wpisz ilość ocen, z jakich chcesz obliczyć średnią: ",
@@ -257,9 +259,9 @@ pub enum ErrMessages {
 impl fmt::Display for ErrMessages {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let err_message = match self {
-        ErrMessages::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ".to_string(),
-        ErrMessages::InvalidInput(error) => format!("Aliquam numerus. Nie udało się odczytać wiersza: {error}"),
-        ErrMessages::InvalidNumberOfNeededGrades => "Gradus feriunt. Zooosiu, numer, który wpisujesz jest albo za duży, albo wpisałaś zero! Spróbuj wpisać mniejszy numer (tak do 100000) albo liczbę większą nić 0. ".to_string(),
+        Self::GradeOutOfRange => "Gradus feriunt. Grade is out of range. Grades must be in a range from 1.0 to 6.0 and be full (5.0) or half (5.5) number. ".to_string(),
+        Self::InvalidInput(error) => format!("Aliquam numerus. Nie udało się odczytać wiersza: {error}"),
+        Self::InvalidNumberOfNeededGrades => "Gradus feriunt. Zooosiu, numer, który wpisujesz jest albo za duży, albo wpisałaś zero! Spróbuj wpisać mniejszy numer (tak do 100000) albo liczbę większą nić 0. ".to_string(),
         };
         write!(f, "Error: {err_message}")
     }
@@ -309,12 +311,12 @@ mod tests {
         let mut test_gradesbook = Gradesbook::new();
         let grade_array: [(f32, f32); 3] = [(5.5, 1.0), (2.5, 2.0), (4.0, 3.0)];
 
-        for &grade in grade_array.iter() {
+        for &grade in &grade_array {
             test_gradesbook.add(grade);
         }
         assert_eq!(
             test_gradesbook.show_grades(),
-            &vec!((5.5, 1.0), (2.5, 2.0), (4.0, 3.0))
+            &vec![(5.5, 1.0), (2.5, 2.0), (4.0, 3.0)]
         );
     }
 
@@ -331,14 +333,14 @@ mod tests {
         let correct_grades: [f32; 3] = [5.0, 5.5, 1.0];
         let uncorrect_grades: [f32; 3] = [5.3, 7.0, 0.5];
 
-        for &grade in correct_grades.iter() {
+        for &grade in &correct_grades {
             assert!(
                 test_gradesbook.validate(grade).is_ok(),
                 "Expected „ok” for grade: {}",
                 &grade
             );
         }
-        for &grade in uncorrect_grades.iter() {
+        for &grade in &uncorrect_grades {
             assert!(
                 test_gradesbook.validate(grade).is_err(),
                 "Expected „err” for grade: {}",
@@ -360,11 +362,10 @@ mod tests {
 
         assert!(
             result_pos.is_ok(),
-            "Expected „Ok()” for numer of needed grade, but is error. Tested numer: {}",
-            mock_positive_insered_num
+            "Expected „Ok()” for numer of needed grade, but is error. Tested numer: {mock_positive_insered_num}"
         );
-        assert!(result_neg_too_big.is_err(), "Expected „Err()” for numer of needed grade, but is possitive, when the numer is too big. Test numer: {}", mock_neg_insered_num_too_big);
-        assert!(result_neg_zero.is_err(), "Expected „Err()” for numer of needed grade, but is possitive, when the numer is zero. Test numer: {}", mock_neg_insered_num_zero);
+        assert!(result_neg_too_big.is_err(), "Expected „Err()” for numer of needed grade, but is possitive, when the numer is too big. Test numer: {mock_neg_insered_num_too_big}");
+        assert!(result_neg_zero.is_err(), "Expected „Err()” for numer of needed grade, but is possitive, when the numer is zero. Test numer: {mock_neg_insered_num_zero}");
     }
 
     #[test]

@@ -1,0 +1,7 @@
+[package]
+name = "z5_czynniki_pierwsze"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+askusr = { path = "./../../../../../libs/askusr/" }

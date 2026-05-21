@@ -10,6 +10,7 @@ use std::io::{self, Write};
 // ---------------- &&*&& ---------------- \\
 // here is create a new instance of VCF Card \\
 impl ZapiskiOsobowe {
+    #[must_use]
     pub fn new() -> Self {
         let mut zapiski = Self {
             zaczynajka_karty_vcf: NagłówkiVCF::BeginVcard.to_string(),

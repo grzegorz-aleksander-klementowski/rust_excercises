@@ -8,7 +8,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if text.contains("kota") {
         println!("Słowo znajduje się w tekście.");
     } else {
-        println!("Słowo nie znajduje się w tekście.")
+        println!("Słowo nie znajduje się w tekście.");
     }
     println!("znalezione w pozycji: {wyszukane:?}");
 

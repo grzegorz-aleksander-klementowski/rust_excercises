@@ -1,0 +1,6 @@
+[package]
+name = "z1_sort_in_descending_ord"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
