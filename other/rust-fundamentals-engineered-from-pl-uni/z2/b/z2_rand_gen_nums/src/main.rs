@@ -17,7 +17,13 @@
 
 use askusr::AskForData;
 
+fn rand(seed: &mut usize, min_rand: usize, max_rand: usize) -> usize {
+    todo!()
+}
+
 fn main() {
     let seed: usize = AskForData::ask_for_data("Provide the seed to generate a number: ");
+    let min_rand: usize = AskForData::ask_for_data("Provide the seed to generate a number: ");
+    let max_rand: usize = AskForData::ask_for_data("Provide the seed to generate a number: ");
     println!("to–do: {seed}");
 }
