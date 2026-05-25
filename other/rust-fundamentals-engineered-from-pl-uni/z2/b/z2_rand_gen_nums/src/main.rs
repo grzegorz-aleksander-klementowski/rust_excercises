@@ -17,7 +17,7 @@
 
 use askusr::AskForData;
 
-fn rand(seed: &mut usize, min_rand: usize, max_rand: usize) -> usize {
+fn rand(seed: &mut u128, min_rand: u128, max_rand: u128) -> u128 {
     // seed0 → start point
     // modulo → max_rand
     // end untill it repeats
@@ -25,45 +25,49 @@ fn rand(seed: &mut usize, min_rand: usize, max_rand: usize) -> usize {
     // multiplier I chose by myself
     // min_rand → increment
 
-    let multiplier: usize = 2;
-    let modulus = 9;
-    let increment = 0;
+    let multiplier: u128 = 1664525;
+    let increment: u128 = 1013904223;
+    let modulus: u128 = 2u128.pow(32);
 
-    // `usize` don't allow num < 0
-    if (0 == multiplier) && (multiplier > modulus) && (increment > modulus) {
+    // `u128` don't allow num < 0
+    if (0 == multiplier) || (multiplier > modulus) || (increment > modulus) {
         panic!("Incorrect internal value");
     }
 
-    let lcg = (multiplier * *seed + increment) % modulus;
-    if lcg > max_rand {
-        lcg % (max_rand - min_rand + 1) + min_rand
-    } else {
-        lcg
-    }
+    // The LCG formula (Linear Congruential Generator)
+    *seed = (multiplier * *seed + increment) % modulus;
+    // Fit to the user range
+    (*seed % (max_rand - min_rand + 1)) + min_rand
 }
 
 fn main() {
-    let mut seed: usize = AskForData::ask_for_data("Provide the seed to generate a number: ");
-    let min_rand: usize =
+    let mut seed: u128 = AskForData::ask_for_data("Provide the seed to generate a number: ");
+    let min_rand: u128 =
         AskForData::ask_for_data("Provide the minimal number to generate a number: ");
-    let max_rand: usize =
+    let max_rand: u128 =
         AskForData::ask_for_data("Provide the maximal number to generate a number: ");
+
+    if max_rand <= min_rand {
+        panic!("Incorrect the user range input.");
+    }
 
     let mut lcg_len = 0;
 
-    let lcg0 = rand(&mut seed, min_rand, max_rand);
-    let mut lcg1 = lcg0;
-    let mut lcg2 = 0;
+    let lcg0 = seed;
+    let mut lcg;
 
     println!("Random numbers: ");
-    while lcg0 != lcg2 {
-        lcg2 = rand(&mut lcg1, min_rand, max_rand);
-        print!(" {lcg2} ");
+    loop {
+        lcg = rand(&mut seed, min_rand, max_rand);
+        print!("{lcg}  ");
         lcg_len += 1;
+        if lcg0 == seed {
+            break;
+        }
     }
 
     // (I know the lenght of the LCG is out of task, but I did it.)
     println!(
-        "The lenght of the LCG (linear congruential generator) with seed {seed}, min num {min_rand}, max num {max_rand} is {lcg_len}"
+        "\nThe lenght of the LCG (linear congruential generator) with seed {seed}, min num {min_rand}, max num {max_rand} is {lcg_len}"
     );
 }
