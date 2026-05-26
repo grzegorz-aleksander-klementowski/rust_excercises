@@ -15,5 +15,11 @@ fn main() -> Result<(), LightError> {
 fn run() -> Result<(), LightError> {
     // A training program. Usage by `cargo test`.
     println!("A training program. Usage by `cargo test`.");
+    let mut light = light_state_domain_driven::Light::new();
+    println!("{light}");
+    light.turn_on()?;
+    println!("{light}");
+    light.turn_off()?;
+    println!("{light}");
     Ok(())
 }

@@ -2,6 +2,7 @@ use num_bigint::BigUint;
 use num_traits::{One, Zero};
 use std::io::Write;
 
+#[allow(clippy::large_stack_frames)]
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // *** C++ sytle PASJA INFORMATYKI EXAMPLE ***
 

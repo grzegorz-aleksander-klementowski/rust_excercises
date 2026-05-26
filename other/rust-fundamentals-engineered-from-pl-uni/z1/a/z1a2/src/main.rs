@@ -45,12 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Get the year
     let rok = stdin_num()?;
-    let mut rok_przystępny = false;
-
-    if (rok % 4 == 0 && rok % 100 != 0) || (rok % 400 == 0) {
-        rok_przystępny = true;
-    }
-
+    let rok_przystępny = (rok % 4 == 0 && rok % 100 != 0) || (rok % 400 == 0);
     let ile_dni_miesiąca = match numer_miesiąca {
         m if ((1..=7).contains(&m) && m % 2 != 0) || ((8..=12).contains(&m) && m % 2 == 0) => {
             LiczbaDniMiesiąca::TrzydzieściJeden

@@ -24,7 +24,11 @@ impl Gradesbook {
         self.grades.push(grade_with_wage);
     }
 
-    // use input trait to add grades with weight to Gradesbook
+    /// Use input trait to add grades with weight to Gradesbook
+    ///
+    /// # Panics
+    ///
+    /// Panics if flushing stdout fails.
     pub fn add_with_input_many_times(&mut self, numer_of_needed_grades_to_add: usize) {
         let mut numer_of_added_grades: usize = 1;
         while numer_of_added_grades <= numer_of_needed_grades_to_add {
@@ -74,6 +78,7 @@ trait Validator<T> {
 
 // trait that validate whether the grade is  in range (1-6), and if it can be only full integer or
 // integer+half. Which 0.5 represent „+” (ei. '4.5' represent '4+')
+#[allow(clippy::float_cmp)]
 impl Validator<f32> for Gradesbook {
     fn validate(&mut self, grade: f32) -> Result<(), ErrMessages> {
         if (1.0..=6.0).contains(&grade) && ((grade.fract() == 0.0) || (grade.fract() == 0.5)) {
@@ -99,7 +104,11 @@ impl Validator<usize> for Gradesbook {
 
 // -------------- traits interaface for Input functions -------------- \\
 pub trait Input<T> {
-    //fn read_input(&mut self) -> Result<f32, ErrMessages>;
+    /// Reads input from the user.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`ErrMessages`] if the input cannot be parsed or validated.
     fn read_input(&mut self) -> Result<T, ErrMessages>;
     fn get_valid_input_with_attempts(&mut self) -> T; // use `read_input` function result to get grade and unwrap it
 }

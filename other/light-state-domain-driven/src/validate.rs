@@ -6,7 +6,14 @@ pub trait Validate {
         Self: 'a_type;
     type Err;
 
-    // Using GAT (Generic Associated Type)
+    ///  Errors
+    /// Using GAT (Generic Associated Type).
+    ///
+    /// # Errors
+    ///
+    /// Returns:
+    ///  - `LightError::AlredyOn` if the light is already on.
+    /// - `LightError::AlredyOff` if the light is already off.
     fn validate_repeatation(&mut self, action: State) -> Result<Self::Ok<'_>, Self::Err>; // in Self::Ok<'a_fn lifetimes 'a_fn will subsitute 'a_type (subsitution of lifetimes parameters)
 }
 
@@ -18,10 +25,13 @@ impl Validate for Light {
     type Ok<'a_type> = &'a_type mut Self;
     type Err = LightError;
 
+    // # Errors
+    // Returns:
+    // - `LightError::AlredyOn` if the light is already on.
+    // - `LightError::AlredyOff` if the light is already off.
     fn validate_repeatation(&mut self, action: State) -> Result<Self::Ok<'_>, Self::Err> {
         match (self.is_on(), action) {
-            (false, State::On) => Ok(self),
-            (true, State::Off) => Ok(self),
+            (false, State::On) | (true, State::Off) => Ok(self),
             (false, State::Off) => Err(LightError::AlredyOff),
             (true, State::On) => Err(LightError::AlredyOn),
         }

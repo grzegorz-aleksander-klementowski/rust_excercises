@@ -32,7 +32,7 @@ pub trait GeometricCondition {
 impl GeometricCondition for PythagoreanTriangle {
     // Exists because in sake of „checking” and writting formula (currently rechecks ordering is unnecessarily)
     fn satisfies_condition(&self) -> bool {
-        ((self.a * self.a) + (self.b * self.b) == (self.c * self.c))
+        ((self.a.pow(2)) + (self.b.pow(2)) == self.c.pow(2))
             && ((self.a < self.b) && (self.b < self.c))
     }
 
@@ -104,7 +104,7 @@ impl GeometricCondition for PythagoreanTriangle {
             for b in (a + 1)..range_to {
                 let b_sqr = b * b;
 
-                let c = ((a_sqr + b_sqr) as f32).sqrt() as usize;
+                let c = ((a_sqr + b_sqr) as f32).sqrt().round() as usize;
                 // let c = c_sqr.sqrt();
 
                 let p_triangle = Self::new(a, b, c);

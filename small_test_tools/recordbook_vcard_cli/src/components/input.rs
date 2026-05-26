@@ -4,11 +4,21 @@ use crate::{output, ZapiskiOsobowe};
 use std::io;
 
 pub trait Wejście {
+    /// Reads a note from stdin.
+    ///
+    /// # Errors
+    ///
+    /// Returns `WiadomościoBłędach::PróbaOdczytaniaLinii`
+    /// if reading from stdin fails.
     fn czytnik_zapisków(&self) -> Result<String, output::WiadomościoBłędach>;
     fn pobierz_zapisek_z_próbami(&self) -> String;
 }
 
 impl Wejście for ZapiskiOsobowe {
+    /// # Errors
+    ///
+    /// Returns `WiadomościoBłędach::PróbaOdczytaniaLinii`
+    /// if reading from stdin fails.
     fn czytnik_zapisków(&self) -> Result<String, output::WiadomościoBłędach> {
         // check if hte program can read the line up to 3 times before exit in case of constant failing
         let mut zapisek = String::new();

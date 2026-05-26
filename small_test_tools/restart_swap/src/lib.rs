@@ -14,6 +14,8 @@ impl Swap {
         }
     }
 
+    /// # Errors
+    /// Returns an error if the `sudo` command cannot be executed
     pub fn execute(&self) -> Result<ExitStatus, std::io::Error> {
         Command::new("sudo")
             .arg(self.switch())

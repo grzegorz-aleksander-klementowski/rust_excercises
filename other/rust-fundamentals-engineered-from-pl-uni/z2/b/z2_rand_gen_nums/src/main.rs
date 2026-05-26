@@ -25,14 +25,15 @@ fn rand(seed: &mut u128, min_rand: u128, max_rand: u128) -> u128 {
     // multiplier I chose by myself
     // min_rand → increment
 
-    let multiplier: u128 = 1664525;
-    let increment: u128 = 1013904223;
+    let multiplier: u128 = 1_664_525;
+    let increment: u128 = 1_013_904_223;
     let modulus: u128 = 2u128.pow(32);
 
     // `u128` don't allow num < 0
-    if (0 == multiplier) || (multiplier > modulus) || (increment > modulus) {
-        panic!("Incorrect internal value");
-    }
+    assert!(
+        (0 == multiplier) || (multiplier > modulus) || (increment > modulus),
+        "Incorrect internal value"
+    );
 
     // The LCG formula (Linear Congruential Generator)
     *seed = (multiplier * *seed + increment) % modulus;
@@ -47,9 +48,11 @@ fn main() {
     let max_rand: u128 =
         AskForData::ask_for_data("Provide the maximal number to generate a number: ");
 
-    if max_rand <= min_rand {
-        panic!("Incorrect the user range input.");
-    }
+    // Stop program if user input incorrect values and print info.
+    assert!(
+        max_rand <= min_rand,
+        "Incorrect the user range input. The end range should be larger than the start range."
+    );
 
     let mut lcg_len = 0;
 
