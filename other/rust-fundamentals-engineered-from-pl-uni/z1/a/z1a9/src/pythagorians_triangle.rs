@@ -32,7 +32,7 @@ pub trait GeometricCondition {
 impl GeometricCondition for PythagoreanTriangle {
     // Exists because in sake of „checking” and writting formula (currently rechecks ordering is unnecessarily)
     fn satisfies_condition(&self) -> bool {
-        ((self.a * self.a) + (self.b * self.b) == (self.c * self.c))
+        ((self.a.pow(2)) + (self.b.pow(2)) == self.c.pow(2))
             && ((self.a < self.b) && (self.b < self.c))
     }
 
@@ -99,12 +99,17 @@ impl GeometricCondition for PythagoreanTriangle {
 
         // === EXAMPLE WITH `for` LOOP ===
         for a in range_from..=range_to - 2 {
-            let a_sqr = a * a;
+            let a_sqr = a.pow(2);
 
             for b in (a + 1)..range_to {
-                let b_sqr = b * b;
+                let b_sqr = b.pow(2);
 
-                let c = ((a_sqr + b_sqr) as f32).sqrt() as usize;
+                #[allow(
+                    clippy::cast_possible_truncation,
+                    clippy::cast_sign_loss,
+                    clippy::cast_precision_loss
+                )]
+                let c = ((a_sqr + b_sqr) as f32).sqrt().round() as usize;
                 // let c = c_sqr.sqrt();
 
                 let p_triangle = Self::new(a, b, c);

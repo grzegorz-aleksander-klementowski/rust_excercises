@@ -1,4 +1,4 @@
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     // Find a string in text
     println!("Program do wyszukiwanai frazy w tekście");
     let text = String::from("Ala ma kota");
@@ -17,6 +17,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     text.insert_str(wyszukane, "psa");
     println!("{text}");
-
-    Ok(())
 }

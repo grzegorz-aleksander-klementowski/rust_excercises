@@ -15,7 +15,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         *ocena = wejście.trim().parse()?;
     }
 
-    let suma = oceny.iter().sum::<f32>();
+    let suma = oceny.iter().sum::<f32>().round();
+    #[allow(clippy::cast_precision_loss)]
     let ilość_ocen = oceny.iter().len() as f32;
     let średnia_arytmetyczna = suma / ilość_ocen;
 

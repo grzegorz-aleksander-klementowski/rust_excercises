@@ -12,7 +12,7 @@ fn metres_to_yards(m: f32) -> f32 {
 
 // metry na mile
 fn metres_to_miles(m: f32) -> f32 {
-    m * 0.000621371
+    m * 0.000_621_371
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {

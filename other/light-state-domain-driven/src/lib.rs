@@ -23,6 +23,12 @@ impl Light {
         Self { state: State::Off }
     }
 
+    /// Turns the light on.
+    ///
+    /// # Errors
+    ///
+    /// Returns `LightError::AlreadyOn` if the light
+    /// is already enabled.
     pub fn turn_on(&mut self) -> Result<&mut Self, LightError> {
         let action = State::On; // for dynamic transistion it easy to use `action` as fn argument
         self.validate_repeatation(action)?;
@@ -30,6 +36,10 @@ impl Light {
         Ok(self)
     }
 
+    /// Turns the light off.
+    ///
+    /// # Errors
+    /// Returns [`LightError`] if the light is already turned off.
     pub fn turn_off(&mut self) -> Result<&mut Self, LightError> {
         let action = State::Off; // for dynamic transistion it easy to use `action` as fn argument
         self.validate_repeatation(action)?;
@@ -104,11 +114,10 @@ mod tests {
     }
 
     #[test]
-    fn test_error_handling_if_light_allready_off() -> Result<(), LightError> {
+    fn test_error_handling_if_light_allready_off() {
         let mut light = Light::new(); // The default state of a new light is off.
         let result_light = light.turn_off();
         assert!(matches!(result_light, Err(LightError::AlredyOff)));
-        Ok(())
     }
 
     #[test]

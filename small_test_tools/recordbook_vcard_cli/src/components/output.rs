@@ -6,6 +6,7 @@ use std::fs;
 use std::io; // config file include arrays with content of error messages
 
 // Enum for VCF cards headers
+#[derive(Copy, Clone)]
 pub enum NagłówkiVCF {
     BeginVcard,
     FN,
@@ -33,6 +34,7 @@ impl fmt::Display for NagłówkiVCF {
 }
 
 // Enum for Messages for a use
+#[derive(Clone, Copy)]
 pub enum WiadomościDoUżytkownika {
     Przywitanie,
     ZapytanieOImię,

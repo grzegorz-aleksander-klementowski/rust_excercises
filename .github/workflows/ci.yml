@@ -1,4 +1,3 @@
-
 name: CI
 on: [push, pull_request]
 
@@ -27,13 +26,28 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
 
-      # later change for `cargo clippy --all-targets --all-features -- -D warnings`
+      # Strict Clippy configuration:
+      # - `all` enables standard recommended lints
+      # - `pedantic` enforces additional idiomatic and readability checks
+      # - `nursery` enables experimental and emerging lints
+      # - `-D warnings` treats all warnings as CI failures
+      # - `--all-targets` checks binaries, tests, examples, and benches
+      # - `--all-features` validates all feature-gated code paths
+      #
+      # Purpose:
+      # Maintain consistent engineering standards, improve long-term
+      # maintainability, and reinforce idiomatic Rust practices across
+      # the entire workspace.
       - name: Clippy
-        run: cargo clippy -- -D warnings
+        run: |
+          cargo clippy --all-targets --all-features -- \
+            -W clippy::all \
+            -W clippy::pedantic \
+            -W clippy::nursery \
+            -D warnings
 
       - name: Build
         run: cargo build --all --verbose
 
       - name: Test
         run: cargo test --all --verbose
-
