@@ -362,7 +362,7 @@ mod tests {
     fn test_validation_of_insert_needed_num_of_grades() {
         let mut test_gradesbook = Gradesbook::new();
         let mock_positive_insered_num: usize = 3;
-        let mock_neg_insered_num_too_big: usize = 150000;
+        let mock_neg_insered_num_too_big: usize = 150_000;
         let mock_neg_insered_num_zero: usize = 0;
 
         let result_pos = test_gradesbook.validate(mock_positive_insered_num);
@@ -381,6 +381,6 @@ mod tests {
     fn test_agarage_weight() {
         let mut test_gradesbook = Gradesbook::new();
         test_gradesbook.grades = vec![(5.5, 1.0), (2.5, 2.0), (4.0, 3.0), (4.5, 2.0)];
-        assert_eq!(3.94, test_gradesbook.weighted_average());
+        assert!((test_gradesbook.weighted_average() - 3.94).abs() < f32::EPSILON);
     }
 }

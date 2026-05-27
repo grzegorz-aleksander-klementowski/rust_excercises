@@ -114,11 +114,10 @@ mod tests {
     }
 
     #[test]
-    fn test_error_handling_if_light_allready_off() -> Result<(), LightError> {
+    fn test_error_handling_if_light_allready_off() {
         let mut light = Light::new(); // The default state of a new light is off.
         let result_light = light.turn_off();
         assert!(matches!(result_light, Err(LightError::AlredyOff)));
-        Ok(())
     }
 
     #[test]

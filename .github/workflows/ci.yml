@@ -28,12 +28,16 @@ jobs:
 
       # Strict Clippy configuration:
       # - `all` enables standard recommended lints
-      # - `pedantic` enforces additional idiomatic/style checks
-      # - `nursery` enables experimental/new lints
-      # - `-D warnings` turns all warnings into CI failures
+      # - `pedantic` enforces additional idiomatic and readability checks
+      # - `nursery` enables experimental and emerging lints
+      # - `-D warnings` treats all warnings as CI failures
+      # - `--all-targets` checks binaries, tests, examples, and benches
+      # - `--all-features` validates all feature-gated code paths
       #
       # Purpose:
-      # Maintain high code quality and learn idiomatic Rust patterns.
+      # Maintain consistent engineering standards, improve long-term
+      # maintainability, and reinforce idiomatic Rust practices across
+      # the entire workspace.
       - name: Clippy
         run: |
           cargo clippy --all-targets --all-features -- \

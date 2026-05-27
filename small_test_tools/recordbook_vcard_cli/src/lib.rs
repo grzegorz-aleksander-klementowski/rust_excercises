@@ -40,13 +40,13 @@ FN:imięN:nazwiskoORG:zrzeszenieEMAIL;TYPE=INTERNET:pocztaTEL;TYPE=CELL:dalnomó
     #[test]
     fn sprawdzian_zapisywania_nazw_z_cvf() {
         let udawacz_fn: String = String::from("fn:Strzeżymir");
-        let udaawacz_n: String = String::from("n:Myśliciel");
+        let udaawacz_nazwa: String = String::from("n:Myśliciel");
 
         let nagłówek_fn_do_nazwy_pliku: String = udawacz_fn.trim().chars().skip(3).collect();
-        let nagłówek_n_do_nazwy_pliku: String = udaawacz_n.trim().chars().skip(2).collect();
+        let nagłówek_nazwa_do_nazwy_pliku: String = udaawacz_nazwa.trim().chars().skip(2).collect();
 
         let wynik: String =
-            format!("styczność_{nagłówek_fn_do_nazwy_pliku}_{nagłówek_n_do_nazwy_pliku}.cvf");
+            format!("styczność_{nagłówek_fn_do_nazwy_pliku}_{nagłówek_nazwa_do_nazwy_pliku}.cvf");
 
         assert_eq!(wynik, "styczność_Strzeżymir_Myśliciel.cvf");
     }
