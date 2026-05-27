@@ -9,6 +9,37 @@ Cargo workspace that gathers bite-sized experiments, study notes, and quick util
 - `cargo test -p <crate_name>` runs the available unit tests.
 - You can also `cd` into any of the directories mentioned below and use standard Cargo commands.
 
+### Code Quality Standards
+
+This workspace uses strict automated quality checks through GitHub Actions and Clippy.
+
+The CI pipeline verifies:
+
+* formatting (`cargo fmt`)
+* lint correctness (`cargo clippy`)
+* compilation (`cargo build`)
+* tests (`cargo test`)
+
+The project intentionally enables strict Clippy profiles:
+
+```bash
+cargo clippy --all-targets --all-features -- \
+  -W clippy::all \
+  -W clippy::pedantic \
+  -W clippy::nursery \
+  -D warnings
+```
+
+Purpose:
+
+* enforce idiomatic Rust practices,
+* surface potential correctness issues early,
+* strengthen API/documentation discipline,
+* and continuously improve engineering quality across the workspace.
+
+Some lints are explicitly allowed where the trade-off is intentional and documented (for example mathematical casts in constrained educational exercises).
+
+
 ## Workspace Overview
 | Crate | Path | Description |
 | --- | --- | --- |
