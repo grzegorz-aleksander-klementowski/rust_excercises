@@ -1,0 +1,6 @@
+# Git
+.git
+
+# Rust specific
+**/target/
+**/Cargo.lock
