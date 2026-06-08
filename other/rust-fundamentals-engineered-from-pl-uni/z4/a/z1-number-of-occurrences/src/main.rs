@@ -24,7 +24,7 @@ fn number_of_occurrences(string: &str, sign: char) -> usize {
 
 fn main() {
     let s = "Hello, world!";
-    println!("s");
+    println!("{s}");
     let n = number_of_occurrences(s, 'o');
     println!("{n}");
 }

@@ -4,6 +4,7 @@ pub trait AskForData {
     fn ask_for_data(text: &str) -> Self;
 }
 
+// Defaul implementation for numeric data
 impl<T> AskForData for T
 where
     T: std::ops::Add + std::str::FromStr + std::fmt::Debug,
