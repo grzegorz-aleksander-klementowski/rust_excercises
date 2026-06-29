@@ -30,7 +30,7 @@
    szyfruj("kot Mruczek", 2) == "ok tmCruzek"
    ```
 
-3. Napisz funkcję językową, która otrzymuje w dwóch parametrach napisowych imię i nazwisko, a zwraca napis powstały z pierwszej litery imienia, kropki, spacji i nazwiska, przy czym w wyniku pierwsza litera imienia i nazwiska mają być duże, pozostałe małe.
+3. Napisz funkcję `wizytówka`, która otrzymuje w dwóch parametrach napisowych imię i nazwisko, a zwraca napis powstały z pierwszej litery imienia, kropki, spacji i nazwiska, przy czym w wyniku pierwsza litera imienia i nazwiska mają być duże, pozostałe małe.
 
    Wskazówka: użyj metod `to_lowercase` oraz `to_uppercase`.
 
