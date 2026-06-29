@@ -1,4 +1,13 @@
-/* # Set 4a
+/*
+# Zestaw 4a
+
+1. Napisz funkcję o nagłówku
+
+   ```
+   fn liczba_wystapien(napis: ..., znak: ...) -> ...
+   ```
+
+   która liczy i zwróci ile jest danych znaków w danym napisie.
 
 1. Write a function about the header
 
@@ -7,23 +16,15 @@
    ```
 
    which counts and returns how many characters there are in a given string.
-
-2. Write a function about the header
-
-   ```
-   Roman fn(inscription: ...) -> ...
-   ```
-
-   which, for a string representing a number in Roman writing (we assume its correctness), returns the number represented by the string. Examples:
-
-   ```
-   Roman(III) == 3
-   Roman(IX) == 9
-   Roman(XIX) == 19
-   Roman(MCMX) == 1910
-   ```
  */
 
+fn number_of_occurrences(string: &str, sign: char) -> usize {
+    string.chars().filter(|&c| c == sign).count()
+}
+
 fn main() {
-    println!("Hello, world!");
+    let s = "Hello, world!";
+    println!("{s}");
+    let n = number_of_occurrences(s, 'o');
+    println!("{n}");
 }
