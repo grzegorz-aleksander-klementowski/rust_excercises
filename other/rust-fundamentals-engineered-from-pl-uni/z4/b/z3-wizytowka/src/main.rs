@@ -5,7 +5,7 @@
 
 fn wizytowka(imię: &str, nazwisko: &str) -> String {
     assert!(
-        !imię.is_empty() || !nazwisko.is_empty(),
+        !imię.is_empty() && !nazwisko.is_empty(),
         "Pola `imię` i `nazwisko` nie mogą być puste."
     );
 
@@ -17,7 +17,6 @@ fn wizytowka(imię: &str, nazwisko: &str) -> String {
         .to_string();
 
     let nazwisko = nazwisko.to_lowercase();
-    let nazwisko = nazwisko.as_str();
 
     let mut nazwisko = nazwisko.to_string();
     let mut pierwsza_litera_nazwiska = nazwisko.remove(0).to_uppercase().to_string();
