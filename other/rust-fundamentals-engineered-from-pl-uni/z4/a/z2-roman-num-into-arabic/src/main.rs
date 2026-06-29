@@ -32,7 +32,9 @@
 
 fn roman(inscription: &str) -> usize {
     // String cannot be empty
-    assert!(!inscription.is_empty());
+    if inscription.is_empty() {
+        return 0;
+    }
 
     // String only in romman uppercase letters
     let inscription = inscription.to_uppercase();
