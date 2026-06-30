@@ -16,11 +16,39 @@
  */
 
 fn na_rzymskie(liczba: usize) -> String {
-    todo!()
+    let checker_list = [(1000), (10), (100)];
+
+    let mut res = String::new();
+
+    for (i, n) in checker_list.iter().enumerate() {
+        let first_dig = &liczba / n;
+
+        if first_dig < 10 && first_dig != 0 {
+            println!("liczba: {first_dig}");
+
+            let basic_roman_number = match &liczba {
+                1 => 'I',
+                5 => 'V',
+                10 => 'X',
+                50 => 'L',
+                100 => 'C',
+                500 => 'D',
+                1000 => 'M',
+                _ => {
+                    eprintln!("Incorrect number");
+                    '?'
+                }
+            };
+            res.push(basic_roman_number);
+        }
+    }
+
+    String::from("Nieskończone")
 }
 
 fn main() {
-    println!("Hello, world!");
+    na_rzymskie(3999);
+    println!("MMMCMXCIX");
 }
 
 #[cfg(test)]
