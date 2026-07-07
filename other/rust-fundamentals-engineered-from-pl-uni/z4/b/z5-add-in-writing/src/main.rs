@@ -20,18 +20,57 @@
   ```
 */
 
-use std::u128;
-
 fn dodaj_pisemnie(a: &str, b: &str) -> String {
-    // THE WRONG SIMPLE APPROACH;
-    let a = a.to_string().trim().parse::<u128>().unwrap_or_default();
-    let b = b.to_string().trim().parse::<u128>().unwrap_or_default();
+    // Prepared Strings to push there potensial zeros
+    let mut a_sized = String::new();
+    let mut b_sized = String::new();
+    // Calculating the lenth of the strings
+    let a_len = a.len();
+    let b_len = b.len();
+    // Checking which one is longer and try to make them the same size
+    // …if a is bigger then b
+    if a_len > b_len {
+        let mut a_b_diff = a_len - b_len;
+        while a_b_diff != 0 {
+            b_sized.push('0');
+            a_b_diff -= 1;
+        }
+        // Push zeros (fillers) into front of b string
+        b_sized.push_str(b);
+    } else {
+        b_sized = b.to_string();
+    }
+    // …if b is bigger then a
+    if a_len < b_len {
+        let mut b_a_diff = b_len - a_len;
+        while b_a_diff != 0 {
+            a_sized.push('0');
+            b_a_diff -= 1;
+        }
+        // Push zeros (fillers) into front of a string.
+        a_sized.push_str(a);
+    } else {
+        a_sized = a.to_string();
+    }
+    println!("a_sized: {a_sized}");
+    println!("b_sized: {b_sized}");
 
-    (a + b).to_string()
+    // Adding toghether „by hand” in loop, zipped pairs.
+    let mut res = String::new();
+    for (a, b) in a_sized.chars().rev().zip(b_sized.chars().rev()) {
+        // Transfer chars into `u8`.
+        let a = a as u8 - b'0';
+        let b = b as u8 - b'0';
+
+        println!("{a} + {b} = {}", (a + b + b'0') as char);
+        res.push((a + b + b'0') as char);
+    }
+
+    res.chars().rev().collect()
 }
 
 fn main() {
-    println!("Hello, world!");
+    println!("WYNIK: {}", dodaj_pisemnie("1133", "2"));
 }
 
 #[cfg(test)]
