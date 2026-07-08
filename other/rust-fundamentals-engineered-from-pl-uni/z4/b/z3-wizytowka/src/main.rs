@@ -18,7 +18,7 @@ fn wizytowka(imię: &str, nazwisko: &str) -> String {
 
     let nazwisko = nazwisko.to_lowercase();
 
-    let mut nazwisko = nazwisko.to_string();
+    let mut nazwisko = nazwisko;
     let mut pierwsza_litera_nazwiska = nazwisko.remove(0).to_uppercase().to_string();
 
     //let nazwisko_bez_pierwszej_litery = nazwisko.to_string().remove(0);
