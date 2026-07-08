@@ -26,6 +26,7 @@ members = [
   "./other/rust-algorithms/z4/b/z3-wizytowka",
   "./other/rust-algorithms/z4/b/z4-liczby-na-rzymskie",
   "./other/rust-algorithms/z4/b/z5-add-in-writing",
+  "./other/rust-algorithms/z5/a/z1-syst8-into-syst2",
   "./pasja_informatyki/odc-4/lotto_game",
   "./pasja_informatyki/odc-5/evaluation_mean",
   "./pasja_informatyki/odc-5/fibbonaci_counter",
