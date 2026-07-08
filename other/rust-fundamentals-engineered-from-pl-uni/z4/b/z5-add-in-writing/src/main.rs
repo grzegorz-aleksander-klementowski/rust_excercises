@@ -21,6 +21,8 @@
 */
 
 fn dodaj_pisemnie(a: &str, b: &str) -> String {
+    println!("LICZBY: a: {a}, b: {b}");
+
     // Prepared Strings to push there potensial zeros
     let mut a_sized = String::new();
     let mut b_sized = String::new();
@@ -52,25 +54,59 @@ fn dodaj_pisemnie(a: &str, b: &str) -> String {
     } else {
         a_sized = a.to_string();
     }
-    println!("a_sized: {a_sized}");
-    println!("b_sized: {b_sized}");
 
     // Adding toghether „by hand” in loop, zipped pairs.
     let mut res = String::new();
+    let mut carry: u8 = 0;
     for (a, b) in a_sized.chars().rev().zip(b_sized.chars().rev()) {
         // Transfer chars into `u8`.
         let a = a as u8 - b'0';
         let b = b as u8 - b'0';
 
-        println!("{a} + {b} = {}", (a + b + b'0') as char);
-        res.push((a + b + b'0') as char);
+        // Calculation „by hand” (with adding the carry). I had to understand here when ti add b`0` binarry to not mess the final result
+        let mut addition = a + b + carry;
+        // Reset carry to zero
+        carry = 0;
+        // Catch the case if the „by hand addition” is larger than 9
+        if addition > 9 {
+            //…if it's larger, then save tens into `carry`, and cut it (by div).
+            carry = addition / 10;
+            addition %= 10;
+        }
+
+        /* // Prevent to accumulate zeros in result. It make sure the result won't be full of only 0.
+        if res == "0" && addition == 0 {
+            continue;
+        } */
+        // Transfer the addition into char and puh it into the final result
+        res.push((addition + b'0') as char);
+    }
+    if carry != 0 {
+        res.push((carry + b'0') as char);
     }
 
-    res.chars().rev().collect()
+    // Thus the push–ing, reverst the result to get the right number
+    res = res.chars().rev().collect();
+    // Check if the front of the number are zeros
+    let mut res_char = res.chars();
+    if res_char.next() == Some('0') {
+        let mut none_zero_index: usize = 0;
+        for (i, c) in res_char.enumerate() {
+            // If there is non zero char – we found where the number starts OR if we went to the end – it means the full number is zero.
+            if c != '0' || res.len() - 2 == i {
+                none_zero_index = i + 1;
+                break;
+            }
+        }
+        // Split the zeros off the number
+        res = res.split_off(none_zero_index);
+    }
+
+    res
 }
 
 fn main() {
-    println!("WYNIK: {}", dodaj_pisemnie("1133", "2"));
+    println!("WYNIK: {}", dodaj_pisemnie("000", "000"));
 }
 
 #[cfg(test)]
