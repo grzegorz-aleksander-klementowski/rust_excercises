@@ -18,6 +18,13 @@ members = [
   "./other/rust-fundamentals-engineered-from-pl-uni/z2/a/z6_pow_mod",
   "./other/rust-fundamentals-engineered-from-pl-uni/z2/b/z1_sort_in_descending_ord",
   "./other/rust-fundamentals-engineered-from-pl-uni/z2/b/z2_rand_gen_nums",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z3/a/z1_met_newton",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z4/a/z1-number-of-occurrences",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z4/a/z2-roman-num-into-arabic",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z4/b/z1-rm-every-second-char",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z4/b/z2-simple-reverse-encoding",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z4/b/z3-wizytowka",
+  "./other/rust-fundamentals-engineered-from-pl-uni/z4/b/z4-liczby-na-rzymskie",
   "./pasja_informatyki/odc-4/lotto_game",
   "./pasja_informatyki/odc-5/evaluation_mean",
   "./pasja_informatyki/odc-5/fibbonaci_counter",
@@ -39,5 +46,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "other/rust-fundamentals-engineered-from-pl-uni/z3/a/z1_met_newton", "other/rust-fundamentals-engineered-from-pl-uni/z4/a/z1-number-of-occurrences", "other/rust-fundamentals-engineered-from-pl-uni/z4/a/z2-roman-num-into-arabic"]
+, "other/rust-fundamentals-engineered-from-pl-uni/z4/b/z5-add-in-writing"]
 resolver = "2"
