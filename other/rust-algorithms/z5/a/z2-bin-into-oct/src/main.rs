@@ -21,9 +21,31 @@
 
 // Change the name for better understanding from `2_sys_value`
 fn bin_sys_value(z: &str) -> Option<u8> {
+    // Validate the string
+    if z.is_empty() {
+        return None;
+    }
+    for c in z.chars() {
+        if !(c != '0' || c != '1') {
+            return None;
+        }
+    }
     todo!()
 }
 
 fn main() {
     println!("Hello, world!");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn test_validation_input_str() {
+        assert_eq!(bin_sys_value(""), None);
+        assert_eq!(bin_sys_value("abc"), None);
+        assert_eq!(bin_sys_value("10c"), None);
+        assert_eq!(bin_sys_value("02"), None);
+        assert_eq!(bin_sys_value("102"), None);
+    }
 }
