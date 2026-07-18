@@ -21,16 +21,16 @@
 
 use std::mem::zeroed;
 
-fn replace_syst8_with_syst2(z: &str) -> Option<String> {
+fn replace_syst8_with_syst2(octal: &str) -> Option<String> {
     // Check if the string is empty or has got a '8' or '9' character.
-    if z.is_empty() {
+    if octal.is_empty() {
         return None;
     }
 
     let mut res = String::new();
     // „Bit weights” thus these are successive powers of two.
     let bit_weights_arr: [u8; 3] = [4, 2, 1];
-    for c in z.chars() {
+    for c in octal.chars() {
         // Check if the number is in the corract range of the character.
         if !('0'..='7').contains(&c) {
             return None;
