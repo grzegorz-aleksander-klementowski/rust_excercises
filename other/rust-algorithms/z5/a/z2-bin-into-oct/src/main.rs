@@ -21,26 +21,41 @@
 
 // Change the name for better understanding from `2_sys_value`
 fn eight_b_bin_into_decimal(bin: &str) -> Option<u8> {
-    // Validate the string
+    // Validate the string if it's empty, when we know it is lower than 8 bits.
     if bin.is_empty() {
+        // Input is empty.
         return None;
     }
+
+    // Short the bit string to the first 0. If it start with '0', then the program is looking for
+    // bit '1'. If it found, then it split the string into two string, to create new 'bin' string
+    // from the second part (and cutting off the rest (zeros)).
+    let mut bin = bin;
+    if bin.starts_with('0') {
+        match bin.find(|c| c != '0') {
+            Some(idx) => bin = bin.split_at(idx).1,
+            None => return Some(0),
+        };
+    }
+
     // Set the binary lenth for futher calculation of the conversion
     let bin_len = (bin.len() - 1) as u32;
-    if bin_len >= 9 {
+    if bin_len >= 8 {
+        // The input is too long.
         return None;
     }
+
     let mut res = 0u8;
     for (index, bit) in bin.chars().enumerate() {
         if bit == '1' {
-            // If the char is '1', then convert into octal number.
+            // If the char is '1', then convert into decimal number.
             let i = index as u32;
-            println!("i: {i}");
-            println!("bin_len: {bin_len}");
-            res = 2u8.pow(bin_len - i);
+            res += 2u8.pow(bin_len - i);
+            // If the char is '0' – do nothing.
         } else if bit == '0' {
             // Do nothing
         } else {
+            // If it's not '1' or '0' (so the invalid character) – return 'None'.
             return None;
         }
     }
@@ -49,9 +64,10 @@ fn eight_b_bin_into_decimal(bin: &str) -> Option<u8> {
 }
 
 fn main() {
+    let example = "02";
     println!(
-        "Example 10000, res: {:?}",
-        eight_b_bin_into_decimal("10000")
+        "Example {example}, res: {:?}",
+        eight_b_bin_into_decimal(example)
     );
 }
 
