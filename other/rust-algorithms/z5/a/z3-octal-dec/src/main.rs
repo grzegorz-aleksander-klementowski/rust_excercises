@@ -24,6 +24,14 @@
    **Note 2:** Make two versions of this function - the first without the question mark and the second with the question mark.
  */
 
+use std::env;
 fn main() {
-    println!("Hello, world!");
+    let mut args = env::args();
+    let _program = args.next();
+    let Some(octal) = args.next() else {
+        println!("Wrong argument!");
+        return;
+    };
+
+    println!("{:?}", z3_octal_dec::octal_into_u8(&octal));
 }
