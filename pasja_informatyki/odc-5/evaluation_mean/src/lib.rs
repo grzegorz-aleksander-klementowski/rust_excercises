@@ -345,15 +345,13 @@ mod tests {
         for &grade in &correct_grades {
             assert!(
                 test_gradesbook.validate(grade).is_ok(),
-                "Expected „ok” for grade: {}",
-                &grade
+                "Expected „ok” for grade: {grade}"
             );
         }
         for &grade in &uncorrect_grades {
             assert!(
                 test_gradesbook.validate(grade).is_err(),
-                "Expected „err” for grade: {}",
-                &grade
+                "Expected „err” for grade: {grade}"
             );
         }
     }
