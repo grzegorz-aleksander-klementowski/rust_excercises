@@ -27,8 +27,8 @@ fn main() {
         cli.adapter_nowa,
     );
 
-    println!("Zakupiono pierwszy raz za: {}", &poprzedni_zakup);
-    println!("Nowe części kosztują: {}", &nowy_zakup);
+    println!("Zakupiono pierwszy raz za: {poprzedni_zakup}");
+    println!("Nowe części kosztują: {nowy_zakup}");
 
     let różnica = KosztCzęściRowerowych::sub(nowy_zakup, poprzedni_zakup);
     let wartość_dopłaty = KosztCzęściRowerowych::suma(&różnica);
