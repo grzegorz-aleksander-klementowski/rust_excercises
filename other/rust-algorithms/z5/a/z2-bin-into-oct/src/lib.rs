@@ -1,6 +1,12 @@
-// Change the name for better understanding from `2_sys_value`
+/// Converts an 8-bit binary string into a decimal number.
+///
+/// # Panics
+///
+/// Panics if an internal invariant is violated and the validated string
+/// length cannot be represented as `u32`.
 #[must_use]
 pub fn eight_b_bin_into_decimal(bin: &str) -> Option<u8> {
+    // Change the name for better understanding from `2_sys_value`
     // Validate the string if it's empty, when we know it is lower than 8 bits.
     if bin.is_empty() {
         // Input is empty.
@@ -19,8 +25,7 @@ pub fn eight_b_bin_into_decimal(bin: &str) -> Option<u8> {
     }
 
     // Set the binary lenth for futher calculation of the conversion
-    let bin_len = u32::try_from(bin.len() - 1)
-        .expect("Can't tranform the index number of the computer size into unsigned 32-bit size.");
+    let bin_len = u32::try_from(bin.len() - 1).expect("validated length always fits into u32.");
     if bin_len >= 8 {
         // The input is too long.
         return None;
@@ -30,9 +35,7 @@ pub fn eight_b_bin_into_decimal(bin: &str) -> Option<u8> {
     for (index, bit) in bin.chars().enumerate() {
         if bit == '1' {
             // If the char is '1', then convert into decimal number.
-            let i = u32::try_from(index).expect(
-                "Can't tranform the index number of the computer size into unsigned 32-bit size.",
-            );
+            let i = u32::try_from(index).expect("validated length always fits into u32.");
             res += 2u8.pow(bin_len - i);
             // If the char is '0' – do nothing.
         } else if bit == '0' {
