@@ -1,3 +1,4 @@
+#[must_use]
 pub fn replace_syst8_with_syst2(octal: &str) -> Option<String> {
     // Check if the string is empty or has got a '8' or '9' character.
     if octal.is_empty() {
