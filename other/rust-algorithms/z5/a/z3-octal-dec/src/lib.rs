@@ -1,5 +1,4 @@
-//use ;
-
+#[must_use]
 pub fn octal_into_u8(octal: &str) -> Option<u8> {
     let bin = z1_syst8_into_syst2::replace_syst8_with_syst2(octal)?;
     z2_bin_into_oct::eight_b_bin_into_decimal(&bin)
