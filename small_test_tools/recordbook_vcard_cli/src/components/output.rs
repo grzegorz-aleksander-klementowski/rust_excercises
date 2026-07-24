@@ -79,13 +79,13 @@ impl fmt::Display for ZapiskiOsobowe {
         write!(
             f,
             "{}\n{}{}{}{}{}{}",
-            &self.zaczynajka_karty_vcf,
-            &self.nagłówek_fn,
-            &self.nagłówek_n,
-            &self.nagłówek_zrzeszenie,
-            &self.nagłówek_poczta,
-            &self.nagłówek_dalnomównik,
-            &self.kończajka_karty_vcf
+            self.zaczynajka_karty_vcf,
+            self.nagłówek_fn,
+            self.nagłówek_n,
+            self.nagłówek_zrzeszenie,
+            self.nagłówek_poczta,
+            self.nagłówek_dalnomównik,
+            self.kończajka_karty_vcf
         )
     }
 }
