@@ -18,8 +18,13 @@
    It returns the value of a decimal digit character, or a textual error description if it is not a digit.
  */
 
-fn char_into_u8_digit(c: char) -> Result<u8, String> {
-    todo!()
+pub fn char_into_u8_digit(c: char) -> Result<u8, String> {
+    let n = c as u8;
+    if (b'0'..(b'0' + 10)).contains(&n) {
+        Ok(n - b'0')
+    } else {
+        Err(format!("{c} is not a <0, 9> digit."))
+    }
 }
 
 #[cfg(test)]
