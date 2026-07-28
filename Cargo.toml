@@ -50,5 +50,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-, "other/rust-algorithms/z5/b/z1-char-into-u8", "other/rust-algorithms/z5/b/z2-add-in-written-res"]
+, "other/rust-algorithms/z5/b/z1-char-into-u8", "other/rust-algorithms/z5/b/z2-add-in-written-res", "other/rust-algorithms/z5/b/z3-digit-into-roman-numeral"]
 resolver = "2"
