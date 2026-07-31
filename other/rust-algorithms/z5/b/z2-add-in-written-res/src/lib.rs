@@ -28,28 +28,38 @@ use z1_char_into_u8::char_into_u8_digit;
 pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     println!("a-str: {a} | b-str: {b}");
 
+    // Check if the arguments are empty.
     if a.is_empty() || b.is_empty() {
+        // Return negative result (ERR)
         return Err("String is empty!".to_string());
     }
 
+    // Fullfilling the shorter string of digits with zeros.
     let a_len = a.len();
     let b_len = b.len();
     if a_len > b_len {}
 
+    // Initialize result variable.
     let mut res = String::new();
+    // Initialize „carry” to hold the rest from the addition.
     let mut carry = 0;
     for (char_a, char_b) in a.chars().rev().zip(b.chars().rev()) {
         println!("a: {char_a} | b: {char_b}");
+        // Converting the characters digits from the strings into numbers (by the function used in
+        // the previous exercise). Return negative result in a case of failing (ERR).
         let num_a = char_into_u8_digit(char_a)?;
         let num_b = char_into_u8_digit(char_b)?;
 
+        // Add two digits and take the carry from it.
         let addition = carry + num_a + num_b;
         carry += addition % 10;
 
+        // Transform the result into a character and push it into the result
         let addition_char = (addition + b'0') as char;
         res.push(addition_char);
     }
 
+    // Return the possitive result (OK)
     Ok(res)
 }
 
