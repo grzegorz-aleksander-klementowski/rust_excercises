@@ -24,6 +24,10 @@
  */
 
 pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
+    if a.is_empty() || b.is_empty() {
+        return Err("String is empty!".to_string());
+    }
+
     todo!()
 }
 
