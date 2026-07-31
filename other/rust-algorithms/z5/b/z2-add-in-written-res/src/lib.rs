@@ -23,12 +23,34 @@
    **Note:** Use the preceding function and the `?` operator.
  */
 
+use z1_char_into_u8::char_into_u8_digit;
+
 pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
+    println!("a-str: {a} | b-str: {b}");
+
     if a.is_empty() || b.is_empty() {
         return Err("String is empty!".to_string());
     }
 
-    todo!()
+    let a_len = a.len();
+    let b_len = b.len();
+    if a_len > b_len {}
+
+    let mut res = String::new();
+    let mut carry = 0;
+    for (char_a, char_b) in a.chars().rev().zip(b.chars().rev()) {
+        println!("a: {char_a} | b: {char_b}");
+        let num_a = char_into_u8_digit(char_a)?;
+        let num_b = char_into_u8_digit(char_b)?;
+
+        let addition = carry + num_a + num_b;
+        carry += addition % 10;
+
+        let addition_char = (addition + b'0') as char;
+        res.push(addition_char);
+    }
+
+    Ok(res)
 }
 
 #[cfg(test)]
