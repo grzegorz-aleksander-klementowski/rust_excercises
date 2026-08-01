@@ -34,15 +34,34 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         return Err("String is empty!".to_string());
     }
 
+    // Initialize vars for fitted strings (used later in the addition loop).
+    let mut a_fitted = String::new();
+    let mut b_fitted = String::new();
+
+    // #Fitting the strings to be used in the loop addition.
     // Fullfilling the shorter string of digits with zeros.
     let a_len = a.len();
     let b_len = b.len();
-    if a_len > b_len {}
+    if a_len > b_len {
+        let mut diff_a_b = a_len - b_len;
+        while diff_a_b == 0 {
+            b_fitted.push('0');
+            diff_a_b -= 1;
+        }
+    }
+    if b_len > a_len {
+        let mut diff_a_b = b_len - a_len;
+        while diff_a_b == 0 {
+            a_fitted.push('0');
+            diff_a_b -= 1;
+        }
+    }
 
     // Initialize result variable.
     let mut res = String::new();
     // Initialize „carry” to hold the rest from the addition.
     let mut carry = 0;
+    // The addition loop where the calculation is done.
     for (char_a, char_b) in a.chars().rev().zip(b.chars().rev()) {
         println!("a: {char_a} | b: {char_b}");
         // Converting the characters digits from the strings into numbers (by the function used in
