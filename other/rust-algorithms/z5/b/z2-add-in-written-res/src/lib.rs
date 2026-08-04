@@ -57,6 +57,18 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         }
     }
 
+    // Testing lenths!
+    a_fitted.push_str(a);
+    b_fitted.push_str(b);
+    let a_len = a_fitted.len();
+    let b_len = b_fitted.len();
+    if a_fitted != b_fitted {
+        eprintln!("Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len}.");
+        return Err(format!(
+            "Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len} "
+        ));
+    }
+
     // Initialize result variable.
     let mut res = String::new();
     // Initialize „carry” to hold the rest from the addition.
