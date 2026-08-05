@@ -49,7 +49,7 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
             diff_a_b -= 1;
         }
     }
-    if b_len > a_len {
+    if a_len < b_len {
         let mut diff_a_b = b_len - a_len;
         while diff_a_b == 0 {
             a_fitted.push('0');
@@ -67,6 +67,8 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         return Err(format!(
             "Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len} "
         ));
+    } else {
+        println!("`a` and `b` are equal: \n{a_fitted}\n{b_fitted}");
     }
 
     // Initialize result variable.
