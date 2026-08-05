@@ -44,17 +44,22 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     let b_len = b.len();
     if a_len > b_len {
         let mut diff_a_b = a_len - b_len;
-        while diff_a_b == 0 {
+        while diff_a_b != 0 {
             b_fitted.push('0');
             diff_a_b -= 1;
         }
     }
+    println!("Czy działa: a-len {a_len}, b-len {b_len}");
     if a_len < b_len {
+        println!("NIBY DZIAŁA! Przed a_fit: {a_fitted}");
         let mut diff_a_b = b_len - a_len;
-        while diff_a_b == 0 {
+        println!("diff_a_b: {diff_a_b}");
+        while diff_a_b != 0 {
             a_fitted.push('0');
+            println!("Zrobiłem pusz");
             diff_a_b -= 1;
         }
+        println!("Po a_fitted: {a_fitted}");
     }
 
     // Testing lenths!
