@@ -26,7 +26,7 @@
 use z1_char_into_u8::char_into_u8_digit;
 
 pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
-    println!("a-str: {a} | b-str: {b}");
+    println!("Początkowe dane: a-str: {a} | b-str: {b}");
 
     // Check if the arguments are empty.
     if a.is_empty() || b.is_empty() {
@@ -62,7 +62,8 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     b_fitted.push_str(b);
     let a_len = a_fitted.len();
     let b_len = b_fitted.len();
-    if a_fitted != b_fitted {
+    println!("a_len: {a_len} ORAZ b_len: {b_len}");
+    if a_len != b_len {
         eprintln!("Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len}.");
         return Err(format!(
             "Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len} "
@@ -77,7 +78,7 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     let mut carry = 0;
     // The addition loop where the calculation is done.
     for (char_a, char_b) in a.chars().rev().zip(b.chars().rev()) {
-        println!("a: {char_a} | b: {char_b}");
+        // println!("a: {char_a} | b: {char_b}");
         // Converting the characters digits from the strings into numbers (by the function used in
         // the previous exercise). Return negative result in a case of failing (ERR).
         let num_a = char_into_u8_digit(char_a)?;
