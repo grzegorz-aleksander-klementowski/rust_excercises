@@ -87,14 +87,26 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         // Converting the characters digits from the strings into numbers (by the function used in
         // the previous exercise). Return negative result in a case of failing (ERR).
         let num_a = char_into_u8_digit(char_a)?;
+        println!("char A into u8: {num_a}");
+        println!("char B ({char_a}) into u8: {num_a}");
         let num_b = char_into_u8_digit(char_b)?;
+        println!("char B ({char_b}) into u8: {num_b}");
 
         // Add two digits and take the carry from it.
         let addition = carry + num_a + num_b;
-        carry += addition % 10;
+        carry += addition / 10;
+        println!("Carry after the cut: {carry}");
 
         // Transform the result into a character and push it into the result
-        let addition_char = (addition + b'0') as char;
+        let addition_char_u8 = (addition + b'0');
+        if (48..58).contains(&addition_char_u8) {
+            println!("The char in u8 fit into the number char range.");
+        } else {
+            return Err(format!(
+                "Converting from `u8` into `char` failed! It doesn't fit ASCII number. Should be in range from 48 to 57, is: {addition_char_u8}"
+            ));
+        }
+        let addition_char = addition_char_u8 as char;
         res.push(addition_char);
     }
 
