@@ -39,9 +39,10 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     let mut b_fitted = String::new();
 
     // #Fitting the strings to be used in the loop addition.
-    // Fullfilling the shorter string of digits with zeros.
     let a_len = a.len();
     let b_len = b.len();
+
+    // Fullfilling the shorter string of digits with zeros.
     if a_len > b_len {
         let mut diff_a_b = a_len - b_len;
         while diff_a_b != 0 {
@@ -121,8 +122,25 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         res.push((carry + b'0') as char);
     }
 
-    // Return the possitive result (OK) - reserved as it was „pushed” into the result Str.
-    Ok(res.chars().rev().collect())
+    // Reverse back the result - reserved as it was „pushed” into the result Str
+    res = res.chars().rev().collect();
+
+    // Checking if the strings start from zero (if length is larger than 1 – to be sure the str
+    if res.starts_with('0') {
+        println!("ZNALEZIONO POCZĄTKOWE ZERO! res: {res}");
+        let idx_zeros = res.chars().take_while(|&c| c == '0').count();
+        // If the result was just full of zeros - return 0.
+        if idx_zeros == res.len() {
+            return Ok(String::from("0"));
+        }
+        let (_, s) = res.split_at(idx_zeros);
+        res = s.to_string();
+        println!("WYNIK: {res}");
+        return Ok(res);
+    }
+
+    // Return the possitive result (OK)
+    Ok(res)
 }
 
 #[cfg(test)]
