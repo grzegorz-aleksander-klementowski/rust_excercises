@@ -26,8 +26,6 @@
 use z1_char_into_u8::char_into_u8_digit;
 
 pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
-    println!("Początkowe dane: a-str: {a} | b-str: {b}");
-
     // Check if the arguments are empty.
     if a.is_empty() || b.is_empty() {
         // Return negative result (ERR)
@@ -50,32 +48,23 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
             diff_a_b -= 1;
         }
     }
-    println!("Czy działa: a-len {a_len}, b-len {b_len}");
     if a_len < b_len {
-        println!("NIBY DZIAŁA! Przed a_fit: {a_fitted}");
         let mut diff_a_b = b_len - a_len;
-        println!("diff_a_b: {diff_a_b}");
         while diff_a_b != 0 {
             a_fitted.push('0');
-            println!("Zrobiłem pusz");
             diff_a_b -= 1;
         }
-        println!("Po a_fitted: {a_fitted}");
     }
 
-    // Testing lenths!
+    // Testing lenths - it return error if the lenth isn't correct.
     a_fitted.push_str(a);
     b_fitted.push_str(b);
     let a_len = a_fitted.len();
     let b_len = b_fitted.len();
-    println!("a_len: {a_len} ORAZ b_len: {b_len}");
     if a_len != b_len {
-        eprintln!("Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len}.");
         return Err(format!(
             "Wrong lenth! a_fitted: {a_len}, b_fitted: {b_len} "
         ));
-    } else {
-        println!("`a` and `b` are equal: \n{a_fitted}\n{b_fitted}");
     }
 
     // Initialize result variable.
@@ -85,14 +74,10 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     // The addition loop where the calculation is done.
 
     for (char_a, char_b) in a_fitted.chars().rev().zip(b_fitted.chars().rev()) {
-        // println!("a: {char_a} | b: {char_b}");
         // Converting the characters digits from the strings into numbers (by the function used in
         // the previous exercise). Return negative result in a case of failing (ERR).
         let num_a = char_into_u8_digit(char_a)?;
-        println!("char A into u8: {num_a}");
-        println!("char B ({char_a}) into u8: {num_a}");
         let num_b = char_into_u8_digit(char_b)?;
-        println!("char B ({char_b}) into u8: {num_b}");
 
         // Add two digits and take the carry from it.
         let addition = carry + num_a + num_b;
@@ -100,25 +85,14 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         carry = addition / 10;
         // Take the addition without the carry
         let addition = addition % 10;
-        println!("Carry after the cut: {carry}");
 
         // Transform the result into a character and push it into the result
-        println!("Converting from digit into char, where addition is {addition}");
-        let addition_char_u8 = addition + b'0';
-        if (48..58).contains(&addition_char_u8) {
-            println!("The char in u8 fit into the number char range.");
-        } else {
-            return Err(format!(
-                "Converting from `u8` into `char` failed! It doesn't fit ASCII number. Should be in range from 48 to 57, is: {addition_char_u8}"
-            ));
-        }
-        let addition_char = addition_char_u8 as char;
+        let addition_char = (addition + b'0') as char;
         res.push(addition_char);
     }
 
     // Check if the carry left
     if carry != 0 {
-        println!("CARRY: {carry}");
         res.push((carry + b'0') as char);
     }
 
@@ -127,7 +101,6 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
 
     // Checking if the strings start from zero (if length is larger than 1 – to be sure the str
     if res.starts_with('0') {
-        println!("ZNALEZIONO POCZĄTKOWE ZERO! res: {res}");
         let idx_zeros = res.chars().take_while(|&c| c == '0').count();
         // If the result was just full of zeros - return 0.
         if idx_zeros == res.len() {
@@ -135,7 +108,7 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         }
         let (_, s) = res.split_at(idx_zeros);
         res = s.to_string();
-        println!("WYNIK: {res}");
+        // Result is alredy correct – ready to return.
         return Ok(res);
     }
 
