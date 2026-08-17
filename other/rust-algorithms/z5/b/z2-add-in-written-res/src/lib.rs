@@ -82,7 +82,8 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     // Initialize „carry” to hold the rest from the addition.
     let mut carry = 0;
     // The addition loop where the calculation is done.
-    for (char_a, char_b) in a.chars().rev().zip(b.chars().rev()) {
+
+    for (char_a, char_b) in a_fitted.chars().rev().zip(b_fitted.chars().rev()) {
         // println!("a: {char_a} | b: {char_b}");
         // Converting the characters digits from the strings into numbers (by the function used in
         // the previous exercise). Return negative result in a case of failing (ERR).
@@ -94,11 +95,15 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
 
         // Add two digits and take the carry from it.
         let addition = carry + num_a + num_b;
-        carry += addition / 10;
+        // Take the carry
+        carry = addition / 10;
+        // Take the addition without the carry
+        let addition = addition % 10;
         println!("Carry after the cut: {carry}");
 
         // Transform the result into a character and push it into the result
-        let addition_char_u8 = (addition + b'0');
+        println!("Converting from digit into char, where addition is {addition}");
+        let addition_char_u8 = addition + b'0';
         if (48..58).contains(&addition_char_u8) {
             println!("The char in u8 fit into the number char range.");
         } else {
@@ -110,8 +115,14 @@ pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
         res.push(addition_char);
     }
 
-    // Return the possitive result (OK)
-    Ok(res)
+    // Check if the carry left
+    if carry != 0 {
+        println!("CARRY: {carry}");
+        res.push((carry + b'0') as char);
+    }
+
+    // Return the possitive result (OK) - reserved as it was „pushed” into the result Str.
+    Ok(res.chars().rev().collect())
 }
 
 #[cfg(test)]
