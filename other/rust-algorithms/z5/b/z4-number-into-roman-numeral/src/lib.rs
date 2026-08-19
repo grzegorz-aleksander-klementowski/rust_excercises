@@ -27,6 +27,10 @@
 use z3_roman_figure_into_number::convert_roman_fig_into_number;
 
 pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
+    // Return the error if the argument string is empty
+    if napis.is_empty() {
+        return Err("The string argument is empty! Nothing to convert. ".to_string());
+    }
     println!("Napis: {napis}");
     // Result variable
     let mut res: u128 = 0;
