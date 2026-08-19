@@ -28,13 +28,20 @@ use z3_roman_figure_into_number::convert_roman_fig_into_number;
 
 pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     println!("Napis: {napis}");
+    // Result variable
+    let mut res: u128 = 0;
     // Take the string into iter chars
     for c in napis.chars() {
         print!("znak: {c} ");
-        let digit = convert_roman_fig_into_number(c)?;
-        print!("digit: {digit}");
+        let digit = (convert_roman_fig_into_number(c)?) as u128;
+        println!("digit: {digit}");
+        println!("Add {digit} into result ({res})");
+        res += digit;
+        println!("Now the result is: {res}");
     }
-    todo!()
+
+    // Return the result
+    Ok(res)
 }
 
 #[cfg(test)]
