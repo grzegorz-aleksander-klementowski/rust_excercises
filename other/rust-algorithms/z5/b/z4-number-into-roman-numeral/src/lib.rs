@@ -61,12 +61,12 @@ mod tests {
 
     #[test]
     fn valid_multiple_digits() {
-        /*  assert_eq!(number_into_roman_numeral("II"), Ok(2));
+        assert_eq!(number_into_roman_numeral("II"), Ok(2));
         assert_eq!(number_into_roman_numeral("III"), Ok(3));
         assert_eq!(number_into_roman_numeral("VII"), Ok(7));
         assert_eq!(number_into_roman_numeral("XX"), Ok(20));
         assert_eq!(number_into_roman_numeral("LX"), Ok(60));
-        assert_eq!(number_into_roman_numeral("CXI"), Ok(111)); */
+        assert_eq!(number_into_roman_numeral("CXI"), Ok(111));
         assert_eq!(number_into_roman_numeral("MDCLXVI"), Ok(1666));
     }
 
