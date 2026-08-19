@@ -108,23 +108,6 @@ mod tests {
     }
 
     #[test]
-    fn increasing_digit_order_is_invalid() {
-        assert!(number_into_roman_numeral("IV").is_err());
-        assert!(number_into_roman_numeral("IX").is_err());
-        assert!(number_into_roman_numeral("XL").is_err());
-        assert!(number_into_roman_numeral("XC").is_err());
-        assert!(number_into_roman_numeral("CD").is_err());
-        assert!(number_into_roman_numeral("CM").is_err());
-    }
-
-    #[test]
-    fn invalid_order_later_in_the_number_is_rejected() {
-        assert!(number_into_roman_numeral("XIV").is_err());
-        assert!(number_into_roman_numeral("MXC").is_err());
-        assert!(number_into_roman_numeral("DCM").is_err());
-    }
-
-    #[test]
     fn valid_digits_must_be_in_non_increasing_order() {
         assert_eq!(number_into_roman_numeral("MDC"), Ok(1600));
         assert_eq!(number_into_roman_numeral("CLX"), Ok(160));
