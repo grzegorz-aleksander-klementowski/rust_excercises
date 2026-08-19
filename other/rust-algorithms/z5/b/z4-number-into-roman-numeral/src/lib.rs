@@ -48,7 +48,7 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
 mod tests {
     use super::number_into_roman_numeral;
 
-    /* #[test]
+    #[test]
     fn single_roman_digit() {
         assert_eq!(number_into_roman_numeral("I"), Ok(1));
         assert_eq!(number_into_roman_numeral("V"), Ok(5));
@@ -57,7 +57,7 @@ mod tests {
         assert_eq!(number_into_roman_numeral("C"), Ok(100));
         assert_eq!(number_into_roman_numeral("D"), Ok(500));
         assert_eq!(number_into_roman_numeral("M"), Ok(1000));
-    } */
+    }
 
     #[test]
     fn valid_multiple_digits() {
@@ -70,65 +70,65 @@ mod tests {
         assert_eq!(number_into_roman_numeral("MDCLXVI"), Ok(1666));
     }
 
-    /* #[test]
-       fn digits_may_have_equal_values() {
-           assert_eq!(number_into_roman_numeral("III"), Ok(3));
-           assert_eq!(number_into_roman_numeral("XXX"), Ok(30));
-           assert_eq!(number_into_roman_numeral("CCC"), Ok(300));
-           assert_eq!(number_into_roman_numeral("MMM"), Ok(3000));
-       }
+    #[test]
+    fn digits_may_have_equal_values() {
+        assert_eq!(number_into_roman_numeral("III"), Ok(3));
+        assert_eq!(number_into_roman_numeral("XXX"), Ok(30));
+        assert_eq!(number_into_roman_numeral("CCC"), Ok(300));
+        assert_eq!(number_into_roman_numeral("MMM"), Ok(3000));
+    }
 
-       #[test]
-       fn empty_string_is_invalid() {
-           assert!(number_into_roman_numeral("").is_err());
-       }
+    #[test]
+    fn empty_string_is_invalid() {
+        assert!(number_into_roman_numeral("").is_err());
+    }
 
-       #[test]
-       fn invalid_character_is_rejected() {
-           assert!(number_into_roman_numeral("A").is_err());
-           assert!(number_into_roman_numeral("XAI").is_err());
-           assert!(number_into_roman_numeral("123").is_err());
-       }
+    #[test]
+    fn invalid_character_is_rejected() {
+        assert!(number_into_roman_numeral("A").is_err());
+        assert!(number_into_roman_numeral("XAI").is_err());
+        assert!(number_into_roman_numeral("123").is_err());
+    }
 
-       #[test]
-       fn lowercase_letters_are_invalid() {
-           assert!(number_into_roman_numeral("i").is_err());
-           assert!(number_into_roman_numeral("xiv").is_err());
-       }
+    #[test]
+    fn lowercase_letters_are_invalid() {
+        assert!(number_into_roman_numeral("i").is_err());
+        assert!(number_into_roman_numeral("xiv").is_err());
+    }
 
-       #[test]
-       fn whitespace_is_invalid() {
-           assert!(number_into_roman_numeral(" ").is_err());
-           assert!(number_into_roman_numeral(" X").is_err());
-           assert!(number_into_roman_numeral("X ").is_err());
-       }
+    #[test]
+    fn whitespace_is_invalid() {
+        assert!(number_into_roman_numeral(" ").is_err());
+        assert!(number_into_roman_numeral(" X").is_err());
+        assert!(number_into_roman_numeral("X ").is_err());
+    }
 
-       #[test]
-       fn increasing_digit_order_is_invalid() {
-           assert!(number_into_roman_numeral("IV").is_err());
-           assert!(number_into_roman_numeral("IX").is_err());
-           assert!(number_into_roman_numeral("XL").is_err());
-           assert!(number_into_roman_numeral("XC").is_err());
-           assert!(number_into_roman_numeral("CD").is_err());
-           assert!(number_into_roman_numeral("CM").is_err());
-       }
-    */
-    /* #[test]
+    #[test]
+    fn increasing_digit_order_is_invalid() {
+        assert!(number_into_roman_numeral("IV").is_err());
+        assert!(number_into_roman_numeral("IX").is_err());
+        assert!(number_into_roman_numeral("XL").is_err());
+        assert!(number_into_roman_numeral("XC").is_err());
+        assert!(number_into_roman_numeral("CD").is_err());
+        assert!(number_into_roman_numeral("CM").is_err());
+    }
+
+    #[test]
     fn invalid_order_later_in_the_number_is_rejected() {
         assert!(number_into_roman_numeral("XIV").is_err());
         assert!(number_into_roman_numeral("MXC").is_err());
         assert!(number_into_roman_numeral("DCM").is_err());
-    } */
+    }
 
-    /* #[test]
+    #[test]
     fn valid_digits_must_be_in_non_increasing_order() {
         assert_eq!(number_into_roman_numeral("MDC"), Ok(1600));
         assert_eq!(number_into_roman_numeral("CLX"), Ok(160));
         assert_eq!(number_into_roman_numeral("XVI"), Ok(16));
-    } */
+    }
 
-    /* #[test]
+    #[test]
     fn error_can_occur_after_valid_prefix() {
         assert!(number_into_roman_numeral("MDCZ").is_err());
-    } */
+    }
 }
