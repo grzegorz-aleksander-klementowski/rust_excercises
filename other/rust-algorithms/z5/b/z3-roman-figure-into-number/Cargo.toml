@@ -1,5 +1,5 @@
 [package]
-name = "z3-digit-into-roman-numeral"
+name = "z3-roman-figure-into-number"
 version = "0.1.0"
 edition = "2024"
 
