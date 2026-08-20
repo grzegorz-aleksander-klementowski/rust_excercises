@@ -36,15 +36,14 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     let mut res: u128 = 0;
 
     // Array of roman figures
-    let roman_figues = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
-    let mut check_figs = ['0', '0', '0'];
+    let roman_figues_val = [1000, 500, 100, 50, 10, 1];
+    //let mut check_figs = ['0', '0', '0'];
 
     // Convert string into a vector.
     let mut vec_converted_num: Vec<u128> = Vec::new();
     // Take the char vec into windowed iter
     for c in napis.chars() {
-        // Check invalid digit order
-
+        // Converting the roman figure into a number
         let converted_number = convert_roman_fig_into_number(c)? as u128;
         vec_converted_num.push(converted_number);
 
@@ -59,8 +58,15 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         println!("Now the result is: {res}"); */
     }
 
-    for n in vec_converted_num {
-        //
+    // # Check invalid digit order
+    for n in vec_converted_num.windows(2) {
+        // take two numbers from the vector. Checking if the first one is grater than the lower one
+        // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
+        // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
+        if (n[0] >= n[1]) && (n[0].is_multiple_of(10) && (n[1].is_multiple_of(10)) || n[1] == 1) {
+            // In this case we ca add toghether
+            //res=+
+        }
     }
 
     // Return the result
