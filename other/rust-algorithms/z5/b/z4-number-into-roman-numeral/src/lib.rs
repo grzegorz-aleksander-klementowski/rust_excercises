@@ -34,14 +34,33 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     println!("Napis: {napis}");
     // Result variable
     let mut res: u128 = 0;
-    // Take the string into iter chars
+
+    // Array of roman figures
+    let roman_figues = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+    let mut check_figs = ['0', '0', '0'];
+
+    // Convert string into a vector.
+    let mut vec_converted_num: Vec<u128> = Vec::new();
+    // Take the char vec into windowed iter
     for c in napis.chars() {
-        print!("znak: {c} ");
+        // Check invalid digit order
+
+        let converted_number = convert_roman_fig_into_number(c)? as u128;
+        vec_converted_num.push(converted_number);
+
+        // If the chars are the same AND are power ten (ei. M, C, I), those can be add togheter
+        //if (char_window[0] == char_window[1]) && () {}
+
+        /* print!("znak: {c:?} ");
         let digit = (convert_roman_fig_into_number(c)?) as u128;
         println!("digit: {digit}");
         println!("Add {digit} into result ({res})");
         res += digit;
-        println!("Now the result is: {res}");
+        println!("Now the result is: {res}"); */
+    }
+
+    for n in vec_converted_num {
+        //
     }
 
     // Return the result
@@ -105,6 +124,13 @@ mod tests {
         assert!(number_into_roman_numeral(" ").is_err());
         assert!(number_into_roman_numeral(" X").is_err());
         assert!(number_into_roman_numeral("X ").is_err());
+    }
+
+    #[test]
+    fn invalid_order_later_in_the_number_is_rejected() {
+        assert!(number_into_roman_numeral("XIV").is_err());
+        assert!(number_into_roman_numeral("MXC").is_err());
+        assert!(number_into_roman_numeral("DCM").is_err());
     }
 
     #[test]
