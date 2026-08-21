@@ -35,13 +35,20 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Result variable
     let mut res: u128 = 0;
 
+    for roman_fig in ['M', 'D', 'C', 'L', 'X', 'V', 'I'] {
+        // Check if the roman figure occur more than 3 times. In case of more than 3 – return an error
+        let r_fig_conuter = napis.chars().filter(|c| *c == roman_fig).count();
+        if r_fig_conuter > 3 {
+            return Err(format!(
+                "`{roman_fig}` char occur more than 3 times in the string function argument."
+            ));
+        }
+    }
+
     // Array of roman figures
     let roman_figues_val = [1000, 500, 100, 50, 10, 1];
-    //let mut check_figs = ['0', '0', '0'];
-
     // Convert string into a vector.
     let mut vec_converted_num: Vec<u128> = Vec::new();
-    // Take the char vec into windowed iter
     for c in napis.chars() {
         // Converting the roman figure into a number
         let converted_number = convert_roman_fig_into_number(c)? as u128;
