@@ -58,7 +58,6 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // # Check invalid digit order
     for n in vec_converted_num.windows(2) {
         println!("\n");
-        println!("OSTATNI ELEMENT: {:?} ORAZ ELEMENT: {:?}", n.last(), n);
         println!("Obliczam {n:?}");
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
@@ -74,10 +73,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         }
         // If the first element is lower than the second, and is 1 or to power of 10, and
         // is not 50 or 500, then we can add to the result.
-        // Also, if
+        // Also, check incorrect figure when it doesn't fit the range ofthe neightbord number (can't be „XD” but can be „XL”. `500` is out of range if it is next to `10`.
         else if (n[0] < n[1])
             && ((n[0].is_multiple_of(10) || n[0] == 1) && (n[0] != 50 && n[0] != 500))
-            && (n[0] * n[0] == n[1])
+            && (n[0] * n[0] == n[1] || n[0] + 9 == 10)
         {
             res -= n[0];
         }
