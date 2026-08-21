@@ -44,8 +44,6 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         }
     }
 
-    // Array of roman figures
-    let roman_figues_val = [1000, 500, 100, 50, 10, 1];
     // Convert string into a vector.
     let mut vec_converted_num: Vec<u128> = Vec::new();
     for c in napis.chars() {
@@ -174,5 +172,27 @@ mod tests {
     fn error_can_occur_after_valid_prefix() {
         assert!(number_into_roman_numeral("MDCZ").is_err());
         assert!(number_into_roman_numeral("XD").is_err());
+    }
+    #[test]
+    fn rejects_invalid_roman_numeral_sequences() {
+        assert!(number_into_roman_numeral("IIV").is_err());
+        assert!(number_into_roman_numeral("VIV").is_err());
+        assert!(number_into_roman_numeral("IXIX").is_err());
+        assert!(number_into_roman_numeral("XXC").is_err());
+        assert!(number_into_roman_numeral("CCD").is_err());
+
+        // V, L and D cannot be repeated.
+        assert!(number_into_roman_numeral("VV").is_err());
+        assert!(number_into_roman_numeral("LL").is_err());
+        assert!(number_into_roman_numeral("DD").is_err());
+    }
+
+    #[test]
+    fn accepts_repeated_digits_when_the_overall_numeral_is_valid() {
+        // X occurs four times in total, but never more than three times consecutively.
+        assert_eq!(number_into_roman_numeral("XXXIX"), Ok(39));
+
+        // M occurs four times in total, but the numeral itself is valid.
+        assert_eq!(number_into_roman_numeral("MMMCM"), Ok(3900));
     }
 }
