@@ -71,11 +71,11 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         } else if (n[0] < n[1])
         // If the first element is lower than the second, and is 1 or to power of 10, and
         // is not 50 or 500, then we can add to the result.
+            && ((n[0].is_multiple_of(10) || n[0] == 1) && (n[0] != 50 && n[0] != 500))
         // Also, check incorrect figure when it doesn't fit the range ofthe neightbord number (can't be „XD” but can be „XL”. `500` is out of range if it is next to `10`.
         // - n[0].pow(2) == n[1] → in case if X/C has to be next to C/M;
         // - n[0] + 9 == n[1] → case of `I` and `X`;
         // - n[0] * 2 == n[1] → case of  V/L/D has to be next to I/X/C/D
-            && ((n[0].is_multiple_of(10) || n[0] == 1) && (n[0] != 50 && n[0] != 500))
             && (n[0] * 10 == n[1] || n[0] + 9 == n[1] || n[0] * 5 == n[1])
         {
             // Check if will not
@@ -84,6 +84,8 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
             } else {
                 carry = n[0];
             }
+        } else if n[0] >= n[1] && ([5, 50, 500].contains(&n[0]) && [5, 50, 500].contains(&n[1])) {
+            return Err(format!("{} and {} cannot be toghether", n[0], n[1]));
         } else {
             // if any case wasn't included in the above algorithm – it means
             // something is wrong.
