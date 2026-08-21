@@ -58,19 +58,28 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // # Check invalid digit order
     for n in vec_converted_num.windows(2) {
         println!("\n");
+        println!("OSTATNI ELEMENT: {:?} ORAZ ELEMENT: {:?}", n.last(), n);
         println!("Obliczam {n:?}");
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
         // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
-        if (n[0] >= n[1])
-            && (n[0].is_multiple_of(10)
-                && (n[1].is_multiple_of(10) || n[1] == 1 && n[1] != 50 && n[1] != 500))
+        if n[0] >= n[1]
+        /* && (Some(n) == n.last()) */
         {
             // In this case we ca add toghether
             println!("=== DODAJE ===");
             println!("Wynik: {res}. Dodaje: {}", n[0]);
             res += n[0];
             println!("Nowy wynik: {res}");
+        }
+        // If the first element is lower than the second, and is 1 or to power of 10, and
+        // is not 50 or 500, then we can add to the result.
+        // Also, if
+        else if (n[0] < n[1])
+            && ((n[0].is_multiple_of(10) || n[0] == 1) && (n[0] != 50 && n[0] != 500))
+            && (n[0] * n[0] == n[1])
+        {
+            res -= n[0];
         }
     }
     // If loop finish without an error – we can add the last element of the vec
@@ -106,6 +115,7 @@ mod tests {
         assert_eq!(number_into_roman_numeral("XX"), Ok(20));
         assert_eq!(number_into_roman_numeral("LX"), Ok(60));
         assert_eq!(number_into_roman_numeral("CXI"), Ok(111));
+        assert_eq!(number_into_roman_numeral("CMXC"), Ok(990));
         assert_eq!(number_into_roman_numeral("MDCLXVI"), Ok(1666));
     }
 
@@ -143,13 +153,6 @@ mod tests {
     }
 
     #[test]
-    fn invalid_order_later_in_the_number_is_rejected() {
-        assert!(number_into_roman_numeral("XIV").is_err());
-        assert!(number_into_roman_numeral("MXC").is_err());
-        assert!(number_into_roman_numeral("DCM").is_err());
-    }
-
-    #[test]
     fn valid_digits_must_be_in_non_increasing_order() {
         assert_eq!(number_into_roman_numeral("MDC"), Ok(1600));
         assert_eq!(number_into_roman_numeral("CLX"), Ok(160));
@@ -159,5 +162,6 @@ mod tests {
     #[test]
     fn error_can_occur_after_valid_prefix() {
         assert!(number_into_roman_numeral("MDCZ").is_err());
+        assert!(number_into_roman_numeral("XD").is_err());
     }
 }
