@@ -34,12 +34,12 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Result variable
     let mut res: u128 = 0;
 
-    // Check if the roman figure occur more than 3 times. In case of more than 3 – return an error
-    for roman_fig in ['M', 'D', 'C', 'L', 'X', 'V', 'I'] {
-        let r_fig_conuter = napis.chars().filter(|c| *c == roman_fig).count();
+    // Check if the roman figure occur more than 3 times in a window. In case of more than 3 – return an error
+    for roman_fig_window in ['M', 'D', 'C', 'L', 'X', 'V', 'I'].windows(4) {
+        let r_fig_conuter = napis.chars().filter(|c| *c == roman_fig_window[0]).count();
         if r_fig_conuter > 3 {
             return Err(format!(
-                "`{roman_fig}` char occur more than 3 times in the string function argument."
+                "`{roman_fig_window:?}` char occur more than 3 times in the string function argument."
             ));
         }
     }
