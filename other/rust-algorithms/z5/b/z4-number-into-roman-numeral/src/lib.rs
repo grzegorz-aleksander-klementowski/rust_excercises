@@ -35,8 +35,8 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Result variable
     let mut res: u128 = 0;
 
+    // Check if the roman figure occur more than 3 times. In case of more than 3 – return an error
     for roman_fig in ['M', 'D', 'C', 'L', 'X', 'V', 'I'] {
-        // Check if the roman figure occur more than 3 times. In case of more than 3 – return an error
         let r_fig_conuter = napis.chars().filter(|c| *c == roman_fig).count();
         if r_fig_conuter > 3 {
             return Err(format!(
@@ -53,31 +53,31 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         // Converting the roman figure into a number
         let converted_number = convert_roman_fig_into_number(c)? as u128;
         vec_converted_num.push(converted_number);
-
-        // If the chars are the same AND are power ten (ei. M, C, I), those can be add togheter
-        //if (char_window[0] == char_window[1]) && () {}
-
-        /* print!("znak: {c:?} ");
-        let digit = (convert_roman_fig_into_number(c)?) as u128;
-        println!("digit: {digit}");
-        println!("Add {digit} into result ({res})");
-        res += digit;
-        println!("Now the result is: {res}"); */
     }
 
     // # Check invalid digit order
     for n in vec_converted_num.windows(2) {
+        println!("\n");
+        println!("Obliczam {n:?}");
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
         // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
-        if (n[0] >= n[1]) && (n[0].is_multiple_of(10) && (n[1].is_multiple_of(10)) || n[1] == 1) {
+        if (n[0] >= n[1])
+            && (n[0].is_multiple_of(10)
+                && (n[1].is_multiple_of(10) || n[1] == 1 && n[1] != 50 && n[1] != 500))
+        {
             // In this case we ca add toghether
+            println!("=== DODAJE ===");
+            println!("Wynik: {res}. Dodaje: {}", n[0]);
             res += n[0];
+            println!("Nowy wynik: {res}");
         }
     }
     // If loop finish without an error – we can add the last element of the vec
     // If there is no last element – return the critical error (it should not happend)
+    println!("Dodaje ostatni element: {:?}", vec_converted_num.last());
     res += vec_converted_num.last().unwrap();
+    println!("Otrzymano ostateczny wynik: {res}");
 
     // Return the result
     Ok(res)
