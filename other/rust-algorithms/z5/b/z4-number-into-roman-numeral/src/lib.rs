@@ -35,11 +35,15 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     let mut res: u128 = 0;
 
     // Check if the roman figure occur more than 3 times in a window. In case of more than 3 – return an error
-    for roman_fig_window in ['M', 'D', 'C', 'L', 'X', 'V', 'I'].windows(4) {
-        let r_fig_conuter = napis.chars().filter(|c| *c == roman_fig_window[0]).count();
-        if r_fig_conuter > 3 {
+    let vec_napis: Vec<char> = napis.chars().collect();
+    for c_roman_fig in ['M', 'D', 'C', 'L', 'X', 'V', 'I'] {
+        let is_repetative = vec_napis
+            .windows(4)
+            .any(|win| win.iter().all(|&c| c == c_roman_fig));
+
+        if is_repetative {
             return Err(format!(
-                "`{roman_fig_window:?}` char occur more than 3 times in the string function argument."
+                "`{c_roman_fig}` char occur more than 3 times in the string function argument ({napis})."
             ));
         }
     }
@@ -182,6 +186,7 @@ mod tests {
         assert!(number_into_roman_numeral("IXIX").is_err());
         assert!(number_into_roman_numeral("XXC").is_err());
         assert!(number_into_roman_numeral("CCD").is_err());
+        assert!(number_into_roman_numeral("XXXX").is_err());
 
         // V, L and D cannot be repeated.
         assert!(number_into_roman_numeral("VV").is_err());
