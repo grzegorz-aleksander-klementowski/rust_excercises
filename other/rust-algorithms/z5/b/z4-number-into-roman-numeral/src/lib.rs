@@ -72,9 +72,12 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
         if (n[0] >= n[1]) && (n[0].is_multiple_of(10) && (n[1].is_multiple_of(10)) || n[1] == 1) {
             // In this case we ca add toghether
-            //res=+
+            res += n[0];
         }
     }
+    // If loop finish without an error – we can add the last element of the vec
+    // If there is no last element – return the critical error (it should not happend)
+    res += vec_converted_num.last().unwrap();
 
     // Return the result
     Ok(res)
