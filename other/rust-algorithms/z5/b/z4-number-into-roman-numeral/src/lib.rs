@@ -27,6 +27,7 @@
 use z3_roman_figure_into_number::convert_roman_fig_into_number;
 
 pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
+    println!("\n\ninfo: new case – {napis}\n");
     // Return the error if the argument string is empty
     if napis.is_empty() {
         return Err("The string argument is empty! Nothing to convert. ".to_string());
@@ -37,11 +38,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Check if the roman figure occur more than 3 times in a window. In case of more than 3 – return an error
     let vec_napis: Vec<char> = napis.chars().collect();
     for c_roman_fig in ['M', 'D', 'C', 'L', 'X', 'V', 'I'] {
-        let is_repetative = vec_napis
+        if vec_napis
             .windows(4)
-            .any(|win| win.iter().all(|&c| c == c_roman_fig));
-
-        if is_repetative {
+            .any(|win| win.iter().all(|&c| c == c_roman_fig))
+        {
             return Err(format!(
                 "`{c_roman_fig}` char occur more than 3 times in the string function argument ({napis})."
             ));
@@ -57,8 +57,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     }
 
     let mut carry = 0;
+    let vec_converted_num_len = vec_converted_num.len();
+    println!("info: set vector coverted number lenth: {vec_converted_num_len}");
     // # Check invalid digit order
-    for n in vec_converted_num.windows(2) {
+    for (e, n) in vec_converted_num.windows(3).enumerate() {
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
         // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
@@ -72,9 +74,11 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                 res -= carry;
                 carry = 0;
             }
-        } else if (n[0] < n[1])
+        }
         // If the first element is lower than the second, and is 1 or to power of 10, and
         // is not 50 or 500, then we can add to the result.
+        else if (n[0] < n[1])
+
             && ((n[0].is_multiple_of(10) || n[0] == 1) && (n[0] != 50 && n[0] != 500))
         // Also, check incorrect figure when it doesn't fit the range ofthe neightbord number (can't be „XD” but can be „XL”. `500` is out of range if it is next to `10`.
         // - n[0].pow(2) == n[1] → in case if X/C has to be next to C/M;
@@ -88,7 +92,9 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
             } else {
                 carry = n[0];
             }
-        } else if n[0] >= n[1] && ([5, 50, 500].contains(&n[0]) && [5, 50, 500].contains(&n[1])) {
+        }
+        // Cach the case for 5, 50, and 500
+        else if n[0] >= n[1] && ([5, 50, 500].contains(&n[0]) && [5, 50, 500].contains(&n[1])) {
             return Err(format!("{} and {} cannot be toghether", n[0], n[1]));
         } else {
             // if any case wasn't included in the above algorithm – it means
@@ -97,6 +103,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                 "In roman numerials, the number :{:?} and {:?} cannot be stay toghether and be calculated as well.",
                 n[0], n[1]
             ));
+        }
+
+        if e == vec_converted_num_len {
+            println!("info: last one");
         }
     }
     // If loop finish without an error – we can add the last element of the vec
@@ -181,8 +191,11 @@ mod tests {
     }
     #[test]
     fn rejects_invalid_roman_numeral_sequences() {
+        // small | small | big → invalid
         assert!(number_into_roman_numeral("IIV").is_err());
+        // big-halg | small | big-half
         assert!(number_into_roman_numeral("VIV").is_err());
+        // small | big | small → invalid
         assert!(number_into_roman_numeral("IXIX").is_err());
         assert!(number_into_roman_numeral("XXC").is_err());
         assert!(number_into_roman_numeral("CCD").is_err());
