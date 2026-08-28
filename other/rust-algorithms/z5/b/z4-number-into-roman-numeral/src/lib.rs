@@ -57,10 +57,13 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     }
 
     let mut carry = 0;
-    let vec_converted_num_len = vec_converted_num.len();
-    println!("info: set vector coverted number lenth: {vec_converted_num_len}");
+    let windows_vec_conv_num = vec_converted_num.windows(3);
+    let windows_vec_conv_num_len = windows_vec_conv_num.len();
+    println!("info: set vector coverted number lenth: {windows_vec_conv_num_len}");
     // # Check invalid digit order
-    for (e, n) in vec_converted_num.windows(3).enumerate() {
+    for (e, n) in windows_vec_conv_num.enumerate() {
+        println!("info: set enumeration in loop: {e}");
+        println!("info: seach in the window: {n:?}");
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
         // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
@@ -105,8 +108,13 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
             ));
         }
 
-        if e == vec_converted_num_len {
+        if e == windows_vec_conv_num_len {
             println!("info: last one");
+        } else {
+            println!("info: doesn't find the last element. ");
+            println!(
+                "info: currect element: {e}. last one (lenth of vec): {windows_vec_conv_num_len}"
+            );
         }
     }
     // If loop finish without an error – we can add the last element of the vec
