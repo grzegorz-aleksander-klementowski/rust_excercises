@@ -27,7 +27,6 @@
 use z3_roman_figure_into_number::convert_roman_fig_into_number;
 
 pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
-    println!("\n\ninfo: new case – {napis}\n");
     // Return the error if the argument string is empty
     if napis.is_empty() {
         return Err("The string argument is empty! Nothing to convert. ".to_string());
@@ -65,12 +64,9 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     let windows_vec_conv_num = vec_converted_num.windows(2);
     let windows_vec_conv_num_len = windows_vec_conv_num.len();
     let mut previous_element = 0;
-    println!("info: set vector coverted number lenth: {windows_vec_conv_num_len}");
     // # Check invalid digit order
     // The loop take the window and enumerate it for to check the last number
     for (e, n) in windows_vec_conv_num.enumerate() {
-        println!("info: set enumeration in loop: {e}");
-        println!("info: seach in the window: {n:?}");
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. In
         // case of being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
@@ -80,17 +76,11 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                 return Err(format!("error: {} and {} cannot be toghether", n[0], n[1]));
             }
             // In this case we ca add toghether
-            println!("info: add n[0] ({}) to result ({res}).", n[0]);
             res += n[0];
-            println!("info: now result: {res}");
 
             // If subtraction was't allowed before – now it is after adding a number to the result.
             if carry != 0 {
-                println!(
-                    "info: carry found: {carry}. substract carry ({carry}) from result ({res})."
-                );
                 res -= carry;
-                println!("info: now result: {res}");
                 carry = 0;
             }
         }
@@ -113,18 +103,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                         "error: invalid roman numeral sequences ({})",
                         napis
                     ));
-                } else {
-                    println!(
-                        "info: The previous element ({previous_element}) correct – not same as {}",
-                        n[0]
-                    );
                 }
-                println!("info: substract n[0] ({}) from result ({res}).", n[0]);
                 res -= n[0];
-                println!("info: now result: {res}");
             } else {
                 carry = n[0];
-                println!("info: saved carry: {carry}");
             }
         } else {
             // if any case wasn't included in the above algorithm – it means
@@ -135,28 +117,12 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
             ));
         }
 
-        if e == windows_vec_conv_num_len {
-            println!("info: last one");
-        } else {
-            println!("info: doesn't find the last element. ");
-            println!(
-                "info: currect element: {e}. last one (lenth of vec): {windows_vec_conv_num_len}"
-            );
-        }
-
         // save the last element for the next loop
         previous_element = n[0];
-        println!("info: save the last element for the next loop: {previous_element}");
     }
     // If loop finish without an error – we can add the last element of the vec
     // If there is no last element – return the critical error (it should not happend)
-    println!("info: the loop finished.");
-    println!(
-        "info: the last element of the vector of numbers ({}) added to result ({res}).",
-        vec_converted_num.last().unwrap()
-    );
     res += vec_converted_num.last().unwrap();
-    println!("info: final result: {res}");
 
     // Return the result
     Ok(res)
