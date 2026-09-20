@@ -75,6 +75,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. In
         // case of being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
         if n[0] >= n[1] {
+            // Cach the case for 5, 50, and 500 if these are toghether.
+            if n[0] >= n[1] && ([5, 50, 500].contains(&n[0]) && [5, 50, 500].contains(&n[1])) {
+                return Err(format!("error: {} and {} cannot be toghether", n[0], n[1]));
+            }
             // In this case we ca add toghether
             println!("info: add n[0] ({}) to result ({res}).", n[0]);
             res += n[0];
@@ -122,10 +126,6 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                 carry = n[0];
                 println!("info: saved carry: {carry}");
             }
-        }
-        // Cach the case for 5, 50, and 500
-        else if n[0] >= n[1] && ([5, 50, 500].contains(&n[0]) && [5, 50, 500].contains(&n[1])) {
-            return Err(format!("error: {} and {} cannot be toghether", n[0], n[1]));
         } else {
             // if any case wasn't included in the above algorithm – it means
             // something is wrong.
