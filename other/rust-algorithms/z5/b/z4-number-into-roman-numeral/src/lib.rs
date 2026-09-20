@@ -102,7 +102,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         {
             // Check if will not
             if res != 0 {
-                if n[0] == previous_element {
+                if n[0] == previous_element
+                    || ([5, 50, 500].contains(&n[1]) && n[1] == previous_element)
+                    || n[0] == n[1]
+                {
                     return Err(format!(
                         "error: invalid roman numeral sequences ({})",
                         napis
