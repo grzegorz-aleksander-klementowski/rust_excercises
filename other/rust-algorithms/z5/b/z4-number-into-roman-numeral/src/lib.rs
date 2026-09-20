@@ -59,10 +59,12 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Create variables needed for checking invalid digit order loop below.
     // carry – needed to check if rest any number after adding toghether numbers.
     // windows_vec_conv_num – take 3 number in loop in a time
-    // windows_vec_conv_num_len – save the lenth of the window (should be max 3).
+    // windows_vec_conv_num_len – save the lenth of the window.
+    // previous_element – save the previous number (e.i. „I”) to avoid comparing situation, whem are added two correct number (e.i.: „IV”), while the previous one was not correct comparing to the currect pair number (e.i.: „IIV”).
     let mut carry = 0;
-    let windows_vec_conv_num = vec_converted_num.windows(3);
+    let windows_vec_conv_num = vec_converted_num.windows(2);
     let windows_vec_conv_num_len = windows_vec_conv_num.len();
+    let mut previous_element = 0;
     println!("info: set vector coverted number lenth: {windows_vec_conv_num_len}");
     // # Check invalid digit order
     // The loop take the window and enumerate it for to check the last number
@@ -100,6 +102,17 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         {
             // Check if will not
             if res != 0 {
+                if n[0] == previous_element {
+                    return Err(format!(
+                        "error: invalid roman numeral sequences ({})",
+                        napis
+                    ));
+                } else {
+                    println!(
+                        "info: The previous element ({previous_element}) correct – not same as {}",
+                        n[0]
+                    );
+                }
                 println!("info: substract n[0] ({}) from result ({res}).", n[0]);
                 res -= n[0];
                 println!("info: now result: {res}");
@@ -110,12 +123,12 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         }
         // Cach the case for 5, 50, and 500
         else if n[0] >= n[1] && ([5, 50, 500].contains(&n[0]) && [5, 50, 500].contains(&n[1])) {
-            return Err(format!("{} and {} cannot be toghether", n[0], n[1]));
+            return Err(format!("error: {} and {} cannot be toghether", n[0], n[1]));
         } else {
             // if any case wasn't included in the above algorithm – it means
             // something is wrong.
             return Err(format!(
-                "In roman numerials, the number :{:?} and {:?} cannot be stay toghether and be calculated as well.",
+                "error: In roman numerials, the number :{:?} and {:?} cannot be stay toghether and be calculated as well.",
                 n[0], n[1]
             ));
         }
@@ -128,6 +141,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                 "info: currect element: {e}. last one (lenth of vec): {windows_vec_conv_num_len}"
             );
         }
+
+        // save the last element for the next loop
+        previous_element = n[0];
+        println!("info: save the last element for the next loop: {previous_element}");
     }
     // If loop finish without an error – we can add the last element of the vec
     // If there is no last element – return the critical error (it should not happend)
