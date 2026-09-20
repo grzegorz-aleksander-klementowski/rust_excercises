@@ -74,10 +74,17 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         // case of being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
         if n[0] >= n[1] {
             // In this case we ca add toghether
+            println!("info: add n[0] ({}) to result ({res}).", n[0]);
             res += n[0];
+            println!("info: now result: {res}");
+
             // If subtraction was't allowed before – now it is after adding a number to the result.
             if carry != 0 {
+                println!(
+                    "info: carry found: {carry}. substract carry ({carry}) from result ({res})."
+                );
                 res -= carry;
+                println!("info: now result: {res}");
                 carry = 0;
             }
         }
@@ -93,9 +100,12 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         {
             // Check if will not
             if res != 0 {
+                println!("info: substract n[0] ({}) from result ({res}).", n[0]);
                 res -= n[0];
+                println!("info: now result: {res}");
             } else {
                 carry = n[0];
+                println!("info: saved carry: {carry}");
             }
         }
         // Cach the case for 5, 50, and 500
@@ -121,7 +131,13 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     }
     // If loop finish without an error – we can add the last element of the vec
     // If there is no last element – return the critical error (it should not happend)
+    println!("info: the loop finished.");
+    println!(
+        "info: the last element of the vector of numbers ({}) added to result ({res}).",
+        vec_converted_num.last().unwrap()
+    );
     res += vec_converted_num.last().unwrap();
+    println!("info: final result: {res}");
 
     // Return the result
     Ok(res)
