@@ -51,25 +51,28 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Convert string into a vector.
     let mut vec_converted_num: Vec<u128> = Vec::new();
     for c in napis.chars() {
-        // Converting the roman figure into a number
+        // Converting the roman figure into a number AND it does the VALIDATION of the roman figure.
         let converted_number = convert_roman_fig_into_number(c)? as u128;
         vec_converted_num.push(converted_number);
     }
 
+    // Create variables needed for checking invalid digit order loop below.
+    // carry – needed to check if rest any number after adding toghether numbers.
+    // windows_vec_conv_num – take 3 number in loop in a time
+    // windows_vec_conv_num_len – save the lenth of the window (should be max 3).
     let mut carry = 0;
     let windows_vec_conv_num = vec_converted_num.windows(3);
     let windows_vec_conv_num_len = windows_vec_conv_num.len();
     println!("info: set vector coverted number lenth: {windows_vec_conv_num_len}");
     // # Check invalid digit order
+    // The loop take the window and enumerate it for to check the last number
     for (e, n) in windows_vec_conv_num.enumerate() {
         println!("info: set enumeration in loop: {e}");
         println!("info: seach in the window: {n:?}");
         // take two numbers from the vector. Checking if the first one is grater than the lower one
-        // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. IN
-        // case being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
-        if n[0] >= n[1]
-        /* && (Some(n) == n.last()) */
-        {
+        // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. In
+        // case of being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
+        if n[0] >= n[1] {
             // In this case we ca add toghether
             res += n[0];
             // If subtraction was't allowed before – now it is after adding a number to the result.
@@ -81,12 +84,11 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
         // If the first element is lower than the second, and is 1 or to power of 10, and
         // is not 50 or 500, then we can add to the result.
         else if (n[0] < n[1])
-
             && ((n[0].is_multiple_of(10) || n[0] == 1) && (n[0] != 50 && n[0] != 500))
-        // Also, check incorrect figure when it doesn't fit the range ofthe neightbord number (can't be „XD” but can be „XL”. `500` is out of range if it is next to `10`.
-        // - n[0].pow(2) == n[1] → in case if X/C has to be next to C/M;
-        // - n[0] + 9 == n[1] → case of `I` and `X`;
-        // - n[0] * 2 == n[1] → case of  V/L/D has to be next to I/X/C/D
+            // Also, check incorrect figure when it doesn't fit the range ofthe neightbord number (can't be „XD” but can be „XL”. `500` is out of range if it is next to `10`.
+            // - n[0].pow(2) == n[1] → in case if X/C has to be next to C/M;
+            // - n[0] + 9 == n[1] → case of `I` and `X`;
+            // - n[0] * 2 == n[1] → case of  V/L/D has to be next to I/X/C/D
             && (n[0] * 10 == n[1] || n[0] + 9 == n[1] || n[0] * 5 == n[1])
         {
             // Check if will not
