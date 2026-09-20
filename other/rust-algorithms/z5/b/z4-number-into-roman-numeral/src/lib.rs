@@ -40,10 +40,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     for c_roman_fig in ['M', 'D', 'C', 'L', 'X', 'V', 'I'] {
         if vec_napis
             .windows(4)
-            .any(|win| win.iter().all(|&c| c == c_roman_fig))
+            .any(|win| win.iter().all(|&c| c == c_roman_fig) || win[..2] == win[2..])
         {
             return Err(format!(
-                "`{c_roman_fig}` char occur more than 3 times in the string function argument ({napis})."
+                "error: invalid roman numeral sequences. `{c_roman_fig}` char occur more than 3 times in the string function argument or have another issue – {napis}."
             ));
         }
     }
@@ -104,7 +104,6 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
             if res != 0 {
                 if n[0] == previous_element
                     || ([5, 50, 500].contains(&n[1]) && n[1] == previous_element)
-                    || n[0] == n[1]
                 {
                     return Err(format!(
                         "error: invalid roman numeral sequences ({})",
