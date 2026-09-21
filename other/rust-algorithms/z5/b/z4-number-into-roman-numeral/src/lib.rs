@@ -26,6 +26,20 @@
 
 use z3_roman_figure_into_number::convert_roman_fig_into_number;
 
+/// Converts a Roman numeral string into its numeric value.
+///
+/// # Errors
+///
+/// Returns an error if:
+///
+/// - `napis` is empty;
+/// - it contains an invalid Roman numeral character;
+/// - it contains excessive repetition or another invalid sequence;
+/// - its numerals occur in an invalid order.
+///
+/// # Panics
+///
+/// Panics if the internal vector of converted numerals is unexpectedly empty.
 pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // Return the error if the argument string is empty
     if napis.is_empty() {
@@ -51,7 +65,7 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     let mut vec_converted_num: Vec<u128> = Vec::new();
     for c in napis.chars() {
         // Converting the roman figure into a number AND it does the VALIDATION of the roman figure.
-        let converted_number = convert_roman_fig_into_number(c)? as u128;
+        let converted_number = u128::from(convert_roman_fig_into_number(c)?);
         vec_converted_num.push(converted_number);
     }
 
@@ -98,10 +112,7 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
                 if n[0] == previous_element
                     || ([5, 50, 500].contains(&n[1]) && n[1] == previous_element)
                 {
-                    return Err(format!(
-                        "error: invalid roman numeral sequences ({})",
-                        napis
-                    ));
+                    return Err(format!("error: invalid roman numeral sequences ({napis})"));
                 }
                 res -= n[0];
             } else {
