@@ -25,6 +25,12 @@
 
 use z1_char_into_u8::char_into_u8_digit;
 
+/// Adds two non-negative integers represented as decimal strings.
+///
+/// # Errors
+///
+/// Returns an error if either argument is empty, contains a character other
+/// than an ASCII digit from `'0'` to `'9'`, or if their fitted lengths differ.
 pub fn add_by_hand(a: &str, b: &str) -> Result<String, String> {
     // Check if the arguments are empty.
     if a.is_empty() || b.is_empty() {

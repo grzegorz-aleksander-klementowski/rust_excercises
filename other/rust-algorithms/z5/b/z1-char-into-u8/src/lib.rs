@@ -18,6 +18,11 @@
    It returns the value of a decimal digit character, or a textual error description if it is not a digit.
  */
 
+/// Converts an ASCII digit character into its numeric value.
+///
+/// # Errors
+///
+/// Returns an error if `c` is not an ASCII digit between `'0'` and `'9'`.
 pub fn char_into_u8_digit(c: char) -> Result<u8, String> {
     let n = c as u8;
     if (b'0'..(b'0' + 10)).contains(&n) {
