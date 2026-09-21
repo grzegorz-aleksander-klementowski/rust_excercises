@@ -19,6 +19,12 @@
    It returns the value of a Roman numeral character, or a textual error description if the character is not one of `I V X L C D M`.
  */
 
+/// Converts a Roman numeral character into its numeric value.
+///
+/// # Errors
+///
+/// Returns an error if `c` is not one of the recognised Roman numeral
+/// characters: `I`, `V`, `X`, `L`, `C`, `D`, or `M`.
 pub fn convert_roman_fig_into_number(c: char) -> Result<u16, String> {
     match c {
         'I' => Ok(1),
