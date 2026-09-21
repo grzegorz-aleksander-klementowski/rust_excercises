@@ -62,11 +62,10 @@ pub fn number_into_roman_numeral(napis: &str) -> Result<u128, String> {
     // previous_element – save the previous number (e.i. „I”) to avoid comparing situation, whem are added two correct number (e.i.: „IV”), while the previous one was not correct comparing to the currect pair number (e.i.: „IIV”).
     let mut carry = 0;
     let windows_vec_conv_num = vec_converted_num.windows(2);
-    let windows_vec_conv_num_len = windows_vec_conv_num.len();
     let mut previous_element = 0;
     // # Check invalid digit order
     // The loop take the window and enumerate it for to check the last number
-    for (e, n) in windows_vec_conv_num.enumerate() {
+    for n in windows_vec_conv_num {
         // take two numbers from the vector. Checking if the first one is grater than the lower one
         // (like 1000(M) and 100(M)) or same (100 and 100 (CC)) in case of being multuple of 10. In
         // case of being multiple by 5 (5, 50) – chechking correctness of neighbord numbers (IX – 1 and 10)
