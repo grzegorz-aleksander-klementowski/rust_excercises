@@ -1,0 +1,7 @@
+[package]
+name = "z4-number-into-roman-numeral"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+z3-roman-figure-into-number = { path = "./../z3-roman-figure-into-number" }
