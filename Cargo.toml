@@ -33,6 +33,7 @@ members = [
   "./other/rust-algorithms/z5/b/z2-add-in-written-res",
   "./other/rust-algorithms/z5/b/z3-roman-figure-into-number",
   "./other/rust-algorithms/z5/b/z4-number-into-roman-numeral",
+  "./other/rust-algorithms/z6/z1-vectors-loops-and-closres-create-and-print",
   "./pasja_informatyki/odc-4/lotto_game",
   "./pasja_informatyki/odc-5/evaluation_mean",
   "./pasja_informatyki/odc-5/fibbonaci_counter",

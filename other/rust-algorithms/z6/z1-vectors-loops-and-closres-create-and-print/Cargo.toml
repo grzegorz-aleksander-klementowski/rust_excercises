@@ -1,0 +1,6 @@
+[package]
+name = "z1-vectors-loops-and-closres-create-and-print"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
