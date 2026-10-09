@@ -21,6 +21,11 @@ Complete every task twice: once with loops and once without loops, using iterato
    * numbers from 1 to 100 divisible by 3 but not by 4.
  */
 
+use std::{
+    intrinsics::{powf64, sqrtf64, sqrtf128},
+    ops::RangeInclusive,
+};
+
 // === SUBEXERCISE 1: lowercase English alphabet letters === \\
 // it creates and display the alphabet using closure created as ARRAY
 #[warn(dead_code)]
@@ -54,13 +59,28 @@ fn alphabet_by_closure() -> [char; 26] {
 
 // === SUBEXERCISE 2: squares of ten consecutive integers starting from 1 === \\
 // by loop
-fn sqr_from_1_to_10_as_vec_by_loop() -> Vec<u64> {
-    todo!()
+fn sqr_from_1_to_10_as_vec_by_loop() -> Vec<u32> {
+    let mut sqr_nums: Vec<u32> = Vec::new();
+    let mut i: u32 = 1;
+    while i == 10 {
+        // The square of the loop index
+        let sqr_idx = i.pow(2);
+        sqr_nums.push(sqr_idx);
+
+        i += 1;
+    }
+    // return result
+    println!("{sqr_nums:?}");
+    sqr_nums
 }
 
 // by closure
-fn sqr_from_1_to_10_as_vec_by_closure() -> Vec<u64> {
-    todo!()
+fn sqr_from_1_to_10_as_vec_by_closure() -> Vec<u32> {
+    let mut sqr_nums: Vec<u32> = Vec::new();
+    let range_num: RangeInclusive<u32> = 1..=10;
+    range_num.for_each(|num| sqr_nums.push(num.pow(2)));
+
+    sqr_nums
 }
 
 #[cfg(test)]
@@ -83,10 +103,7 @@ mod tests {
 
     #[test]
     fn test_squr_to_ten() {
-        let expected = vec![
-            3, 6, 9, 15, 18, 21, 27, 30, 33, 39, 42, 45, 51, 54, 57, 63, 66, 69, 75, 78, 81, 87,
-            90, 93, 99,
-        ];
+        let expected = vec![1, 4, 9, 16, 25, 36, 49, 64, 81, 100];
 
         // Test the function using `for` loop
         assert_eq!(expected, sqr_from_1_to_10_as_vec_by_loop());
