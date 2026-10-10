@@ -34,8 +34,7 @@ fn alphabet_by_loop() -> [char; 26] {
         *alphabet_letter = char::from(byte_letter);
     }
 
-    // print because the exercise want to display as well
-    println!("{alphabet:?}");
+    // The result:
     alphabet
 }
 
@@ -70,8 +69,7 @@ fn sqr_from_1_to_10_as_vec_by_loop() -> Vec<u32> {
         // Increment up to ten
         i += 1;
     }
-    // Print it as it was said in the exercise content
-    println!("{sqr_nums:?}");
+
     // return result
     sqr_nums
 }
@@ -82,20 +80,26 @@ fn sqr_from_1_to_10_as_vec_by_closure() -> Vec<u32> {
     let range_num: RangeInclusive<u32> = 1..=10;
     let sqr_nums: Vec<u32> = range_num.map(|num| num.pow(2)).collect();
 
-    println!("{sqr_nums:?}");
     // return result
     sqr_nums
 }
 
 // === SUBEXERCISE 3: ten consecutive powers of two === \\
 // The exercise using loop
+#[allow(dead_code)]
 fn ten_consecutive_powers_of_two_by_loop() -> Vec<u32> {
-    todo!();
+    let mut res: Vec<u32> = Vec::new();
+    for i in 1..=10 {
+        res.push(2_u32.pow(i));
+    }
+
+    res
 }
 
 // The exercise using closure
+#[allow(dead_code)]
 fn ten_consecutive_powers_of_two_by_closure() -> Vec<u32> {
-    todo!();
+    (1..=10).map(|num| 2_u32.pow(num)).collect()
 }
 
 #[cfg(test)]
