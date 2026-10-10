@@ -102,6 +102,17 @@ fn ten_consecutive_powers_of_two_by_closure() -> Vec<u32> {
     (1..=10).map(|num| 2_u32.pow(num)).collect()
 }
 
+// === SUBEXERCISE 4: reciprocals of every number from 1 to 20; === \\
+// The exercise using loop
+fn reciprocals_of_every_num_by_loop(range: &RangeInclusive<u32>) -> Vec<f32> {
+    todo!()
+}
+
+// The exercise using closure
+fn reciprocals_of_every_num_by_closure(range: &RangeInclusive<u32>) -> Vec<f32> {
+    todo!()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -140,5 +151,39 @@ mod tests {
 
         // Test the funtion using `closure`
         assert_eq!(expected, ten_consecutive_powers_of_two_by_closure());
+    }
+
+    #[test]
+    fn test_reciprocals_of_every_num() {
+        let expected: Vec<f32> = vec![
+            1.0,
+            0.5,
+            1.0 / 3.0,
+            0.25,
+            0.2,
+            1.0 / 6.0,
+            1.0 / 7.0,
+            0.125,
+            1.0 / 9.0,
+            0.1,
+            1.0 / 11.0,
+            1.0 / 12.0,
+            1.0 / 13.0,
+            1.0 / 14.0,
+            1.0 / 15.0,
+            0.0625,
+            1.0 / 17.0,
+            1.0 / 18.0,
+            1.0 / 19.0,
+            0.05,
+        ];
+
+        let range = 1..=20;
+
+        // Test the funtion using `loop`
+        assert_eq!(expected, reciprocals_of_every_num_by_loop(&range));
+
+        // Test the funtion using `loop`
+        assert_eq!(expected, reciprocals_of_every_num_by_loop(&range));
     }
 }
