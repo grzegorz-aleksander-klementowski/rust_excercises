@@ -21,14 +21,11 @@ Complete every task twice: once with loops and once without loops, using iterato
    * numbers from 1 to 100 divisible by 3 but not by 4.
  */
 
-use std::{
-    intrinsics::{powf64, sqrtf64, sqrtf128},
-    ops::RangeInclusive,
-};
+use std::ops::RangeInclusive;
 
 // === SUBEXERCISE 1: lowercase English alphabet letters === \\
 // it creates and display the alphabet using closure created as ARRAY
-#[warn(dead_code)]
+#[allow(dead_code)]
 fn alphabet_by_loop() -> [char; 26] {
     // The result of the function
     let mut alphabet = ['_'; 26];
@@ -43,7 +40,7 @@ fn alphabet_by_loop() -> [char; 26] {
 }
 
 // it creates and display the alphabet using closure created as ARRAY
-#[warn(dead_code)]
+#[allow(dead_code)]
 fn alphabet_by_closure() -> [char; 26] {
     let mut alphabet = ['_'; 26];
 
@@ -59,27 +56,34 @@ fn alphabet_by_closure() -> [char; 26] {
 
 // === SUBEXERCISE 2: squares of ten consecutive integers starting from 1 === \\
 // by loop
+#[allow(dead_code)]
 fn sqr_from_1_to_10_as_vec_by_loop() -> Vec<u32> {
     let mut sqr_nums: Vec<u32> = Vec::new();
     let mut i: u32 = 1;
-    while i == 10 {
+    while i <= 10 {
         // The square of the loop index
         let sqr_idx = i.pow(2);
+        // Push it into the vector result
         sqr_nums.push(sqr_idx);
+        println!("info: now sqr_nums vector is {sqr_nums:?}");
 
+        // Increment up to ten
         i += 1;
     }
-    // return result
+    // Print it as it was said in the exercise content
     println!("{sqr_nums:?}");
+    // return result
     sqr_nums
 }
 
 // by closure
+#[allow(dead_code)]
 fn sqr_from_1_to_10_as_vec_by_closure() -> Vec<u32> {
-    let mut sqr_nums: Vec<u32> = Vec::new();
     let range_num: RangeInclusive<u32> = 1..=10;
-    range_num.for_each(|num| sqr_nums.push(num.pow(2)));
+    let sqr_nums: Vec<u32> = range_num.map(|num| num.pow(2)).collect();
 
+    println!("{sqr_nums:?}");
+    // return result
     sqr_nums
 }
 
