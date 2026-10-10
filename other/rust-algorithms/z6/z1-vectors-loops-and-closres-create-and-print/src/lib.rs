@@ -87,6 +87,17 @@ fn sqr_from_1_to_10_as_vec_by_closure() -> Vec<u32> {
     sqr_nums
 }
 
+// === SUBEXERCISE 3: ten consecutive powers of two === \\
+// The exercise using loop
+fn ten_consecutive_powers_of_two_by_loop() -> Vec<u32> {
+    todo!();
+}
+
+// The exercise using closure
+fn ten_consecutive_powers_of_two_by_closure() -> Vec<u32> {
+    todo!();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -114,5 +125,16 @@ mod tests {
 
         // Test the function using the closure
         assert_eq!(expected, sqr_from_1_to_10_as_vec_by_closure());
+    }
+
+    #[test]
+    fn test_ten_consecutive_powers_of_two() {
+        let expected = vec![2, 4, 8, 16, 32, 64, 128, 256, 512, 1024];
+
+        // Test the funtion using `loop`
+        assert_eq!(expected, ten_consecutive_powers_of_two_by_loop());
+
+        // Test the funtion using `closure`
+        assert_eq!(expected, ten_consecutive_powers_of_two_by_closure());
     }
 }
