@@ -104,13 +104,20 @@ fn ten_consecutive_powers_of_two_by_closure() -> Vec<u32> {
 
 // === SUBEXERCISE 4: reciprocals of every number from 1 to 20; === \\
 // The exercise using loop
-fn reciprocals_of_every_num_by_loop(range: &RangeInclusive<u32>) -> Vec<f32> {
-    todo!()
+#[allow(dead_code)]
+fn reciprocals_of_every_num_by_loop(range: &RangeInclusive<u16>) -> Vec<f32> {
+    let mut res: Vec<f32> = Vec::new();
+    for i in range.clone() {
+        res.push(1.0 / f32::from(i));
+    }
+
+    res
 }
 
 // The exercise using closure
-fn reciprocals_of_every_num_by_closure(range: &RangeInclusive<u32>) -> Vec<f32> {
-    todo!()
+#[allow(dead_code)]
+fn reciprocals_of_every_num_by_closure(range: &RangeInclusive<u16>) -> Vec<f32> {
+    range.clone().map(|num| 1.0 / f32::from(num)).collect()
 }
 
 #[cfg(test)]
