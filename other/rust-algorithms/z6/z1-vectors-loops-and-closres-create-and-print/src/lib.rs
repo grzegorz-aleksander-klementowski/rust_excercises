@@ -216,7 +216,7 @@ mod tests {
         assert_eq!(expected, reciprocals_of_every_num_by_loop(&range));
 
         // Test the funtion using `loop`
-        assert_eq!(expected, reciprocals_of_every_num_by_loop(&range));
+        assert_eq!(expected, reciprocals_of_every_num_by_closure(&range));
     }
 
     #[test]
