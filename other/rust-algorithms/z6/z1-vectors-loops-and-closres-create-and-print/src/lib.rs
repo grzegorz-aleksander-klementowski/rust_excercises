@@ -47,7 +47,7 @@ fn alphabet_by_closure() -> [char; 26] {
         .iter_mut()
         .zip(b'a'..=b'z')
         .for_each(|(alphabet_letter_slot, letter_byte)| {
-            *alphabet_letter_slot = char::from(letter_byte)
+            *alphabet_letter_slot = char::from(letter_byte);
         });
 
     alphabet
