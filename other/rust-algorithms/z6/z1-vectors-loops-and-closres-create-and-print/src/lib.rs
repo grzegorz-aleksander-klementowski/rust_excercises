@@ -120,6 +120,17 @@ fn reciprocals_of_every_num_by_closure(range: &RangeInclusive<u16>) -> Vec<f32> 
     range.clone().map(|num| 1.0 / f32::from(num)).collect()
 }
 
+// === SUBEXERCISE 5: numbers from 1 to 100 divisible by 3 but not by 4 === \\
+// The exercise using loop
+#[allow(dead_code)]
+fn divisible_nums_by_3_but_not_by_4_by_loop(range: &RangeInclusive<u32>) -> Vec<u32> {
+    todo!()
+}
+
+#[allow(dead_code)]
+fn divisible_nums_by_3_but_not_by_4_by_closure(range: &RangeInclusive<u32>) -> Vec<u32> {
+    todo!()
+}
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -192,5 +203,21 @@ mod tests {
 
         // Test the funtion using `loop`
         assert_eq!(expected, reciprocals_of_every_num_by_loop(&range));
+    }
+
+    #[test]
+    fn test_divisible_nums_by_3_but_not_by_4() {
+        let expected = vec![
+            3, 6, 9, 15, 18, 21, 27, 30, 33, 39, 42, 45, 51, 54, 57, 63, 66, 69, 75, 78, 81, 87,
+            90, 93, 99,
+        ];
+        let range = 1..=100;
+
+        assert_eq!(expected, divisible_nums_by_3_but_not_by_4_by_loop(&range));
+
+        assert_eq!(
+            expected,
+            divisible_nums_by_3_but_not_by_4_by_closure(&range)
+        );
     }
 }
