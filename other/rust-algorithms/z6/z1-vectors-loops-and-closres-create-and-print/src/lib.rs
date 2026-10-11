@@ -124,12 +124,27 @@ fn reciprocals_of_every_num_by_closure(range: &RangeInclusive<u16>) -> Vec<f32> 
 // The exercise using loop
 #[allow(dead_code)]
 fn divisible_nums_by_3_but_not_by_4_by_loop(range: &RangeInclusive<u32>) -> Vec<u32> {
-    todo!()
+    let mut res: Vec<u32> = Vec::new();
+    // loop in range argument
+    for num in range.clone() {
+        // if the num is divisible by 3 but not by 4
+        if num % 3 == 0 && num % 4 != 0 {
+            // if yes – add to the result vector
+            res.push(num);
+        }
+    }
+
+    // Return the result
+    res
 }
 
+// The exercise using closure
 #[allow(dead_code)]
 fn divisible_nums_by_3_but_not_by_4_by_closure(range: &RangeInclusive<u32>) -> Vec<u32> {
-    todo!()
+    range
+        .clone()
+        .filter(|num| num % 3 == 0 && num % 4 != 0)
+        .collect()
 }
 #[cfg(test)]
 mod tests {
