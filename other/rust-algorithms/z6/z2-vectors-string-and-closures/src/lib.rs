@@ -1,6 +1,5 @@
 /*
 [PL]
-
 2. Napisz zestaw funkcji, które dla danego wektora napisów zwrócą:
 
    * wektor zawierający napisy krótsze niż 4 znaki;
@@ -22,7 +21,11 @@
 // === SUBEXERCISE 1: strings shorter than four characters === \\
 #[allow(dead_code)]
 fn shorter_than_four(strings: &[String]) -> Vec<String> {
-    todo!()
+    strings
+        .iter()
+        .filter(|str| str.len() < 4)
+        .cloned()
+        .collect()
 }
 
 // === SUBEXERCISE 2: strings shorter than four characters === \\
