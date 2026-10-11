@@ -38,10 +38,14 @@ fn without_a(strings: &[String]) -> Vec<String> {
         .collect()
 }
 
-// === SUBEXERCISE 3: strings shorter than four characters === \\
+// === SUBEXERCISE 3: strings containing digits === \\
 #[allow(dead_code)]
 fn containing_digits(strings: &[String]) -> Vec<String> {
-    todo!()
+    strings
+        .iter()
+        .filter(|str| str.chars().any(|char| char.is_ascii_digit()))
+        .cloned()
+        .collect()
 }
 
 // === SUBEXERCISE 4: strings shorter than four characters === \\
