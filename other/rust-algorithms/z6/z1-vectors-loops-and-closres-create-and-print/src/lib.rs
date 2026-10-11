@@ -64,7 +64,6 @@ fn sqr_from_1_to_10_as_vec_by_loop() -> Vec<u32> {
         let sqr_idx = i.pow(2);
         // Push it into the vector result
         sqr_nums.push(sqr_idx);
-        println!("info: now sqr_nums vector is {sqr_nums:?}");
 
         // Increment up to ten
         i += 1;
