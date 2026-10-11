@@ -31,7 +31,11 @@ fn shorter_than_four(strings: &[String]) -> Vec<String> {
 // === SUBEXERCISE 2: strings shorter than four characters === \\
 #[allow(dead_code)]
 fn without_a(strings: &[String]) -> Vec<String> {
-    todo!()
+    strings
+        .iter()
+        .filter(|str| str.chars().all(|char| char != 'a' && char != 'A'))
+        .cloned()
+        .collect()
 }
 
 // === SUBEXERCISE 3: strings shorter than four characters === \\
@@ -78,7 +82,10 @@ mod tests {
 
         let result = shorter_than_four(&input);
 
-        assert_eq!(result, vec!["kot".to_string(), "dom".to_string(),]);
+        assert_eq!(
+            result,
+            vec!["kot".to_string(), "dom".to_string(), "Ala".to_string()]
+        );
     }
 
     // === SUBEXERCISE 2: strings containing neither 'a' nor 'A' === \\
