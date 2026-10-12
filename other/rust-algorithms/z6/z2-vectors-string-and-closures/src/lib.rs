@@ -23,7 +23,7 @@
 fn shorter_than_four(strings: &[String]) -> Vec<String> {
     strings
         .iter()
-        .filter(|str| str.len() < 4)
+        .filter(|str| str.chars().count() < 4)
         .cloned()
         .collect()
 }
@@ -63,9 +63,14 @@ fn containing_doubled_letter(strings: &[String]) -> Vec<String> {
     strings
         .iter()
         .filter(|str| {
-            str.as_bytes()
+            str.chars()
+                .collect::<Vec<char>>()
                 .windows(2)
-                .any(|char_pair| char_pair[0] == char_pair[1])
+                .any(|char_pair| {
+                    char_pair[0] == char_pair[1]
+                        && char_pair[0].is_alphabetic()
+                        && char_pair[1].is_alphabetic()
+                })
         })
         .cloned()
         .collect()
