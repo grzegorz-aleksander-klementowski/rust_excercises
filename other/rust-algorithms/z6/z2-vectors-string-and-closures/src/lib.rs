@@ -60,7 +60,15 @@ fn reversed(strings: &[String]) -> Vec<String> {
 // === SUBEXERCISE 6: strings containing a doubled letter, for example `inny`, `pizza`, `brutto`, `lekki`, or `dzienny` === \\
 #[allow(dead_code)]
 fn containing_doubled_letter(strings: &[String]) -> Vec<String> {
-    todo!()
+    strings
+        .iter()
+        .filter(|str| {
+            str.as_bytes()
+                .windows(2)
+                .any(|char_pair| char_pair[0] == char_pair[1])
+        })
+        .cloned()
+        .collect()
 }
 
 #[cfg(test)]
