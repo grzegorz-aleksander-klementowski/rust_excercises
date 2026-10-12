@@ -16,6 +16,7 @@
 
    It returns a vector of zero-based indices at which the specified element occurs in the given array. */
 
+// tablica (eng. array)
 fn indeksy(tablica: &[&str], element: &str) -> Vec<usize> {
     todo!()
 }
