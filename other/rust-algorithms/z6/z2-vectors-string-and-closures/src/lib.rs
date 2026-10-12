@@ -48,13 +48,16 @@ fn containing_digits(strings: &[String]) -> Vec<String> {
         .collect()
 }
 
-// === SUBEXERCISE 4: strings shorter than four characters === \\
+// === SUBEXERCISE 4: the same strings reversed === \\
 #[allow(dead_code)]
 fn reversed(strings: &[String]) -> Vec<String> {
-    todo!()
+    strings
+        .iter()
+        .map(|str| (str.chars().rev()).collect())
+        .collect()
 }
 
-// === SUBEXERCISE 6: strings shorter than four characters === \\
+// === SUBEXERCISE 6: strings containing a doubled letter, for example `inny`, `pizza`, `brutto`, `lekki`, or `dzienny` === \\
 #[allow(dead_code)]
 fn containing_doubled_letter(strings: &[String]) -> Vec<String> {
     todo!()
