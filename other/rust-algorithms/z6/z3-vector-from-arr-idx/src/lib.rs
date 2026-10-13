@@ -17,8 +17,14 @@
    It returns a vector of zero-based indices at which the specified element occurs in the given array. */
 
 // tablica (eng. array)
+#[allow(dead_code)]
 fn indeksy(tablica: &[&str], element: &str) -> Vec<usize> {
-    todo!()
+    tablica
+        .iter()
+        .enumerate()
+        .filter(|(_, obj)| **obj == element)
+        .map(|(i, _)| i)
+        .collect()
 }
 
 #[cfg(test)]
