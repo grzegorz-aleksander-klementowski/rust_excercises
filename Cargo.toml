@@ -33,6 +33,7 @@ members = [
   "./other/rust-algorithms/z5/b/z2-add-in-written-res",
   "./other/rust-algorithms/z5/b/z3-roman-figure-into-number",
   "./other/rust-algorithms/z5/b/z4-number-into-roman-numeral",
+  "./other/rust-algorithms/z6/z1-vectors-loops-and-closres-create-and-print",
   "./pasja_informatyki/odc-4/lotto_game",
   "./pasja_informatyki/odc-5/evaluation_mean",
   "./pasja_informatyki/odc-5/fibbonaci_counter",
@@ -54,5 +55,5 @@ members = [
   "./small_test_tools/restart_swap",
   "./small_test_tools/test_curl_vs_reqwest",
   "./small_test_tools/texty-rusty-sound-"
-]
+, "other/rust-algorithms/z6/z1-vectors-loops-and-closres-create-and-print", "other/rust-algorithms/z6/z2-vectors-string-and-closures", "other/rust-algorithms/z6/z3-vector-from-arr-idx"]
 resolver = "2"
