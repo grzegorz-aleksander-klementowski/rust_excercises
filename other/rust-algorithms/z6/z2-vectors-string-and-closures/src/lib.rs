@@ -172,11 +172,11 @@ mod tests {
     fn handles_empty_vector() {
         let input: Vec<String> = vec![];
 
-        assert!(shorter_than_four(&input).is_empty());
-        assert!(without_a(&input).is_empty());
-        assert!(containing_digits(&input).is_empty());
-        assert!(reversed(&input).is_empty());
-        assert!(containing_doubled_letter(&input).is_empty());
+        assert_eq!(shorter_than_four(&input), [] as [String; 0]);
+        assert_eq!(without_a(&input), [] as [String; 0]);
+        assert_eq!(containing_digits(&input), [] as [String; 0]);
+        assert_eq!(reversed(&input), [] as [String; 0]);
+        assert_eq!(containing_doubled_letter(&input), [] as [String; 0]);
     }
 
     // === EDGE CASE: single-character strings === \\
