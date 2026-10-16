@@ -4,7 +4,7 @@ Zestaw 8a
 
 1. Zdefiniuj typ strukturalny do przechowywania koloru w modelu RGB z dokładnością do 8 bitów na składową. Udostępnij operacje potrzebne, aby działał program testujący korzystający z konstruktorów `from_3u8`, `from_percent`, `gray`, `white` i `black`, porównywania kolorów, metody `invert` oraz metod `intensity`, `as_rgb_u8tuple` i `as_cmy_u8tuple`.
 
-   Program testujący powinien poprawnie obsługiwać kolory szary `(127, 127, 127)`, szary utworzony z wartości procentowej `50.0`, fiolet `(100, 35, 120)`, biały `(255, 255, 255)` i czarny `(0, 0, 0)`.
+   Program testujący powinien poprawnie obsługiwać kolory szary `(127, 127, 127)`, szary utworzony z wartości procentowej `50.0`, purple `(100, 35, 120)`, biały `(255, 255, 255)` i czarny `(0, 0, 0)`.
 
 [EN]
 # Set 8a
@@ -15,11 +15,16 @@ Zestaw 8a
  */
 
 // The RGB color struct
-#[derive(PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 struct RgbColor(u8, u8, u8);
 impl RgbColor {
     // Constructor from 8-bit value
     fn from_3u8(red: u8, green: u8, blue: u8) -> Self {
+        todo!()
+    }
+
+    // Constructor from percent value
+    fn from_percent(percent_red: f32, percent_green: f32, percent_blue: f32) -> Self {
         todo!()
     }
 
@@ -38,8 +43,8 @@ impl RgbColor {
         todo!()
     }
 
-    // Constructor from percent value
-    fn from_percent(percent_red: f32, percent_green: f32, percent_blue: f32) -> Self {
+    // Constructor set black
+    fn purple() -> Self {
         todo!()
     }
 
@@ -61,5 +66,57 @@ impl RgbColor {
     // Convert the color into u8 tuple of CMY color
     fn as_cmy_u8tuple(&self) -> (u8, u8, u8) {
         todo!()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Test all of the color constructors
+    #[test]
+    fn constructor_from_u8_tuple() {
+        // Test constructor from u8 values
+        let test_rgb_color: [u8; 3] = [177, 177, 177];
+        let expected = RgbColor(test_rgb_color[0], test_rgb_color[1], test_rgb_color[2]);
+        let actual = RgbColor::from_3u8(test_rgb_color[0], test_rgb_color[1], test_rgb_color[2]);
+
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn constructor_from_percent_values() {
+        // Test constructor from percent values (50.0 → 50% → gray walue)
+        let test_rgb_color: [f32; 3] = [50.0, 50.0, 50.0];
+        let expected = RgbColor(127, 127, 127);
+        let actual =
+            RgbColor::from_percent(test_rgb_color[0], test_rgb_color[1], test_rgb_color[2]);
+
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn constructor_name_color() {
+        // Test color constructors
+        let test_values: [[u8; 3]; 4] = [
+            [127, 127, 127], // Test the gray color constructor
+            [255, 255, 255], // Test the white color constructor
+            [0, 0, 0],       // Test the black color constructor
+            [100, 35, 120],  // Test the purple color constructor
+        ];
+
+        let test_functions: [fn() -> RgbColor; 4] = [
+            RgbColor::gray,
+            RgbColor::white,
+            RgbColor::black,
+            RgbColor::purple,
+        ];
+
+        for (rgb_values, rgb_function) in test_values.iter().zip(test_functions) {
+            let expected = RgbColor(rgb_values[0], rgb_values[1], rgb_values[2]);
+            let actual = rgb_function();
+
+            assert_eq!(actual, expected);
+        }
     }
 }
