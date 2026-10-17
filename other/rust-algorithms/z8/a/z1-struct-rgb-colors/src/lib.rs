@@ -97,24 +97,18 @@ mod tests {
 
     #[test]
     fn constructor_name_color() {
-        // Test color constructors
-        let test_values: [[u8; 3]; 4] = [
-            [127, 127, 127], // Test the gray color constructor
-            [255, 255, 255], // Test the white color constructor
-            [0, 0, 0],       // Test the black color constructor
-            [100, 35, 120],  // Test the purple color constructor
+        // Test set collor – the array of the case tuples pair (actual, expecter)
+        let cases: [(fn() -> RgbColor, RgbColor); 4] = [
+            (RgbColor::gray, RgbColor(127, 127, 127)), // Test the gray color constructor
+            (RgbColor::white, RgbColor(255, 255, 255)), // Test the gray color constructor
+            (RgbColor::black, RgbColor(0, 0, 0)),      // Test the black color constructor
+            (RgbColor::purple, RgbColor(100, 35, 120)), // Test the purple color constructor
         ];
 
-        let test_functions: [fn() -> RgbColor; 4] = [
-            RgbColor::gray,
-            RgbColor::white,
-            RgbColor::black,
-            RgbColor::purple,
-        ];
-
-        for (rgb_values, rgb_function) in test_values.iter().zip(test_functions) {
-            let expected = RgbColor(rgb_values[0], rgb_values[1], rgb_values[2]);
-            let actual = rgb_function();
+        // Read the cases and test them
+        for case in cases {
+            let expected = case.1;
+            let actual = case.0();
 
             assert_eq!(actual, expected);
         }
