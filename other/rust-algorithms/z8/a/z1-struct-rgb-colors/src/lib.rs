@@ -24,7 +24,7 @@ impl RgbColor {
     }
 
     // Constructor from percent value
-    fn from_percent(percent_red: f32, percent_green: f32, percent_blue: f32) -> Self {
+    fn from_percent(percent_red: f32, percent_green: f32, percent_blue: f32) -> Option<Self> {
         todo!()
     }
 
@@ -77,39 +77,74 @@ mod tests {
     #[test]
     fn constructor_from_u8_tuple() {
         // Test constructor from u8 values
-        let test_rgb_color: [u8; 3] = [177, 177, 177];
-        let expected = RgbColor(test_rgb_color[0], test_rgb_color[1], test_rgb_color[2]);
-        let actual = RgbColor::from_3u8(test_rgb_color[0], test_rgb_color[1], test_rgb_color[2]);
-
-        assert_eq!(actual, expected);
+        let cases = [
+            ([0, 0, 0], RgbColor(0, 0, 0)),             // Black
+            ([127, 127, 127], RgbColor(127, 127, 127)), // Gray
+            ([255, 255, 255], RgbColor(255, 255, 255)), // White
+            ([100, 35, 120], RgbColor(100, 35, 120)),   // Purple
+            ([12, 201, 199], RgbColor(12, 201, 199)),   // Mixed channels
+        ];
+        for (values, expected) in cases {
+            let actual = RgbColor::from_3u8(values[0], values[1], values[2]);
+            assert_eq!(actual, expected);
+        }
     }
 
     #[test]
     fn constructor_from_percent_values() {
-        // Test constructor from percent values (50.0 → 50% → gray walue)
-        let test_rgb_color: [f32; 3] = [50.0, 50.0, 50.0];
-        let expected = RgbColor(127, 127, 127);
-        let actual =
-            RgbColor::from_percent(test_rgb_color[0], test_rgb_color[1], test_rgb_color[2]);
+        // Test constructor from percent values (50.0 → 50% → gray value)
+        let cases = [
+            ([0.0, 0.0, 0.0], Some(RgbColor(0, 0, 0))), // Black
+            ([50.0, 50.0, 50.0], Some(RgbColor(127, 127, 127))), // Gray
+            ([100.0, 100.0, 100.0], Some(RgbColor(255, 255, 255))), // White
+            ([25.0, 50.0, 75.0], Some(RgbColor(63, 127, 191))), // Mixed channels
+            ([75.0, 25.0, 50.0], Some(RgbColor(191, 63, 127))), // Mixed channels
+        ];
 
-        assert_eq!(actual, expected);
+        // Test from % collor –  the case tuples pair (actual, expecter)
+        for (inputs, expected) in cases {
+            let actual = RgbColor::from_percent(inputs[0], inputs[1], inputs[2]);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn constructor_from_percent_values_invalid_values() {
+        let inputs = [
+            [-1.0, 50.0, 50.0],
+            [50.0, -1.0, 50.0],
+            [50.0, 50.0, -1.0],
+            [101.0, 50.0, 50.0],
+            [50.0, 101.0, 50.0],
+            [50.0, 50.0, 101.0],
+            [f32::NAN, 50.0, 50.0],
+            [50.0, f32::INFINITY, 50.0],
+            [50.0, 50.0, f32::NEG_INFINITY],
+            [75.0, 25.0, 120.0],
+            [101.0, 100.1, 1001.9],
+        ];
+
+        // Invalid values should return `None`
+        for input in inputs {
+            let actual = RgbColor::from_percent(input[0], input[1], input[2]);
+            let expected = None;
+            assert_eq!(actual, expected);
+        }
     }
 
     #[test]
     fn constructor_name_color() {
-        // Test set collor – the array of the case tuples pair (actual, expecter)
+        // Test set collor – the array of the case tuples pair (constructor, expected)
         let cases: [(fn() -> RgbColor, RgbColor); 4] = [
-            (RgbColor::gray, RgbColor(127, 127, 127)), // Test the gray color constructor
-            (RgbColor::white, RgbColor(255, 255, 255)), // Test the gray color constructor
-            (RgbColor::black, RgbColor(0, 0, 0)),      // Test the black color constructor
-            (RgbColor::purple, RgbColor(100, 35, 120)), // Test the purple color constructor
+            (RgbColor::gray, RgbColor(127, 127, 127)), // The gray color constructor
+            (RgbColor::white, RgbColor(255, 255, 255)), // The gray color constructor
+            (RgbColor::black, RgbColor(0, 0, 0)),      // The black color constructor
+            (RgbColor::purple, RgbColor(100, 35, 120)), // The purple color constructor
         ];
 
         // Read the cases and test them
-        for case in cases {
-            let expected = case.1;
-            let actual = case.0();
-
+        for (constructor, expected) in cases {
+            let actual = constructor();
             assert_eq!(actual, expected);
         }
     }
