@@ -111,17 +111,21 @@ mod tests {
     #[test]
     fn constructor_from_percent_values_invalid_values() {
         let inputs = [
-            [-1.0, 50.0, 50.0],
-            [50.0, -1.0, 50.0],
-            [50.0, 50.0, -1.0],
-            [101.0, 50.0, 50.0],
-            [50.0, 101.0, 50.0],
-            [50.0, 50.0, 101.0],
-            [f32::NAN, 50.0, 50.0],
-            [50.0, f32::INFINITY, 50.0],
-            [50.0, 50.0, f32::NEG_INFINITY],
-            [75.0, 25.0, 120.0],
-            [101.0, 100.1, 1001.9],
+            [-1.0, 50.0, 50.0],              // Red negative number
+            [50.0, -1.0, 50.0],              // Green negative number
+            [50.0, 50.0, -1.0],              // Blue negative number
+            [101.0, 50.0, 50.0],             // Red more than 100%
+            [50.0, 101.0, 50.0],             // Green more than 100%
+            [50.0, 50.0, 101.0],             // Blue more than 100%
+            [f32::NAN, 50.0, 50.0],          // Red NAN
+            [50.0, f32::NAN, 50.0],          // Green NAN
+            [50.0, 50.0, f32::NAN],          // Blue NAN
+            [f32::INFINITY, 50.0, 50.0],     // Red infinity
+            [50.0, f32::INFINITY, 50.0],     // Green infinity
+            [50.0, 50.0, f32::INFINITY],     // Blue infinity
+            [50.0, 50.0, f32::NEG_INFINITY], // Negative infinity
+            [75.0, 25.0, 120.0],             // More than 100%
+            [101.0, 100.1, 1001.9],          // More than 100% edge cases
         ];
 
         // Invalid values should return `None`
