@@ -140,10 +140,23 @@ mod tests {
 
     #[test]
     fn named_constructors_create_expected_colors() {
-        // Test set collor – the array of the case tuples pair (constructor, expected)
         assert_eq!(RgbColor::gray(), RgbColor(127, 127, 127)); // The gray color constructor
         assert_eq!(RgbColor::white(), RgbColor(255, 255, 255)); // The white color constructor
         assert_eq!(RgbColor::black(), RgbColor(0, 0, 0)); // The black color constructor
         assert_eq!(RgbColor::purple(), RgbColor(100, 35, 120)); // The purple color constructor
+    }
+
+    #[test]
+    fn invert_colors() {
+        let inputs = [
+            RgbColor(0, 0, 0),       // Black → white
+            RgbColor(177, 177, 177), // Gray → gray
+            RgbColor(255, 255, 255), // White → black
+            RgbColor(100, 35, 120),  // Purple → lime
+            RgbColor(155, 220, 135), // Lime → Purple
+            RgbColor(255, 0, 0),     // Red → cyan
+            RgbColor(0, 255, 0),     // Green → fuchsia
+            RgbColor(0, 0, 255),     // Blue → yellow
+        ];
     }
 }
