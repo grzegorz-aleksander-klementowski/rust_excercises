@@ -148,15 +148,20 @@ mod tests {
 
     #[test]
     fn invert_colors() {
-        let inputs = [
-            RgbColor(0, 0, 0),       // Black → white
-            RgbColor(177, 177, 177), // Gray → gray
-            RgbColor(255, 255, 255), // White → black
-            RgbColor(100, 35, 120),  // Purple → lime
-            RgbColor(155, 220, 135), // Lime → Purple
-            RgbColor(255, 0, 0),     // Red → cyan
-            RgbColor(0, 255, 0),     // Green → fuchsia
-            RgbColor(0, 0, 255),     // Blue → yellow
+        let cases = [
+            (&mut RgbColor(0, 0, 0), &mut RgbColor(255, 255, 255)), // White → black
+            (&mut RgbColor(78, 78, 78), &mut RgbColor(177, 177, 177)), // Gray → inverse gray
+            (&mut RgbColor(255, 255, 255), &mut RgbColor(0, 0, 0)), // Black → white
+            (&mut RgbColor(155, 220, 135), &mut RgbColor(100, 35, 120)), // Purple → lime
+            (&mut RgbColor(100, 35, 120), &mut RgbColor(155, 220, 135)), // Lime → purple
+            (&mut RgbColor(0, 255, 255), &mut RgbColor(255, 0, 0)), // Red → cyan
+            (&mut RgbColor(255, 0, 255), &mut RgbColor(0, 255, 0)), // Green → fuchsia
+            (&mut RgbColor(255, 255, 0), &mut RgbColor(0, 0, 255)), // Blue → yellow
         ];
+
+        for (input, expected) in cases {
+            input.invert();
+            assert_eq!(input, expected);
+        }
     }
 }
