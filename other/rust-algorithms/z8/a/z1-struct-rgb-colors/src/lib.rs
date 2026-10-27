@@ -75,7 +75,7 @@ mod tests {
 
     // Test all of the color constructors
     #[test]
-    fn constructor_from_u8_tuple() {
+    fn constructor_from_u8() {
         // Test constructor from u8 values
         let cases = [
             ([0, 0, 0], RgbColor(0, 0, 0)),             // Black
@@ -84,9 +84,9 @@ mod tests {
             ([100, 35, 120], RgbColor(100, 35, 120)),   // Purple
             ([12, 201, 199], RgbColor(12, 201, 199)),   // Mixed channels
         ];
-        for (values, expected) in cases {
-            let actual = RgbColor::from_3u8(values[0], values[1], values[2]);
-            assert_eq!(actual, expected);
+        for (inputs, expected) in cases {
+            let actual = RgbColor::from_3u8(inputs[0], inputs[1], inputs[2]);
+            assert_eq!(actual, expected, "Failed because of: {inputs:?}");
         }
     }
 
@@ -104,7 +104,7 @@ mod tests {
         // Test from % collor –  the case tuples pair (actual, expecter)
         for (inputs, expected) in cases {
             let actual = RgbColor::from_percent(inputs[0], inputs[1], inputs[2]);
-            assert_eq!(actual, expected);
+            assert_eq!(actual, expected, "Failed because of: {inputs:?}");
         }
     }
 
@@ -123,7 +123,9 @@ mod tests {
             [f32::INFINITY, 50.0, 50.0],     // Red infinity
             [50.0, f32::INFINITY, 50.0],     // Green infinity
             [50.0, 50.0, f32::INFINITY],     // Blue infinity
-            [50.0, 50.0, f32::NEG_INFINITY], // Negative infinity
+            [f32::NEG_INFINITY, 50.0, 50.0], // Red Negative infinity
+            [50.0, f32::NEG_INFINITY, 50.0], // Green Negative infinity
+            [50.0, 50.0, f32::NEG_INFINITY], // Blue Negative infinity
             [75.0, 25.0, 120.0],             // More than 100%
             [101.0, 100.1, 1001.9],          // More than 100% edge cases
         ];
@@ -132,24 +134,16 @@ mod tests {
         for input in inputs {
             let actual = RgbColor::from_percent(input[0], input[1], input[2]);
             let expected = None;
-            assert_eq!(actual, expected);
+            assert_eq!(actual, expected, "Failed because of: {input:?}");
         }
     }
 
     #[test]
-    fn constructor_name_color() {
+    fn named_constructors_create_expected_colors() {
         // Test set collor – the array of the case tuples pair (constructor, expected)
-        let cases: [(fn() -> RgbColor, RgbColor); 4] = [
-            (RgbColor::gray, RgbColor(127, 127, 127)), // The gray color constructor
-            (RgbColor::white, RgbColor(255, 255, 255)), // The gray color constructor
-            (RgbColor::black, RgbColor(0, 0, 0)),      // The black color constructor
-            (RgbColor::purple, RgbColor(100, 35, 120)), // The purple color constructor
-        ];
-
-        // Read the cases and test them
-        for (constructor, expected) in cases {
-            let actual = constructor();
-            assert_eq!(actual, expected);
-        }
+        assert_eq!(RgbColor::gray(), RgbColor(127, 127, 127)); // The gray color constructor
+        assert_eq!(RgbColor::white(), RgbColor(255, 255, 255)); // The white color constructor
+        assert_eq!(RgbColor::black(), RgbColor(0, 0, 0)); // The black color constructor
+        assert_eq!(RgbColor::purple(), RgbColor(100, 35, 120)); // The purple color constructor
     }
 }
