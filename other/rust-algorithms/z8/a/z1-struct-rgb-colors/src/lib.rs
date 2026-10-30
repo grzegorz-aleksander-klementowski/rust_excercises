@@ -149,14 +149,14 @@ mod tests {
     #[test]
     fn invert_colors() {
         let cases = [
-            (&mut RgbColor(0, 0, 0), &mut RgbColor(255, 255, 255)), // White → black
+            (&mut RgbColor(0, 0, 0), &mut RgbColor(255, 255, 255)), // Black → white
             (&mut RgbColor(78, 78, 78), &mut RgbColor(177, 177, 177)), // Gray → inverse gray
-            (&mut RgbColor(255, 255, 255), &mut RgbColor(0, 0, 0)), // Black → white
-            (&mut RgbColor(155, 220, 135), &mut RgbColor(100, 35, 120)), // Purple → lime
-            (&mut RgbColor(100, 35, 120), &mut RgbColor(155, 220, 135)), // Lime → purple
-            (&mut RgbColor(0, 255, 255), &mut RgbColor(255, 0, 0)), // Red → cyan
-            (&mut RgbColor(255, 0, 255), &mut RgbColor(0, 255, 0)), // Green → fuchsia
-            (&mut RgbColor(255, 255, 0), &mut RgbColor(0, 0, 255)), // Blue → yellow
+            (&mut RgbColor(255, 255, 255), &mut RgbColor(0, 0, 0)), // White → black
+            (&mut RgbColor(155, 220, 135), &mut RgbColor(100, 35, 120)), // Lime → purple
+            (&mut RgbColor(100, 35, 120), &mut RgbColor(155, 220, 135)), // Purple → lime
+            (&mut RgbColor(0, 255, 255), &mut RgbColor(255, 0, 0)), // Cyan → red
+            (&mut RgbColor(255, 0, 255), &mut RgbColor(0, 255, 0)), // fuchsia → green
+            (&mut RgbColor(255, 255, 0), &mut RgbColor(0, 0, 255)), // Yellow → blue
         ];
 
         for (input, expected) in cases {
@@ -187,7 +187,7 @@ mod tests {
     }
 
     #[test]
-    fn as_rgb_u8tuple_returns_rgb_stream() {
+    fn as_rgb_u8tuple_returns_rgb_components() {
         let cases = [
             (RgbColor(0, 0, 0), (0, 0, 0)),             // Black
             (RgbColor(127, 127, 127), (127, 127, 127)), // Gray
@@ -203,11 +203,10 @@ mod tests {
     }
 
     #[test]
-    fn as_cmy_u8tuple_returns_rgb_stream() {
-        // todo
+    fn as_cmy_u8tuple_returns_components() {
         let cases = [
-            (RgbColor(0, 0, 0), (0, 0, 0)),
-            (RgbColor(127, 127, 127), (127, 127, 127)),
+            (RgbColor(0, 0, 0), (255, 255, 255)),
+            (RgbColor(127, 127, 127), (128, 128, 128)),
             (RgbColor(255, 255, 255), (0, 0, 0)),
             (RgbColor(100, 35, 120), (155, 220, 135)),
             (RgbColor(12, 201, 199), (243, 54, 56)),
