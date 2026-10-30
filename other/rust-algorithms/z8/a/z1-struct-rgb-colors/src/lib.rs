@@ -203,7 +203,7 @@ mod tests {
     }
 
     #[test]
-    fn as_cmy_u8tuple_returns_components() {
+    fn as_cmy_u8tuple_returns_cmy_components() {
         let cases = [
             (RgbColor(0, 0, 0), (255, 255, 255)),
             (RgbColor(127, 127, 127), (128, 128, 128)),
@@ -215,6 +215,19 @@ mod tests {
         for (input, expected) in cases {
             let actual = input.as_cmy_u8tuple();
             assert_eq!(actual, expected, "For input: {input:?}, got: {actual:?}.");
+        }
+    }
+
+    #[test]
+    fn different_colors_not_equal() {
+        let inputs = [
+            (RgbColor(100, 35, 120), RgbColor(100, 35, 121)),
+            (RgbColor(255, 0, 0), RgbColor(0, 0, 0)),
+            (RgbColor(0, 1, 0), RgbColor(0, 0, 0)),
+        ];
+
+        for (left, right) in inputs {
+            assert_ne!(left, right, "Expected {left:?} and {right:?} to differ.");
         }
     }
 }
