@@ -67,11 +67,6 @@ impl RgbColor {
     fn as_cmy_u8tuple(&self) -> (u8, u8, u8) {
         todo!()
     }
-
-    // Support function – check correctnes of the type (range 0-225)
-    fn check_rgb_color(&self) -> Result<RgbColor, String> {
-        todo!()
-    }
 }
 
 #[cfg(test)]
