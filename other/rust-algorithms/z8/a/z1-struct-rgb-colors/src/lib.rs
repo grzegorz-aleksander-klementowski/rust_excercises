@@ -164,4 +164,25 @@ mod tests {
             assert_eq!(input, expected);
         }
     }
+
+    #[test]
+    fn intensity_returns_relative_luminance() {
+        let cases = [
+            (RgbColor(0, 0, 0), 0.0),
+            (RgbColor(255, 255, 255), 1.0),
+            (RgbColor(127, 127, 127), 0.21223076),
+            (RgbColor(100, 35, 120), 0.05267455),
+            (RgbColor(255, 0, 0), 0.2126),
+            (RgbColor(0, 255, 0), 0.7152),
+            (RgbColor(0, 0, 255), 0.0722),
+        ];
+
+        for (color, expected) in cases {
+            let actual = color.intensity();
+            assert!(
+                (actual - expected).abs() < 1e-6,
+                "intensity for {color:?}: expected {expected}, got {actual}"
+            );
+        }
+    }
 }
