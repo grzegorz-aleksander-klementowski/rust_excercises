@@ -201,4 +201,21 @@ mod tests {
             assert_eq!(actual, expected, "For input: {input:?}, got: {actual:?}");
         }
     }
+
+    #[test]
+    fn as_cmy_u8tuple_returns_rgb_stream() {
+        // todo
+        let cases = [
+            (RgbColor(0, 0, 0), (0, 0, 0)),
+            (RgbColor(127, 127, 127), (127, 127, 127)),
+            (RgbColor(255, 255, 255), (0, 0, 0)),
+            (RgbColor(100, 35, 120), (155, 220, 135)),
+            (RgbColor(12, 201, 199), (243, 54, 56)),
+        ];
+
+        for (input, expected) in cases {
+            let actual = input.as_cmy_u8tuple();
+            assert_eq!(actual, expected, "For input: {input:?}, got: {actual:?}.");
+        }
+    }
 }
