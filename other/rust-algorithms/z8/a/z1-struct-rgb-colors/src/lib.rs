@@ -185,4 +185,20 @@ mod tests {
             );
         }
     }
+
+    #[test]
+    fn as_rgb_u8tuple_returns_rgb_stream() {
+        let cases = [
+            (RgbColor(0, 0, 0), (0, 0, 0)),             // Black
+            (RgbColor(127, 127, 127), (127, 127, 127)), // Gray
+            (RgbColor(255, 255, 255), (255, 255, 255)), // White
+            (RgbColor(100, 35, 120), (100, 35, 120)),   // Purple
+            (RgbColor(12, 201, 199), (12, 201, 199)),   // Mixed channels
+        ];
+
+        for (input, expected) in cases {
+            let actual = input.as_rgb_u8tuple();
+            assert_eq!(actual, expected, "For input: {input:?}, got: {actual:?}");
+        }
+    }
 }
