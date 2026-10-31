@@ -61,8 +61,11 @@ impl RgbColor {
     }
 
     // Invert the RGB colors
+    // Formula: (255 – R), (255 – G), (255 – B)
     fn invert(&mut self) {
-        todo!()
+        self.0 = 255 - self.0;
+        self.1 = 255 - self.1;
+        self.2 = 255 - self.2;
     }
 
     // Define intensity of the RGB color
