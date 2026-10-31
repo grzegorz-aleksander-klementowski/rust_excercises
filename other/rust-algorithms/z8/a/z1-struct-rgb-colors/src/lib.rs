@@ -26,10 +26,14 @@ impl RgbColor {
 
     // Constructor from percent value
     // It represent RGB(R%, G%, B%).
+    // If it is not in the percent range (100–0) then return `None`
     // The formula: `(R% * 255 / 100%) (G% * 255 / 100%) (B% * 255 / 100%)`
     #[allow(dead_code)]
     fn from_percent(percent_red: f32, percent_green: f32, percent_blue: f32) -> Option<Self> {
-        if percent_red <= 255.0 && percent_green <= 255.0 && percent_blue <= 255.0 {
+        if ((0.0..=100.0).contains(&percent_red))
+            && ((0.0..=100.0).contains(&percent_green))
+            && ((0.0..=100.0).contains(&percent_blue))
+        {
             Some(Self(
                 ((percent_red * 255.0) / 100.0) as u8,
                 ((percent_green * 255.0) / 100.0) as u8,
