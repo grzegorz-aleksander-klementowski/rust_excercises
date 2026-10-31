@@ -25,8 +25,19 @@ impl RgbColor {
     }
 
     // Constructor from percent value
+    // It represent RGB(R%, G%, B%).
+    // The formula: `(R% * 255 / 100%) (G% * 255 / 100%) (B% * 255 / 100%)`
+    #[allow(dead_code)]
     fn from_percent(percent_red: f32, percent_green: f32, percent_blue: f32) -> Option<Self> {
-        todo!()
+        if percent_red <= 255.0 && percent_green <= 255.0 && percent_blue <= 255.0 {
+            Some(Self(
+                ((percent_red * 255.0) / 100.0) as u8,
+                ((percent_green * 255.0) / 100.0) as u8,
+                ((percent_blue * 255.0) / 100.0) as u8,
+            ))
+        } else {
+            None
+        }
     }
 
     // Constructor set gray
