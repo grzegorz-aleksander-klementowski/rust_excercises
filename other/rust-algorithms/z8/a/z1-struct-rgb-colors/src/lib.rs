@@ -62,6 +62,7 @@ impl RgbColor {
 
     // Invert the RGB colors
     // Formula: (255 – R), (255 – G), (255 – B)
+    #[allow(dead_code)]
     fn invert(&mut self) {
         self.0 = 255 - self.0;
         self.1 = 255 - self.1;
@@ -69,16 +70,20 @@ impl RgbColor {
     }
 
     // Define intensity of the RGB color
+    // Formula: (R * 255) / 100
+    #[allow(dead_code)]
     fn intensity(&self) -> f32 {
         todo!()
     }
 
     // Convert the color into u8 tuple
+    #[allow(dead_code)]
     fn as_rgb_u8tuple(&self) -> (u8, u8, u8) {
         todo!()
     }
 
     // Convert the color into u8 tuple of CMY color
+    #[allow(dead_code)]
     fn as_cmy_u8tuple(&self) -> (u8, u8, u8) {
         todo!()
     }
