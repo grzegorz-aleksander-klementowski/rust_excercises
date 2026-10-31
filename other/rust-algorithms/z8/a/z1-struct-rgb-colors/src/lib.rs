@@ -19,8 +19,9 @@ Zestaw 8a
 struct RgbColor(u8, u8, u8);
 impl RgbColor {
     // Constructor from 8-bit value
+    #[allow(dead_code)]
     fn from_3u8(red: u8, green: u8, blue: u8) -> Self {
-        todo!()
+        Self(red, green, blue)
     }
 
     // Constructor from percent value
