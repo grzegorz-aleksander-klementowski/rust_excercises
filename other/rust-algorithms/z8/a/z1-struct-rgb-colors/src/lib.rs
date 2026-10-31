@@ -42,22 +42,22 @@ impl RgbColor {
 
     // Constructor set gray
     fn gray() -> Self {
-        todo!()
+        Self(127, 127, 127)
     }
 
     // Constructor set white
     fn white() -> Self {
-        todo!()
+        Self(255, 255, 255)
     }
 
     // Constructor set black
     fn black() -> Self {
-        todo!()
+        Self(0, 0, 0)
     }
 
     // Constructor set black
     fn purple() -> Self {
-        todo!()
+        Self(100, 35, 120)
     }
 
     // Invert the RGB colors
