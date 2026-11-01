@@ -34,14 +34,14 @@
 #[derive(Debug, PartialEq, Eq)]
 #[allow(dead_code)]
 struct Matrix {
-    height: i32,
-    width: i32,
+    height: usize,
+    width: usize,
     filler: i32,
 }
 
 impl Matrix {
     #[allow(dead_code)]
-    fn new(height: i32, width: i32, filler: i32) -> Self {
+    fn new(height: usize, width: usize, filler: i32) -> Self {
         todo!()
     }
 }
