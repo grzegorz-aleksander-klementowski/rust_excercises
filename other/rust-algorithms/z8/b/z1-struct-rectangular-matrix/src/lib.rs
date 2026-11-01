@@ -53,7 +53,7 @@ mod tests {
     fn constuctor_new_with_filler() {
         let cases = [
             (
-                [100, 100, 100],
+                (100_usize, 100_usize, 100_i32),
                 Matrix {
                     height: 100,
                     width: 100,
@@ -61,7 +61,7 @@ mod tests {
                 },
             ), // Normal case
             (
-                [10, 20, 30],
+                (10_usize, 20_usize, 30_i32),
                 Matrix {
                     height: 10,
                     width: 20,
@@ -69,7 +69,7 @@ mod tests {
                 },
             ), // A different input case
             (
-                [0, 0, 0],
+                (0_usize, 0_usize, 0_i32),
                 Matrix {
                     height: 0,
                     width: 0,
@@ -77,57 +77,57 @@ mod tests {
                 },
             ), // Zero case
             (
-                [-1, -1, -1],
+                (1_usize, 1_usize, -1),
                 Matrix {
-                    height: -1,
-                    width: -1,
+                    height: 1,
+                    width: 1,
                     filler: -1,
                 },
-            ), // Necative case
+            ), // Negative case
             (
-                [1_000_000_000, 1_000_000_000, 1_000_000_000],
+                (1_000_000_000_usize, 1_000_000_000_usize, 1_000_000_000_i32),
                 Matrix {
                     height: 1_000_000_000,
                     width: 1_000_000_000,
                     filler: 1_000_000_000,
                 },
-            ), // A big numbe case
+            ), // A big number case
             (
-                [-1_000_000_000, -1_000_000_000, -1_000_000_000],
+                (1_000_000_000_usize, 1_000_000_000_usize, -1_000_000_000),
                 Matrix {
-                    height: -1_000_000_000,
-                    width: -1_000_000_000,
+                    height: 1_000_000_000,
+                    width: 1_000_000_000,
                     filler: -1_000_000_000,
                 },
             ), // A negative big number case
             (
-                [i32::MAX, i32::MAX, i32::MAX],
+                (usize::MAX, usize::MAX, i32::MAX),
                 Matrix {
-                    height: i32::MAX,
-                    width: i32::MAX,
+                    height: usize::MAX,
+                    width: usize::MAX,
                     filler: i32::MAX,
                 },
             ), // A MAX number
             (
-                [i32::MIN, i32::MIN, i32::MIN],
+                (usize::MAX, usize::MAX, i32::MIN),
                 Matrix {
-                    height: i32::MIN,
-                    width: i32::MIN,
+                    height: usize::MAX,
+                    width: usize::MAX,
                     filler: i32::MIN,
                 }, // A MIN number
-            ),
+            ), // A mix number MAX, MAX and MIN
             (
-                [i32::MAX, i32::MIN, i32::MAX],
+                (usize::MIN, usize::MIN, i32::MAX),
                 Matrix {
-                    height: i32::MAX,
-                    width: i32::MIN,
-                    filler: i32::MAX,
+                    height: 0,
+                    width: 0,
+                    filler: i32::MAX, // The constructor still assign the value
                 }, // A MIN number
-            ), // A mix number MAX and MIN
+            ), // A mix number MIN, MIN and MAX
         ];
 
         for (input, expected) in cases {
-            let actual = Matrix::new(input[0], input[1], input[2]);
+            let actual = Matrix::new(input.0, input.1, input.2);
             assert_eq!(
                 actual, expected,
                 "The error with input: {input:?}, got: {actual:?}."
