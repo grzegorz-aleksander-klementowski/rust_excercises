@@ -34,14 +34,19 @@
 #[derive(Debug, PartialEq, Eq)]
 #[allow(dead_code)]
 struct Matrix {
-    height: usize,
-    width: usize,
-    filler: i32,
+    height: usize, // usize because of indexing
+    width: usize,  // usize because of indexing
+    filler: i32,   // reasonable number type
 }
 
 impl Matrix {
     #[allow(dead_code)]
     fn new(height: usize, width: usize, filler: i32) -> Self {
+        todo!()
+    }
+
+    #[allow(dead_code)]
+    fn zero(height: usize, width: usize) -> Self {
         todo!()
     }
 }
