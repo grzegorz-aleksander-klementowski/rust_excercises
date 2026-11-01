@@ -53,6 +53,22 @@ mod tests {
     fn constuctor_new_with_filler() {
         let cases = [
             (
+                [100, 100, 100],
+                Matrix {
+                    height: 100,
+                    width: 100,
+                    filler: 100,
+                },
+            ), // Normal case
+            (
+                [10, 20, 30],
+                Matrix {
+                    height: 10,
+                    width: 20,
+                    filler: 30,
+                },
+            ), // A different input case
+            (
                 [0, 0, 0],
                 Matrix {
                     height: 0,
@@ -69,21 +85,45 @@ mod tests {
                 },
             ), // Necative case
             (
-                [1_000_000, 1_000_000, 1_000_000],
+                [1_000_000_000, 1_000_000_000, 1_000_000_000],
                 Matrix {
-                    height: 1_000_000,
-                    width: 1_000_000,
-                    filler: 1_000_000,
+                    height: 1_000_000_000,
+                    width: 1_000_000_000,
+                    filler: 1_000_000_000,
                 },
             ), // A big numbe case
             (
-                [-1_000_000, -1_000_000, -1_000_000],
+                [-1_000_000_000, -1_000_000_000, -1_000_000_000],
                 Matrix {
-                    height: -1_000_000,
-                    width: -1_000_000,
-                    filler: -1_000_000,
+                    height: -1_000_000_000,
+                    width: -1_000_000_000,
+                    filler: -1_000_000_000,
                 },
             ), // A negative big number case
+            (
+                [i32::MAX, i32::MAX, i32::MAX],
+                Matrix {
+                    height: i32::MAX,
+                    width: i32::MAX,
+                    filler: i32::MAX,
+                },
+            ), // A MAX number
+            (
+                [i32::MIN, i32::MIN, i32::MIN],
+                Matrix {
+                    height: i32::MIN,
+                    width: i32::MIN,
+                    filler: i32::MIN,
+                }, // A MIN number
+            ),
+            (
+                [i32::MAX, i32::MIN, i32::MAX],
+                Matrix {
+                    height: i32::MAX,
+                    width: i32::MIN,
+                    filler: i32::MAX,
+                }, // A MIN number
+            ), // A mix number MAX and MIN
         ];
 
         for (input, expected) in cases {
