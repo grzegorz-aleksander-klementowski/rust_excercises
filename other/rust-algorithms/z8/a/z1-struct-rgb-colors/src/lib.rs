@@ -21,6 +21,7 @@ impl RgbColor {
     // Constructor from 8-bit value
     #[allow(dead_code)]
     fn from_3u8(red: u8, green: u8, blue: u8) -> Self {
+        // There is no need to add validation for type `u8` (it will be always in the range 0-255)
         Self(red, green, blue)
     }
 
@@ -119,6 +120,7 @@ impl RgbColor {
     // Convert the color into u8 tuple of CMY color
     #[allow(dead_code)]
     fn as_cmy_u8tuple(&self) -> (u8, u8, u8) {
+        // There is no need to add validation for type `u8` (it will be always in the range 0-255)
         (255 - self.0, 255 - self.1, 255 - self.2)
     }
 }
