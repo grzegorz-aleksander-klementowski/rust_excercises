@@ -31,6 +31,8 @@
    Write tests.
  */
 
+#[derive(Debug, PartialEq, Eq)]
+#[allow(dead_code)]
 struct Matrix {
     height: i32,
     width: i32,
@@ -38,6 +40,7 @@ struct Matrix {
 }
 
 impl Matrix {
+    #[allow(dead_code)]
     fn new(height: i32, width: i32, filler: i32) -> Self {
         todo!()
     }
@@ -48,7 +51,47 @@ mod tests {
 
     #[test]
     fn constuctor_new_with_filler() {
-        let inputs = [[0, 0, 0], [-1, -1, -1]];
-        assert_eq!(result, 4);
+        let cases = [
+            (
+                [0, 0, 0],
+                Matrix {
+                    height: 0,
+                    width: 0,
+                    filler: 0,
+                },
+            ), // Zero case
+            (
+                [-1, -1, -1],
+                Matrix {
+                    height: -1,
+                    width: -1,
+                    filler: -1,
+                },
+            ), // Necative case
+            (
+                [1_000_000, 1_000_000, 1_000_000],
+                Matrix {
+                    height: 1_000_000,
+                    width: 1_000_000,
+                    filler: 1_000_000,
+                },
+            ), // A big numbe case
+            (
+                [-1_000_000, -1_000_000, -1_000_000],
+                Matrix {
+                    height: -1_000_000,
+                    width: -1_000_000,
+                    filler: -1_000_000,
+                },
+            ), // A negative big number case
+        ];
+
+        for (input, expected) in cases {
+            let actual = Matrix::new(input[0], input[1], input[2]);
+            assert_eq!(
+                actual, expected,
+                "The error with input: {input:?}, got: {actual:?}."
+            )
+        }
     }
 }
