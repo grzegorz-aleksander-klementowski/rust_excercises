@@ -31,17 +31,24 @@
    Write tests.
  */
 
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+struct Matrix {
+    height: i32,
+    width: i32,
+    filler: i32,
 }
 
-#[cfg(test)]
+impl Matrix {
+    fn new(height: i32, width: i32, filler: i32) -> Self {
+        todo!()
+    }
+}
+
 mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
+    fn constuctor_new_with_filler() {
+        let inputs = [[0, 0, 0], [-1, -1, -1]];
         assert_eq!(result, 4);
     }
 }
