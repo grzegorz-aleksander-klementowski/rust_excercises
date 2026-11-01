@@ -113,7 +113,7 @@ impl RgbColor {
     // Convert the color into u8 tuple
     #[allow(dead_code)]
     fn as_rgb_u8tuple(&self) -> (u8, u8, u8) {
-        todo!()
+        (self.0, self.1, self.2)
     }
 
     // Convert the color into u8 tuple of CMY color
