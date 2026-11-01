@@ -74,10 +74,40 @@ impl RgbColor {
     }
 
     // Define intensity of the RGB color
-    // Formula: (R * 255) / 100
+    // Relative luminance calculated according to the sRGB colour space
+    // using the ITU-R BT.709 coefficients and linearized RGB components.
+    //
+    // Formula: Y = 02126R_linear + 0.7152G_linear + 0.0722B_linear
     #[allow(dead_code)]
     fn intensity(&self) -> f32 {
-        todo!()
+        // Normalization – divide each RGB component by its maximum value (255),
+        // converting each component into the range [0.0, 1.0].
+        // normalized_rgb variable – Include normalized RGB colors in an array (0–R, 1–G, 2–B)
+        let normalized_rgb = [
+            self.0 as f32 / 255.0,
+            self.1 as f32 / 255.0,
+            self.2 as f32 / 255.0,
+        ];
+
+        // array for the result of the linearization (0–R, 1–G, 2–B)
+        let mut linearized_colors: [f32; 3] = [0.0, 0.0, 0.0];
+
+        // Linearization uses different calculations depending on whether the normalized component is <= 0.04045 or > 0.04045.
+        for (i, normalized_color) in normalized_rgb.iter().enumerate() {
+            if *normalized_color <= 0.04045 {
+                linearized_colors[i] = normalized_color / 12.92;
+            } else {
+                linearized_colors[i] = ((normalized_color + 0.055) / 1.055).powf(2.4);
+            }
+        }
+
+        // linearized_colors[0] – red,
+        // linearized_colors[1] – green,
+        // linearized_colors[2] – blue
+        // RESULT – relative luminance Y
+        (0.2126 * linearized_colors[0])
+            + (0.7152 * linearized_colors[1])
+            + (0.0722 * linearized_colors[2])
     }
 
     // Convert the color into u8 tuple
@@ -189,6 +219,8 @@ mod tests {
         }
     }
 
+    // Relative luminance calculated according to the sRGB colour space
+    // using the ITU-R BT.709 coefficients and linearized RGB components.
     #[test]
     fn intensity_returns_relative_luminance() {
         let cases = [
