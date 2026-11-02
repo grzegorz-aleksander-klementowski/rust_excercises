@@ -139,4 +139,58 @@ mod tests {
             )
         }
     }
+
+    #[test]
+    fn zero_with_diffent_values_and_sizes() {
+        let cases = [
+            (
+                [0, 0],
+                Matrix {
+                    height: 0,
+                    width: 0,
+                    filler: 0,
+                },
+            ), // All dimensions are zero
+            (
+                [10, 0],
+                Matrix {
+                    height: 10,
+                    width: 0,
+                    filler: 0,
+                },
+            ), // Only first demension zero
+            (
+                [0, 10],
+                Matrix {
+                    height: 0,
+                    width: 10,
+                    filler: 0,
+                },
+            ), // Only second demension zero
+            (
+                [usize::MAX, usize::MAX],
+                Matrix {
+                    height: usize::MAX,
+                    width: usize::MAX,
+                    filler: 0,
+                },
+            ), // Max
+            (
+                [10, 20],
+                Matrix {
+                    height: 10,
+                    width: 20,
+                    filler: 0,
+                },
+            ), // Diffrent valuse
+            (
+                [1_000_000_000, 2_000_000_000],
+                Matrix {
+                    height: 1_000_000_000,
+                    width: 2_000_000_000,
+                    filler: 0,
+                },
+            ), // A big number
+        ];
+    }
 }
