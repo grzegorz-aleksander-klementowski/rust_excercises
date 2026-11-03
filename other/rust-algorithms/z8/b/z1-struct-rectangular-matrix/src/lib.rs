@@ -31,7 +31,7 @@
    Write tests.
  */
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq)]
 #[allow(dead_code)]
 struct Matrix {
     height: usize,         // usize because of indexing
@@ -67,7 +67,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: vec![vec![1]],
+                    filler: vec![vec![1.0]],
                 },
             ), // Normal case
             (
@@ -75,7 +75,11 @@ mod tests {
                 Matrix {
                     height: 3,
                     width: 3,
-                    filler: vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1]],
+                    filler: vec![
+                        vec![1.0, 1.0, 1.0],
+                        vec![1.0, 1.0, 1.0],
+                        vec![1.0, 1.0, 1.0],
+                    ],
                 },
             ), // Normal case – same amount of more columns and rows
             (
@@ -83,7 +87,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 2,
-                    filler: vec![vec![0, 0]],
+                    filler: vec![vec![0.0, 0.0]],
                 },
             ), // A single row and two columns
             (
@@ -91,7 +95,7 @@ mod tests {
                 Matrix {
                     height: 2,
                     width: 1,
-                    filler: vec![vec![0], vec![0]],
+                    filler: vec![vec![0.0], vec![0.0]],
                 },
             ), // Two rows and a single column
             (
@@ -123,7 +127,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: vec![vec![-1]],
+                    filler: vec![vec![-1.0]],
                 },
             ), // Negative filler case
             (
@@ -132,11 +136,11 @@ mod tests {
                     height: 5,
                     width: 3,
                     filler: vec![
-                        vec![7, 7, 7],
-                        vec![7, 7, 7],
-                        vec![7, 7, 7],
-                        vec![7, 7, 7],
-                        vec![7, 7, 7],
+                        vec![7.0, 7.0, 7.0],
+                        vec![7.0, 7.0, 7.0],
+                        vec![7.0, 7.0, 7.0],
+                        vec![7.0, 7.0, 7.0],
+                        vec![7.0, 7.0, 7.0],
                     ],
                 },
             ), // More rows than columns
@@ -146,9 +150,9 @@ mod tests {
                     height: 3,
                     width: 5,
                     filler: vec![
-                        vec![-4, -4, -4, -4, -4],
-                        vec![-4, -4, -4, -4, -4],
-                        vec![-4, -4, -4, -4, -4],
+                        vec![-4.0, -4.0, -4.0, -4.0, -4.0],
+                        vec![-4.0, -4.0, -4.0, -4.0, -4.0],
+                        vec![-4.0, -4.0, -4.0, -4.0, -4.0],
                     ],
                 },
             ), // More columns than rows and a negative filler
@@ -158,8 +162,8 @@ mod tests {
                     height: 2,
                     width: 2,
                     filler: vec![
-                        vec![1_000_000_000, 1_000_000_000],
-                        vec![1_000_000_000, 1_000_000_000],
+                        vec![1_000_000_000.0, 1_000_000_000.0],
+                        vec![1_000_000_000.0, 1_000_000_000.0],
                     ],
                 },
             ), // A big number filler
@@ -169,8 +173,8 @@ mod tests {
                     height: 2,
                     width: 2,
                     filler: vec![
-                        vec![-1_000_000_000, -1_000_000_000],
-                        vec![-1_000_000_000, -1_000_000_000],
+                        vec![-1_000_000_000.0, -1_000_000_000.0],
+                        vec![-1_000_000_000.0, -1_000_000_000.0],
                     ],
                 },
             ), // A negative big number filler
@@ -179,7 +183,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: vec![vec![i32::MAX]],
+                    filler: vec![vec![f64::MAX]],
                 },
             ), // A MAX number filler
             (
@@ -187,7 +191,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: vec![vec![i32::MIN]],
+                    filler: vec![vec![f64::MIN]],
                 },
             ), // A MIN number filler
         ];
@@ -233,7 +237,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: vec![vec![0]],
+                    filler: vec![vec![0.0]],
                 },
             ), // A single column and a single row
             (
@@ -241,7 +245,7 @@ mod tests {
                 Matrix {
                     height: 5,
                     width: 1,
-                    filler: vec![vec![0], vec![0], vec![0], vec![0], vec![0]],
+                    filler: vec![vec![0.0], vec![0.0], vec![0.0], vec![0.0], vec![0.0]],
                 },
             ), // many rows and a single column
             (
@@ -249,7 +253,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 5,
-                    filler: vec![vec![0, 0, 0, 0, 0]],
+                    filler: vec![vec![0.0, 0.0, 0.0, 0.0, 0.0]],
                 },
             ), // many columns and a single row
             (
@@ -257,7 +261,7 @@ mod tests {
                 Matrix {
                     height: 2,
                     width: 2,
-                    filler: vec![vec![0, 0], vec![0, 0]],
+                    filler: vec![vec![0.0, 0.0], vec![0.0, 0.0]],
                 },
             ), // Square matrix filled with zeroes
             (
@@ -266,11 +270,11 @@ mod tests {
                     height: 5,
                     width: 3,
                     filler: vec![
-                        vec![0, 0, 0],
-                        vec![0, 0, 0],
-                        vec![0, 0, 0],
-                        vec![0, 0, 0],
-                        vec![0, 0, 0],
+                        vec![0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0],
                     ],
                 },
             ), // More rows than columns
@@ -280,9 +284,9 @@ mod tests {
                     height: 3,
                     width: 5,
                     filler: vec![
-                        vec![0, 0, 0, 0, 0],
-                        vec![0, 0, 0, 0, 0],
-                        vec![0, 0, 0, 0, 0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0],
                     ],
                 },
             ), // More columns than rows
@@ -312,7 +316,7 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: vec![vec![1]],
+                    filler: vec![vec![1.0]],
                 },
             ), // A single identity (1x1)
             (
@@ -320,7 +324,7 @@ mod tests {
                 Matrix {
                     height: 2,
                     width: 2,
-                    filler: vec![vec![1, 0], vec![0, 1]],
+                    filler: vec![vec![1.0, 0.0], vec![0.0, 1.0]],
                 },
             ), // Square matrix identity (2x2)
             (
@@ -328,7 +332,11 @@ mod tests {
                 Matrix {
                     height: 3,
                     width: 3,
-                    filler: vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]],
+                    filler: vec![
+                        vec![1.0, 0.0, 0.0],
+                        vec![0.0, 1.0, 0.0],
+                        vec![0.0, 0.0, 1.0],
+                    ],
                 },
             ), // 3 dimension identity (3x3)
             (
@@ -337,16 +345,16 @@ mod tests {
                     height: 10,
                     width: 10,
                     filler: vec![
-                        vec![1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        vec![0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                        vec![0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                        vec![0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-                        vec![0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                        vec![0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-                        vec![0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-                        vec![0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-                        vec![0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-                        vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                        vec![1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0],
+                        vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
                     ],
                 },
             ), // A big number identity (10x10)
