@@ -49,6 +49,11 @@ impl Matrix {
     fn zero(height: usize, width: usize) -> Self {
         todo!()
     }
+
+    #[allow(dead_code)]
+    fn identity(height: usize) -> Self {
+        todo!()
+    }
 }
 
 mod tests {
