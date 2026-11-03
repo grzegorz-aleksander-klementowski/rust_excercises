@@ -295,4 +295,69 @@ mod tests {
             )
         }
     }
+
+    #[test]
+    fn identity_construct_square_matrix_of_requested_dimension() {
+        let cases = [
+            (
+                0,
+                Matrix {
+                    height: 0,
+                    width: 0,
+                    filler: vec![],
+                },
+            ), // Zero/empty
+            (
+                1,
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1]],
+                },
+            ), // A single identity (1x1)
+            (
+                2,
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1, 0], vec![0, 1]],
+                },
+            ), // Square matrix identity (2x2)
+            (
+                3,
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]],
+                },
+            ), // 3 dimension identity (3x3)
+            (
+                10,
+                Matrix {
+                    height: 10,
+                    width: 10,
+                    filler: vec![
+                        vec![1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        vec![0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        vec![0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                        vec![0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                        vec![0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                        vec![0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                        vec![0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+                        vec![0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+                        vec![0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                        vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                    ],
+                },
+            ), // A big number identity (10x10)
+        ];
+
+        for (input, expected) in cases {
+            let actual = Matrix::identity(input);
+            assert_eq!(
+                actual, expected,
+                "err: input: {input:?} \nthe result: {actual:?} \n got: {expected:?}"
+            )
+        }
+    }
 }
