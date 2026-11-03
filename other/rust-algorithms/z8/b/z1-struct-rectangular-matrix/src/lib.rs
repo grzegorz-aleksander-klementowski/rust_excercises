@@ -36,7 +36,7 @@
 struct Matrix {
     height: usize,         // usize because of indexing
     width: usize,          // usize because of indexing
-    filler: Vec<Vec<i32>>, // vec and reasonable number type in it
+    filler: Vec<Vec<f64>>, // vec and reasonable number type in it
 }
 
 impl Matrix {
