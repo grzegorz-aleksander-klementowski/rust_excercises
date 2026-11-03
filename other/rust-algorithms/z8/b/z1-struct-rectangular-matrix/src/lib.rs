@@ -202,56 +202,97 @@ mod tests {
     }
 
     #[test]
-    fn zero_with_diffent_values_and_sizes() {
+    fn zero_with_different_dimensions() {
         let cases = [
             (
                 [0, 0],
                 Matrix {
                     height: 0,
                     width: 0,
-                    filler: 0,
+                    filler: vec![],
                 },
-            ), // All dimensions are zero
+            ), // All dimensions are zero – empty
             (
-                [10, 0],
+                [2, 0],
                 Matrix {
-                    height: 10,
+                    height: 2,
                     width: 0,
-                    filler: 0,
+                    filler: vec![vec![], vec![]],
                 },
-            ), // Only first demension zero
+            ), // Include height but width is zero
             (
-                [0, 10],
+                [0, 2],
                 Matrix {
                     height: 0,
-                    width: 10,
-                    filler: 0,
+                    width: 2,
+                    filler: vec![],
                 },
-            ), // Only second demension zero
+            ), // Zero height and width 2.
             (
-                [usize::MAX, usize::MAX],
+                [1, 1],
                 Matrix {
-                    height: usize::MAX,
-                    width: usize::MAX,
-                    filler: 0,
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0]],
                 },
-            ), // Max
+            ), // A single column and a single row
             (
-                [10, 20],
+                [5, 1],
                 Matrix {
-                    height: 10,
-                    width: 20,
-                    filler: 0,
+                    height: 5,
+                    width: 1,
+                    filler: vec![vec![0], vec![0], vec![0], vec![0], vec![0]],
                 },
-            ), // Diffrent valuse
+            ), // many rows and a single column
             (
-                [1_000_000_000, 2_000_000_000],
+                [1, 5],
                 Matrix {
-                    height: 1_000_000_000,
-                    width: 2_000_000_000,
-                    filler: 0,
+                    height: 1,
+                    width: 5,
+                    filler: vec![vec![0, 0, 0, 0, 0]],
                 },
-            ), // A big number
+            ), // many columns and a single row
+            (
+                [2, 2],
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![0, 0], vec![0, 0]],
+                },
+            ), // Square matrix filled with zeroes
+            (
+                [5, 3],
+                Matrix {
+                    height: 5,
+                    width: 3,
+                    filler: vec![
+                        vec![0, 0, 0],
+                        vec![0, 0, 0],
+                        vec![0, 0, 0],
+                        vec![0, 0, 0],
+                        vec![0, 0, 0],
+                    ],
+                },
+            ), // More rows than columns
+            (
+                [3, 5],
+                Matrix {
+                    height: 3,
+                    width: 5,
+                    filler: vec![
+                        vec![0, 0, 0, 0, 0],
+                        vec![0, 0, 0, 0, 0],
+                        vec![0, 0, 0, 0, 0],
+                    ],
+                },
+            ), // More columns than rows
         ];
+        for (input, expected) in cases {
+            let actual = Matrix::zero(input[0], input[1]);
+            assert_eq!(
+                actual, expected,
+                "err: The input: {input:?}, got: {actual:?}."
+            )
+        }
     }
 }
