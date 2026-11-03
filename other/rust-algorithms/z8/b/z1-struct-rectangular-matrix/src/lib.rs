@@ -34,9 +34,9 @@
 #[derive(Debug, PartialEq, Eq)]
 #[allow(dead_code)]
 struct Matrix {
-    height: usize, // usize because of indexing
-    width: usize,  // usize because of indexing
-    filler: i32,   // reasonable number type
+    height: usize,         // usize because of indexing
+    width: usize,          // usize because of indexing
+    filler: Vec<Vec<i32>>, // vec and reasonable number type in it
 }
 
 impl Matrix {
@@ -47,6 +47,11 @@ impl Matrix {
 
     #[allow(dead_code)]
     fn zero(height: usize, width: usize) -> Self {
+        todo!()
+    }
+
+    #[allow(dead_code)]
+    fn identity(height: usize) -> Self {
         todo!()
     }
 }
