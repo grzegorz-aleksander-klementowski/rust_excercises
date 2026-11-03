@@ -60,30 +60,62 @@ mod tests {
     use super::*;
 
     #[test]
-    fn constuctor_new_with_filler() {
+    fn constructor_new_with_filler() {
         let cases = [
             (
-                (100_usize, 100_usize, 100_i32),
+                (1_usize, 1_usize, 1_i32),
                 Matrix {
-                    height: 100,
-                    width: 100,
-                    filler: 100,
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1]],
                 },
             ), // Normal case
             (
-                (10_usize, 20_usize, 30_i32),
+                (3_usize, 3_usize, 1_i32),
                 Matrix {
-                    height: 10,
-                    width: 20,
-                    filler: 30,
+                    height: 3,
+                    width: 3,
+                    filler: vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1]],
                 },
-            ), // A different input case
+            ), // Normal case – same amount of more columns and rows
+            (
+                (1_usize, 2_usize, 0_i32),
+                Matrix {
+                    height: 1,
+                    width: 2,
+                    filler: vec![vec![0, 0]],
+                },
+            ), // A single row and two columns
+            (
+                (2_usize, 1_usize, 0_i32),
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![0], vec![0]],
+                },
+            ), // Two rows and a single column
+            (
+                (0_usize, 2_usize, 1_i32),
+                Matrix {
+                    height: 0,
+                    width: 2,
+                    filler: vec![],
+                },
+            ), // Zero height and include width
+            (
+                (2_usize, 0_usize, 1_i32),
+                Matrix {
+                    height: 2,
+                    width: 0,
+                    filler: vec![vec![], vec![]],
+                },
+            ), // Include height and zero width
             (
                 (0_usize, 0_usize, 0_i32),
                 Matrix {
                     height: 0,
                     width: 0,
-                    filler: 0,
+                    filler: vec![],
                 },
             ), // Zero case
             (
@@ -91,49 +123,73 @@ mod tests {
                 Matrix {
                     height: 1,
                     width: 1,
-                    filler: -1,
+                    filler: vec![vec![-1]],
                 },
-            ), // Negative case
+            ), // Negative filler case
             (
-                (1_000_000_000_usize, 1_000_000_000_usize, 1_000_000_000_i32),
+                (5_usize, 3_usize, 7),
                 Matrix {
-                    height: 1_000_000_000,
-                    width: 1_000_000_000,
-                    filler: 1_000_000_000,
+                    height: 5,
+                    width: 3,
+                    filler: vec![
+                        vec![7, 7, 7],
+                        vec![7, 7, 7],
+                        vec![7, 7, 7],
+                        vec![7, 7, 7],
+                        vec![7, 7, 7],
+                    ],
                 },
-            ), // A big number case
+            ), // More rows than columns
             (
-                (1_000_000_000_usize, 1_000_000_000_usize, -1_000_000_000),
+                (3_usize, 5_usize, -4),
                 Matrix {
-                    height: 1_000_000_000,
-                    width: 1_000_000_000,
-                    filler: -1_000_000_000,
+                    height: 3,
+                    width: 5,
+                    filler: vec![
+                        vec![-4, -4, -4, -4, -4],
+                        vec![-4, -4, -4, -4, -4],
+                        vec![-4, -4, -4, -4, -4],
+                    ],
                 },
-            ), // A negative big number case
+            ), // More columns than rows and a negative filler
             (
-                (usize::MAX, usize::MAX, i32::MAX),
+                (2_usize, 2_usize, 1_000_000_000_i32),
                 Matrix {
-                    height: usize::MAX,
-                    width: usize::MAX,
-                    filler: i32::MAX,
+                    height: 2,
+                    width: 2,
+                    filler: vec![
+                        vec![1_000_000_000, 1_000_000_000],
+                        vec![1_000_000_000, 1_000_000_000],
+                    ],
                 },
-            ), // A MAX number
+            ), // A big number filler
             (
-                (usize::MAX, usize::MAX, i32::MIN),
+                (2_usize, 2_usize, -1_000_000_000_i32),
                 Matrix {
-                    height: usize::MAX,
-                    width: usize::MAX,
-                    filler: i32::MIN,
-                }, // A MIN number
-            ), // A mix number MAX, MAX and MIN
+                    height: 2,
+                    width: 2,
+                    filler: vec![
+                        vec![-1_000_000_000, -1_000_000_000],
+                        vec![-1_000_000_000, -1_000_000_000],
+                    ],
+                },
+            ), // A negative big number filler
             (
-                (usize::MIN, usize::MIN, i32::MAX),
+                (1, 1, i32::MAX),
                 Matrix {
-                    height: 0,
-                    width: 0,
-                    filler: i32::MAX, // The constructor still assign the value
-                }, // A MIN number
-            ), // A mix number MIN, MIN and MAX
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![i32::MAX]],
+                },
+            ), // A MAX number filler
+            (
+                (1, 1, i32::MIN),
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![i32::MIN]],
+                },
+            ), // A MIN number filler
         ];
 
         for (input, expected) in cases {
