@@ -60,7 +60,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn constructor_new_with_filler() {
+    fn new_creates_matrix_with_requested_dimensions_and_filler() {
         let cases = [
             (
                 (1_usize, 1_usize, 1_i32),
