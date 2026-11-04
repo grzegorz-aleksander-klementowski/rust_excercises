@@ -41,7 +41,7 @@ struct Matrix {
 
 impl Matrix {
     #[allow(dead_code)]
-    fn new(height: usize, width: usize, filler: i32) -> Self {
+    fn new(height: usize, width: usize, filler: f64) -> Self {
         todo!()
     }
 
@@ -57,13 +57,14 @@ impl Matrix {
 }
 
 mod tests {
+
     use super::*;
 
     #[test]
     fn new_creates_matrix_with_requested_dimensions_and_filler() {
         let cases = [
             (
-                (1_usize, 1_usize, 1_i32),
+                (1_usize, 1_usize, 1.0_f64),
                 Matrix {
                     height: 1,
                     width: 1,
@@ -71,7 +72,7 @@ mod tests {
                 },
             ), // Normal case
             (
-                (3_usize, 3_usize, 1_i32),
+                (3_usize, 3_usize, 1.0_f64),
                 Matrix {
                     height: 3,
                     width: 3,
@@ -81,9 +82,9 @@ mod tests {
                         vec![1.0, 1.0, 1.0],
                     ],
                 },
-            ), // Normal case – same amount of more columns and rows
+            ), // Equal numbers of rows and columns
             (
-                (1_usize, 2_usize, 0_i32),
+                (1_usize, 2_usize, 0.0_f64),
                 Matrix {
                     height: 1,
                     width: 2,
@@ -91,7 +92,7 @@ mod tests {
                 },
             ), // A single row and two columns
             (
-                (2_usize, 1_usize, 0_i32),
+                (2_usize, 1_usize, 0.0_f64),
                 Matrix {
                     height: 2,
                     width: 1,
@@ -99,23 +100,63 @@ mod tests {
                 },
             ), // Two rows and a single column
             (
-                (0_usize, 2_usize, 1_i32),
+                (2_usize, 1_usize, 1.5_f64),
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![1.5], vec![1.5]],
+                },
+            ), // Fraction filler
+            (
+                (2_usize, 1_usize, 0.9_f64),
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![0.9], vec![0.9]],
+                },
+            ), // Fraction 0.9 filler
+            (
+                (2_usize, 1_usize, 0.1_f64),
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![0.1], vec![0.1]],
+                },
+            ), // Fraction 0.1 filler
+            (
+                (2_usize, 1_usize, 0.99999999_f64),
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![0.99999999], vec![0.99999999]],
+                },
+            ), // Fraction 0.99999999 filler
+            (
+                (2_usize, 1_usize, 0.000000001_f64),
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![0.000000001], vec![0.000000001]],
+                },
+            ), // Fraction 0.000000001 filler
+            (
+                (0_usize, 2_usize, 1.0_f64),
                 Matrix {
                     height: 0,
                     width: 2,
                     filler: vec![],
                 },
-            ), // Zero height and include width
+            ), // Zero height and width 2
             (
-                (2_usize, 0_usize, 1_i32),
+                (2_usize, 0_usize, 1.0_f64),
                 Matrix {
                     height: 2,
                     width: 0,
                     filler: vec![vec![], vec![]],
                 },
-            ), // Include height and zero width
+            ), // Height 2 and zero width
             (
-                (0_usize, 0_usize, 0_i32),
+                (0_usize, 0_usize, 0.0_f64),
                 Matrix {
                     height: 0,
                     width: 0,
@@ -123,7 +164,7 @@ mod tests {
                 },
             ), // Zero case
             (
-                (1_usize, 1_usize, -1),
+                (1_usize, 1_usize, -1.0_f64),
                 Matrix {
                     height: 1,
                     width: 1,
@@ -131,7 +172,7 @@ mod tests {
                 },
             ), // Negative filler case
             (
-                (5_usize, 3_usize, 7),
+                (5_usize, 3_usize, 7.0_f64),
                 Matrix {
                     height: 5,
                     width: 3,
@@ -145,7 +186,7 @@ mod tests {
                 },
             ), // More rows than columns
             (
-                (3_usize, 5_usize, -4),
+                (3_usize, 5_usize, -4.0_f64),
                 Matrix {
                     height: 3,
                     width: 5,
@@ -157,7 +198,7 @@ mod tests {
                 },
             ), // More columns than rows and a negative filler
             (
-                (2_usize, 2_usize, 1_000_000_000_i32),
+                (2_usize, 2_usize, 1_000_000_000.0_f64),
                 Matrix {
                     height: 2,
                     width: 2,
@@ -168,7 +209,7 @@ mod tests {
                 },
             ), // A big number filler
             (
-                (2_usize, 2_usize, -1_000_000_000_i32),
+                (2_usize, 2_usize, -1_000_000_000.0_f64),
                 Matrix {
                     height: 2,
                     width: 2,
@@ -179,21 +220,37 @@ mod tests {
                 },
             ), // A negative big number filler
             (
-                (1, 1, i32::MAX),
+                (1, 1, f64::MAX),
                 Matrix {
                     height: 1,
                     width: 1,
                     filler: vec![vec![f64::MAX]],
                 },
-            ), // A MAX number filler
+            ), // Largest finite f64 filler
             (
-                (1, 1, i32::MIN),
+                (1, 1, f64::MIN),
                 Matrix {
                     height: 1,
                     width: 1,
                     filler: vec![vec![f64::MIN]],
                 },
-            ), // A MIN number filler
+            ), // Most negative finite f64 filler
+            (
+                (1, 1, f64::INFINITY),
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![f64::INFINITY]],
+                },
+            ), // Positive infinity filler
+            (
+                (1, 1, f64::NEG_INFINITY),
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![f64::NEG_INFINITY]],
+                },
+            ), // Negative infinity filler
         ];
 
         for (input, expected) in cases {
