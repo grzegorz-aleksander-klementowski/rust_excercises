@@ -56,7 +56,7 @@ impl Matrix {
     }
 
     #[allow(dead_code)]
-    fn element(&self, row_index: usize, column_index: usize) -> f64 {
+    fn element(&self, row_index: usize, column_index: usize) -> Option<f64> {
         todo!()
     }
 }
@@ -429,5 +429,180 @@ mod tests {
                 "err: input: {input:?} \nthe result: {actual:?} \n got: {expected:?}"
             )
         }
+    }
+}
+
+#[test]
+fn access_element_in_matrix_by_two_dimensions() {
+    // The structure of the cases: (Matrix, [usize; 2], Option<f64>)
+    let cases = [
+        (
+            Matrix {
+                height: 0,
+                width: 0,
+                filler: vec![],
+            },
+            [0_usize, 0_usize],
+            None,
+        ), // Accessing [0, 0] in an empty matrix returns `None`.
+        (
+            Matrix {
+                height: 1,
+                width: 0,
+                filler: vec![vec![]],
+            },
+            [0, 0],
+            None,
+        ), // A matrix with zero width has no valid columns.
+        (
+            Matrix {
+                height: 0,
+                width: 1,
+                filler: vec![],
+            },
+            [0_usize, 0_usize],
+            None,
+        ), // A matrix with zero height has no valid rows.
+        (
+            Matrix {
+                height: 1,
+                width: 1,
+                filler: vec![vec![1.0]],
+            },
+            [0, 1],
+            None,
+        ), // The column 1 is out of range in 1x1 dimensions
+        (
+            Matrix {
+                height: 1,
+                width: 1,
+                filler: vec![vec![1.0]],
+            },
+            [1, 0],
+            None,
+        ), //  Row 1 is out of range for a 1x1 matrix.
+        (
+            Matrix {
+                height: 1,
+                width: 1,
+                filler: vec![vec![1.0]],
+            },
+            [0, 0],
+            Some(1.0_f64),
+        ), // Matrix with the only element in a 1x1 matrix is at 0x0 and contains 1.0.
+        (
+            Matrix {
+                height: 2,
+                width: 1,
+                filler: vec![vec![1.0], vec![0.0]],
+            },
+            [0, 1],
+            None,
+        ), // Column 1 is out of range for a 2x1 matrix.
+        (
+            Matrix {
+                height: 1,
+                width: 2,
+                filler: vec![vec![1.0, 0.0]],
+            },
+            [1, 0],
+            None,
+        ), // Row 1 is out of range for a 1x2 matrix.
+        (
+            Matrix {
+                height: 2,
+                width: 1,
+                filler: vec![vec![1.0], vec![0.0]],
+            },
+            [1, 0],
+            Some(0.0), // Point to the correct number in 2x1 dimensions
+        ),
+        (
+            Matrix {
+                height: 3,
+                width: 3,
+                filler: vec![
+                    vec![1.0, 2.0, 3.0],
+                    vec![4.0, 5.0, 6.0],
+                    vec![7.0, 8.0, 9.0],
+                ],
+            },
+            [0, 0],
+            Some(1.0), // 3x3 dimensions point correctly to 1.0
+        ),
+        (
+            Matrix {
+                height: 3,
+                width: 3,
+                filler: vec![
+                    vec![1.0, 2.0, 3.0],
+                    vec![4.0, 5.0, 6.0],
+                    vec![7.0, 8.0, 9.0],
+                ],
+            },
+            [1, 1],
+            Some(5.0), // 3x3 dimensions point correctly to 5.0
+        ),
+        (
+            Matrix {
+                height: 3,
+                width: 3,
+                filler: vec![
+                    vec![1.0, 2.0, 3.0],
+                    vec![4.0, 5.0, 6.0],
+                    vec![7.0, 8.0, 9.0],
+                ],
+            },
+            [2, 2],
+            Some(9.0), // 3x3 dimensions: Row 2, column 2 contains 9.0
+        ),
+        (
+            Matrix {
+                height: 3,
+                width: 3,
+                filler: vec![
+                    vec![1.1, 2.2, 3.3],
+                    vec![4.4, 5.5, 6.6],
+                    vec![7.7, 8.8, 9.9],
+                ],
+            },
+            [2, 0],
+            Some(7.7), // 3x3 dimensions filled with float numbers, point correctly to 7.7
+        ),
+        (
+            Matrix {
+                height: 3,
+                width: 4,
+                filler: vec![
+                    vec![1.1, 2.2, 3.3, 0.01],
+                    vec![4.4, 5.5, 6.6, 0.02],
+                    vec![7.7, 8.8, 9.9, 0.03],
+                ],
+            },
+            [2, 3],
+            Some(0.03), // 3x4 dimensions filled with float numbers, point correctly to 0.03
+        ),
+        (
+            Matrix {
+                height: 3,
+                width: 4,
+                filler: vec![
+                    vec![1.1, 2.2, 3.3, 0.01],
+                    vec![4.4, 5.5, 6.6, 0.02],
+                    vec![7.7, 8.8, 9.9, 0.03],
+                ],
+            },
+            [3, 2],
+            None, // 3x4 dimensions filled with float numbers, point incorrectly,
+                  // return `None`
+        ),
+    ];
+
+    for (access_object, input, expected) in cases {
+        let actual = access_object.element(input[0], input[1]);
+        assert_eq!(
+            actual, expected,
+            "err: \n- object: {access_object:?}; \n- input: {input:?} \n- got: {actual:?}"
+        );
     }
 }
