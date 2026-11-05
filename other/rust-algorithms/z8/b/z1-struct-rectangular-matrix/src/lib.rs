@@ -45,25 +45,27 @@ struct Matrix {
 
 impl Matrix {
     #[allow(dead_code)]
-    fn new(height: usize, width: usize, filler: f64) -> Self {
+    pub fn new(height: usize, width: usize, filler: f64) -> Self {
         todo!()
     }
 
     #[allow(dead_code)]
-    fn zero(height: usize, width: usize) -> Self {
+    pub fn zero(height: usize, width: usize) -> Self {
         todo!()
     }
 
     #[allow(dead_code)]
-    fn identity(height: usize) -> Self {
+    pub fn identity(height: usize) -> Self {
         todo!()
     }
 
     #[allow(dead_code)]
-    fn element(&self, row_index: usize, column_index: usize) -> Option<f64> {
+    pub fn element(&self, row_index: usize, column_index: usize) -> Option<f64> {
         todo!()
     }
-    fn change_element(
+
+    #[allow(dead_code)]
+    pub fn change_element(
         &self,
         row_index: usize,
         column_index: usize,
