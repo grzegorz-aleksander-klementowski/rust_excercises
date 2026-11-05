@@ -31,6 +31,10 @@
    Write tests.
  */
 
+enum MatrixError {
+    IndexOutOfBounds,
+}
+
 #[derive(Debug, PartialEq)]
 #[allow(dead_code)]
 struct Matrix {
@@ -57,6 +61,14 @@ impl Matrix {
 
     #[allow(dead_code)]
     fn element(&self, row_index: usize, column_index: usize) -> Option<f64> {
+        todo!()
+    }
+    fn change_element(
+        &self,
+        row_index: usize,
+        column_index: usize,
+        new_value: f64,
+    ) -> Result<(), MatrixError> {
         todo!()
     }
 }
