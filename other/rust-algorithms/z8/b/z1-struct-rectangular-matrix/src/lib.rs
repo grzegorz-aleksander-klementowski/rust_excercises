@@ -445,409 +445,409 @@ mod tests {
             )
         }
     }
-}
 
-#[test]
-fn access_element_in_matrix_by_two_dimensions() {
-    // The structure of the cases: (Matrix, [usize; 2], Option<f64>)
-    let cases = [
-        (
-            Matrix {
-                height: 0,
-                width: 0,
-                filler: vec![],
-            },
-            [0_usize, 0_usize],
-            None,
-        ), // Accessing [0, 0] in an empty matrix returns `None`.
-        (
-            Matrix {
-                height: 1,
-                width: 0,
-                filler: vec![vec![]],
-            },
-            [0, 0],
-            None,
-        ), // A matrix with zero width has no valid columns.
-        (
-            Matrix {
-                height: 0,
-                width: 1,
-                filler: vec![],
-            },
-            [0_usize, 0_usize],
-            None,
-        ), // A matrix with zero height has no valid rows.
-        (
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![1.0]],
-            },
-            [0, 1],
-            None,
-        ), // The column 1 is out of range in 1x1 dimensions
-        (
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![1.0]],
-            },
-            [1, 0],
-            None,
-        ), //  Row 1 is out of range for a 1x1 matrix.
-        (
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![1.0]],
-            },
-            [0, 0],
-            Some(1.0_f64),
-        ), // Matrix with the only element in a 1x1 matrix is at 0x0 and contains 1.0.
-        (
-            Matrix {
-                height: 2,
-                width: 1,
-                filler: vec![vec![1.0], vec![0.0]],
-            },
-            [0, 1],
-            None,
-        ), // Column 1 is out of range for a 2x1 matrix.
-        (
-            Matrix {
-                height: 1,
-                width: 2,
-                filler: vec![vec![1.0, 0.0]],
-            },
-            [1, 0],
-            None,
-        ), // Row 1 is out of range for a 1x2 matrix.
-        (
-            Matrix {
-                height: 2,
-                width: 1,
-                filler: vec![vec![1.0], vec![0.0]],
-            },
-            [1, 0],
-            Some(0.0), // Point to the correct number in 2x1 dimensions
-        ),
-        (
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.0, 2.0, 3.0],
-                    vec![4.0, 5.0, 6.0],
-                    vec![7.0, 8.0, 9.0],
-                ],
-            },
-            [0, 0],
-            Some(1.0), // 3x3 dimensions point correctly to 1.0
-        ),
-        (
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.0, 2.0, 3.0],
-                    vec![4.0, 5.0, 6.0],
-                    vec![7.0, 8.0, 9.0],
-                ],
-            },
-            [1, 1],
-            Some(5.0), // 3x3 dimensions point correctly to 5.0
-        ),
-        (
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.0, 2.0, 3.0],
-                    vec![4.0, 5.0, 6.0],
-                    vec![7.0, 8.0, 9.0],
-                ],
-            },
-            [2, 2],
-            Some(9.0), // 3x3 dimensions: Row 2, column 2 contains 9.0
-        ),
-        (
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.1, 2.2, 3.3],
-                    vec![4.4, 5.5, 6.6],
-                    vec![7.7, 8.8, 9.9],
-                ],
-            },
-            [2, 0],
-            Some(7.7), // 3x3 dimensions filled with float numbers, point correctly to 7.7
-        ),
-        (
-            Matrix {
-                height: 3,
-                width: 4,
-                filler: vec![
-                    vec![1.1, 2.2, 3.3, 0.01],
-                    vec![4.4, 5.5, 6.6, 0.02],
-                    vec![7.7, 8.8, 9.9, 0.03],
-                ],
-            },
-            [2, 3],
-            Some(0.03), // 3x4 dimensions filled with float numbers, point correctly to 0.03
-        ),
-        (
-            Matrix {
-                height: 3,
-                width: 4,
-                filler: vec![
-                    vec![1.1, 2.2, 3.3, 0.01],
-                    vec![4.4, 5.5, 6.6, 0.02],
-                    vec![7.7, 8.8, 9.9, 0.03],
-                ],
-            },
-            [3, 2],
-            None, // 3x4 dimensions filled with float numbers, point incorrectly,
-                  // return `None`
-        ),
-    ];
+    #[test]
+    fn access_element_in_matrix_by_two_dimensions() {
+        // The structure of the cases: (Matrix, [usize; 2], Option<f64>)
+        let cases = [
+            (
+                Matrix {
+                    height: 0,
+                    width: 0,
+                    filler: vec![],
+                },
+                [0_usize, 0_usize],
+                None,
+            ), // Accessing [0, 0] in an empty matrix returns `None`.
+            (
+                Matrix {
+                    height: 1,
+                    width: 0,
+                    filler: vec![vec![]],
+                },
+                [0, 0],
+                None,
+            ), // A matrix with zero width has no valid columns.
+            (
+                Matrix {
+                    height: 0,
+                    width: 1,
+                    filler: vec![],
+                },
+                [0_usize, 0_usize],
+                None,
+            ), // A matrix with zero height has no valid rows.
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1.0]],
+                },
+                [0, 1],
+                None,
+            ), // The column 1 is out of range in 1x1 dimensions
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1.0]],
+                },
+                [1, 0],
+                None,
+            ), //  Row 1 is out of range for a 1x1 matrix.
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1.0]],
+                },
+                [0, 0],
+                Some(1.0_f64),
+            ), // Matrix with the only element in a 1x1 matrix is at 0x0 and contains 1.0.
+            (
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![1.0], vec![0.0]],
+                },
+                [0, 1],
+                None,
+            ), // Column 1 is out of range for a 2x1 matrix.
+            (
+                Matrix {
+                    height: 1,
+                    width: 2,
+                    filler: vec![vec![1.0, 0.0]],
+                },
+                [1, 0],
+                None,
+            ), // Row 1 is out of range for a 1x2 matrix.
+            (
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![1.0], vec![0.0]],
+                },
+                [1, 0],
+                Some(0.0), // Point to the correct number in 2x1 dimensions
+            ),
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.0, 2.0, 3.0],
+                        vec![4.0, 5.0, 6.0],
+                        vec![7.0, 8.0, 9.0],
+                    ],
+                },
+                [0, 0],
+                Some(1.0), // 3x3 dimensions point correctly to 1.0
+            ),
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.0, 2.0, 3.0],
+                        vec![4.0, 5.0, 6.0],
+                        vec![7.0, 8.0, 9.0],
+                    ],
+                },
+                [1, 1],
+                Some(5.0), // 3x3 dimensions point correctly to 5.0
+            ),
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.0, 2.0, 3.0],
+                        vec![4.0, 5.0, 6.0],
+                        vec![7.0, 8.0, 9.0],
+                    ],
+                },
+                [2, 2],
+                Some(9.0), // 3x3 dimensions: Row 2, column 2 contains 9.0
+            ),
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.1, 2.2, 3.3],
+                        vec![4.4, 5.5, 6.6],
+                        vec![7.7, 8.8, 9.9],
+                    ],
+                },
+                [2, 0],
+                Some(7.7), // 3x3 dimensions filled with float numbers, point correctly to 7.7
+            ),
+            (
+                Matrix {
+                    height: 3,
+                    width: 4,
+                    filler: vec![
+                        vec![1.1, 2.2, 3.3, 0.01],
+                        vec![4.4, 5.5, 6.6, 0.02],
+                        vec![7.7, 8.8, 9.9, 0.03],
+                    ],
+                },
+                [2, 3],
+                Some(0.03), // 3x4 dimensions filled with float numbers, point correctly to 0.03
+            ),
+            (
+                Matrix {
+                    height: 3,
+                    width: 4,
+                    filler: vec![
+                        vec![1.1, 2.2, 3.3, 0.01],
+                        vec![4.4, 5.5, 6.6, 0.02],
+                        vec![7.7, 8.8, 9.9, 0.03],
+                    ],
+                },
+                [3, 2],
+                None, // 3x4 dimensions filled with float numbers, point incorrectly,
+                      // return `None`
+            ),
+        ];
 
-    for (access_object, input, expected) in cases {
-        let actual = access_object.element(input[0], input[1]);
-        assert_eq!(
-            actual, expected,
-            "err: \n- object: {access_object:?}; \n- input: {input:?} \n- got: {actual:?}"
-        );
+        for (access_object, input, expected) in cases {
+            let actual = access_object.element(input[0], input[1]);
+            assert_eq!(
+                actual, expected,
+                "err: \n- object: {access_object:?}; \n- input: {input:?} \n- got: {actual:?}"
+            );
+        }
     }
-}
 
-#[test]
-fn mutator_chage_matrix_element_by_row_and_column_index() {
-    /* The array cases inlude types:
-    - Matrix (input),
-    - [usize, usize] ([row_index, column_index),
-    - f64 (new_value),
-    - Matrix (output).
-    - Result<(), MatrixError> (result)*/
+    #[test]
+    fn mutator_chage_matrix_element_by_row_and_column_index() {
+        /* The array cases inlude types:
+        - Matrix (input),
+        - [usize, usize] ([row_index, column_index),
+        - f64 (new_value),
+        - Matrix (output).
+        - Result<(), MatrixError> (result)*/
 
-    let cases = [
-        (
-            Matrix {
-                height: 0,
-                width: 0,
-                filler: vec![],
-            },
-            [0_usize, 0_usize],
-            1.0,
-            Matrix {
-                height: 0,
-                width: 0,
-                filler: vec![],
-            },
-            Err(MatrixError::IndexOutOfBounds),
-        ), // An incorrect 0x0 matrix, change [0, 0] to `1.0`, return the matrix error
-        (
-            Matrix {
-                height: 1,
-                width: 0,
-                filler: vec![vec![]],
-            },
-            [0_usize, 0_usize],
-            1.0,
-            Matrix {
-                height: 1,
-                width: 0,
-                filler: vec![vec![]],
-            },
-            Err(MatrixError::IndexOutOfBounds),
-        ), // An incorrect matrix 1x0 change field into 1.0 return error.
-        (
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![0.0]],
-            },
-            [1_usize, 0_usize],
-            1.0,
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![0.0]],
-            },
-            Err(MatrixError::IndexOutOfBounds),
-        ), // A 1x1 matrix, change [1, 0] index to `1.0` return error, return error (out of range).
-        (
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![0.0]],
-            },
-            [0, 1],
-            1.0,
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![0.0]],
-            },
-            Err(MatrixError::IndexOutOfBounds),
-        ), // A 1x1 matrix, change [0, 1] index to `1.0` return error, by out of range.
-        (
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
-            },
-            [1, 2],
-            0.2,
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
-            },
-            Err(MatrixError::IndexOutOfBounds),
-        ), // A 2x2 matrix, change [1, 2] index to `0.2` float return error, by out of range.
-        (
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
-            },
-            [1, 2],
-            0.2,
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
-            },
-            Err(MatrixError::IndexOutOfBounds),
-        ), // A 2x2 matrix, change [2, 1] index to `0.2` float return error, by out of range.
-        (
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![0.0]],
-            },
-            [0_usize, 0_usize],
-            1.0,
-            Matrix {
-                height: 1,
-                width: 1,
-                filler: vec![vec![1.0]],
-            },
-            Ok(()),
-        ), // A matrix 1x1 change field 0x0 index into 1.0, return success.
-        (
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 2.0], vec![3.0, 4.0]],
-            },
-            [0, 0],
-            5.0,
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![5.0, 2.0], vec![3.0, 4.0]],
-            },
-            Ok(()),
-        ), // A matrix 2x2 change [0,0] field into 5.0, return success.
-        (
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 2.0], vec![3.0, 4.0]],
-            },
-            [1, 1],
-            0.01,
-            Matrix {
-                height: 2,
-                width: 2,
-                filler: vec![vec![1.0, 2.0], vec![3.0, 0.01]],
-            },
-            Ok(()),
-        ), // A matrix 2x2 change [1,1] field into 0.01 float, return success.
-        (
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.5, 2.5, 3.5],
-                    vec![4.5, 5.5, 6.5],
-                    vec![7.5, 8.5, 9.5],
-                ],
-            },
-            [1, 1],
-            0.0,
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.5, 2.5, 3.5],
-                    vec![4.5, 0.0, 6.5],
-                    vec![7.5, 8.5, 9.5],
-                ],
-            },
-            Ok(()),
-        ), // A matrix 3x3 change [1,1] field into `0.0`, return success.
-        (
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.5, 2.5, 3.5],
-                    vec![4.5, 5.5, 6.5],
-                    vec![7.5, 8.5, 9.5],
-                ],
-            },
-            [2, 2],
-            0.0,
-            Matrix {
-                height: 3,
-                width: 3,
-                filler: vec![
-                    vec![1.5, 2.5, 3.5],
-                    vec![4.5, 5.5, 6.5],
-                    vec![7.5, 8.5, 0.0],
-                ],
-            },
-            Ok(()),
-        ), // A matrix 3x3 change [2,2] field into `0.0`, return success.
-        (
-            Matrix {
-                height: 3,
-                width: 2,
-                filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 8.5]],
-            },
-            [2, 1],
-            0.0,
-            Matrix {
-                height: 3,
-                width: 2,
-                filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
-            },
-            Ok(()),
-        ), // A matrix 3x2 change [2,1] field into `0.0`, return success.
-        (
-            Matrix {
-                height: 3,
-                width: 2,
-                filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 8.5]],
-            },
-            [2, 1],
-            0.0,
-            Matrix {
-                height: 3,
-                width: 2,
-                filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
-            },
-            Ok(()),
-        ), // A matrix 3x2 change [0,0] field into the same number `1.5`, return success (no need to return error because there is no matter change).
-    ];
+        let cases = [
+            (
+                Matrix {
+                    height: 0,
+                    width: 0,
+                    filler: vec![],
+                },
+                [0_usize, 0_usize],
+                1.0,
+                Matrix {
+                    height: 0,
+                    width: 0,
+                    filler: vec![],
+                },
+                Err(MatrixError::IndexOutOfBounds),
+            ), // An incorrect 0x0 matrix, change [0, 0] to `1.0`, return the matrix error
+            (
+                Matrix {
+                    height: 1,
+                    width: 0,
+                    filler: vec![vec![]],
+                },
+                [0_usize, 0_usize],
+                1.0,
+                Matrix {
+                    height: 1,
+                    width: 0,
+                    filler: vec![vec![]],
+                },
+                Err(MatrixError::IndexOutOfBounds),
+            ), // An incorrect matrix 1x0 change field into 1.0 return error.
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0.0]],
+                },
+                [1_usize, 0_usize],
+                1.0,
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0.0]],
+                },
+                Err(MatrixError::IndexOutOfBounds),
+            ), // A 1x1 matrix, change [1, 0] index to `1.0` return error, return error (out of range).
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0.0]],
+                },
+                [0, 1],
+                1.0,
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0.0]],
+                },
+                Err(MatrixError::IndexOutOfBounds),
+            ), // A 1x1 matrix, change [0, 1] index to `1.0` return error, by out of range.
+            (
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
+                },
+                [1, 2],
+                0.2,
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
+                },
+                Err(MatrixError::IndexOutOfBounds),
+            ), // A 2x2 matrix, change [1, 2] index to `0.2` float return error, by out of range.
+            (
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
+                },
+                [1, 2],
+                0.2,
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
+                },
+                Err(MatrixError::IndexOutOfBounds),
+            ), // A 2x2 matrix, change [2, 1] index to `0.2` float return error, by out of range.
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0.0]],
+                },
+                [0_usize, 0_usize],
+                1.0,
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1.0]],
+                },
+                Ok(()),
+            ), // A matrix 1x1 change field 0x0 index into 1.0, return success.
+            (
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 2.0], vec![3.0, 4.0]],
+                },
+                [0, 0],
+                5.0,
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![5.0, 2.0], vec![3.0, 4.0]],
+                },
+                Ok(()),
+            ), // A matrix 2x2 change [0,0] field into 5.0, return success.
+            (
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 2.0], vec![3.0, 4.0]],
+                },
+                [1, 1],
+                0.01,
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![1.0, 2.0], vec![3.0, 0.01]],
+                },
+                Ok(()),
+            ), // A matrix 2x2 change [1,1] field into 0.01 float, return success.
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.5, 2.5, 3.5],
+                        vec![4.5, 5.5, 6.5],
+                        vec![7.5, 8.5, 9.5],
+                    ],
+                },
+                [1, 1],
+                0.0,
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.5, 2.5, 3.5],
+                        vec![4.5, 0.0, 6.5],
+                        vec![7.5, 8.5, 9.5],
+                    ],
+                },
+                Ok(()),
+            ), // A matrix 3x3 change [1,1] field into `0.0`, return success.
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.5, 2.5, 3.5],
+                        vec![4.5, 5.5, 6.5],
+                        vec![7.5, 8.5, 9.5],
+                    ],
+                },
+                [2, 2],
+                0.0,
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.5, 2.5, 3.5],
+                        vec![4.5, 5.5, 6.5],
+                        vec![7.5, 8.5, 0.0],
+                    ],
+                },
+                Ok(()),
+            ), // A matrix 3x3 change [2,2] field into `0.0`, return success.
+            (
+                Matrix {
+                    height: 3,
+                    width: 2,
+                    filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 8.5]],
+                },
+                [2, 1],
+                0.0,
+                Matrix {
+                    height: 3,
+                    width: 2,
+                    filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
+                },
+                Ok(()),
+            ), // A matrix 3x2 change [2,1] field into `0.0`, return success.
+            (
+                Matrix {
+                    height: 3,
+                    width: 2,
+                    filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 8.5]],
+                },
+                [2, 1],
+                0.0,
+                Matrix {
+                    height: 3,
+                    width: 2,
+                    filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
+                },
+                Ok(()),
+            ), // A matrix 3x2 change [0,0] field into the same number `1.5`, return success (no need to return error because there is no matter change).
+        ];
 
-    for (object_input, index, new_value, object_output, result) in cases {
-        let mut object = object_input;
-        let actual = object.change_element(index[0], index[1], new_value);
-        assert_eq!((actual, object), (result, object_output));
+        for (object_input, index, new_value, object_output, result) in cases {
+            let mut object = object_input;
+            let actual = object.change_element(index[0], index[1], new_value);
+            assert_eq!((actual, object), (result, object_output));
+        }
     }
 }
