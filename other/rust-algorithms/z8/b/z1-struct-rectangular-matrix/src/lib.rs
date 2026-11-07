@@ -74,6 +74,11 @@ impl Matrix {
     ) -> Result<(), MatrixError> {
         todo!()
     }
+
+    #[allow(dead_code)]
+    fn sum(matrix1: &Self, matrix2: &Self) -> Option<Self> {
+        todo!()
+    }
 }
 
 mod tests {
