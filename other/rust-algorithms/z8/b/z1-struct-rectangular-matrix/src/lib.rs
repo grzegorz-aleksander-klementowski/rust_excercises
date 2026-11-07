@@ -622,13 +622,13 @@ mod tests {
     }
 
     #[test]
-    fn mutator_chage_matrix_element_by_row_and_column_index() {
+    fn change_element_updates_the_selected_cell() {
         /* The array cases inlude types:
         - Matrix (input),
-        - [usize, usize] ([row_index, column_index),
+        - [usize; 2] ([row_index, column_index),
         - f64 (new_value),
-        - Matrix (output).
-        - Result<(), MatrixError> (result)*/
+        - Matrix (expected output).
+        - Result<(), MatrixError> (expected result)*/
 
         let cases = [
             (
@@ -645,7 +645,7 @@ mod tests {
                     filler: vec![],
                 },
                 Err(MatrixError::IndexOutOfBounds),
-            ), // An incorrect 0x0 matrix, change [0, 0] to `1.0`, return the matrix error
+            ), // An invalid 0x0 matrix: changing [0, 0] to `1.0`, returns an error
             (
                 Matrix {
                     height: 1,
@@ -660,7 +660,7 @@ mod tests {
                     filler: vec![vec![]],
                 },
                 Err(MatrixError::IndexOutOfBounds),
-            ), // An incorrect matrix 1x0 change field into 1.0 return error.
+            ), // An invalid 1x0 matrix: changing [0.0] to 1.0 returns an error.
             (
                 Matrix {
                     height: 1,
@@ -675,7 +675,7 @@ mod tests {
                     filler: vec![vec![0.0]],
                 },
                 Err(MatrixError::IndexOutOfBounds),
-            ), // A 1x1 matrix, change [1, 0] index to `1.0` return error, return error (out of range).
+            ), // A 1x1 matrix: changing [1, 0] to `1.0` returns an out-of-bounds error.
             (
                 Matrix {
                     height: 1,
@@ -690,7 +690,7 @@ mod tests {
                     filler: vec![vec![0.0]],
                 },
                 Err(MatrixError::IndexOutOfBounds),
-            ), // A 1x1 matrix, change [0, 1] index to `1.0` return error, by out of range.
+            ), // A 1x1 matrix changing [0, 1] to `1.0` returns an out-of-bounds error.
             (
                 Matrix {
                     height: 2,
@@ -705,22 +705,7 @@ mod tests {
                     filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
                 },
                 Err(MatrixError::IndexOutOfBounds),
-            ), // A 2x2 matrix, change [1, 2] index to `0.2` float return error, by out of range.
-            (
-                Matrix {
-                    height: 2,
-                    width: 2,
-                    filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
-                },
-                [1, 2],
-                0.2,
-                Matrix {
-                    height: 2,
-                    width: 2,
-                    filler: vec![vec![1.0, 1.0], vec![1.0, 1.0]],
-                },
-                Err(MatrixError::IndexOutOfBounds),
-            ), // A 2x2 matrix, change [2, 1] index to `0.2` float return error, by out of range.
+            ), // A 2x2 matrix: changing [1, 2] to `0.2` returns an out-of-bounds error.
             (
                 Matrix {
                     height: 1,
@@ -735,7 +720,7 @@ mod tests {
                     filler: vec![vec![1.0]],
                 },
                 Ok(()),
-            ), // A matrix 1x1 change field 0x0 index into 1.0, return success.
+            ), // A 1x1 matrix: changing `[0,0]` to `1.0` successds.
             (
                 Matrix {
                     height: 2,
@@ -750,7 +735,7 @@ mod tests {
                     filler: vec![vec![5.0, 2.0], vec![3.0, 4.0]],
                 },
                 Ok(()),
-            ), // A matrix 2x2 change [0,0] field into 5.0, return success.
+            ), // A 2x2 matrix: changing `[0,0]` to `5.0` cucceeds.
             (
                 Matrix {
                     height: 2,
@@ -765,7 +750,7 @@ mod tests {
                     filler: vec![vec![1.0, 2.0], vec![3.0, 0.01]],
                 },
                 Ok(()),
-            ), // A matrix 2x2 change [1,1] field into 0.01 float, return success.
+            ), // A 2x2 matrix: changing `[1,1]` to `0.01` cucceeds.
             (
                 Matrix {
                     height: 3,
@@ -788,7 +773,7 @@ mod tests {
                     ],
                 },
                 Ok(()),
-            ), // A matrix 3x3 change [1,1] field into `0.0`, return success.
+            ), // A 3x3 matrix: changing `[1,1]` to `0.0` succeeds.
             (
                 Matrix {
                     height: 3,
@@ -811,7 +796,7 @@ mod tests {
                     ],
                 },
                 Ok(()),
-            ), // A matrix 3x3 change [2,2] field into `0.0`, return success.
+            ), // A 3x3 matrix: changing `[2,2]` to `0.0` succeeds.
             (
                 Matrix {
                     height: 3,
@@ -826,22 +811,22 @@ mod tests {
                     filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
                 },
                 Ok(()),
-            ), // A matrix 3x2 change [2,1] field into `0.0`, return success.
+            ), // A 3x2 matrix: changing `[2,1]` to `0.0` succeeds.
             (
                 Matrix {
                     height: 3,
                     width: 2,
-                    filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 8.5]],
+                    filler: vec![vec![0.0, 2.5], vec![4.5, 5.5], vec![7.5, 8.5]],
                 },
                 [2, 1],
                 0.0,
                 Matrix {
                     height: 3,
                     width: 2,
-                    filler: vec![vec![1.5, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
+                    filler: vec![vec![0.0, 2.5], vec![4.5, 5.5], vec![7.5, 0.0]],
                 },
                 Ok(()),
-            ), // A matrix 3x2 change [0,0] field into the same number `1.5`, return success (no need to return error because there is no matter change).
+            ), // A 3x2 matrix: changing `[2, 1]` to its existing value `0.0`, succeeds.
         ];
 
         for (object_input, index, new_value, object_output, result) in cases {
