@@ -840,4 +840,14 @@ mod tests {
             assert_eq!((actual, object), (result, object_output));
         }
     }
+
+    #[test]
+    fn sum_of_two_matricies_return_some_for_matching_dimensions() {
+        // todo
+    }
+
+    #[test]
+    fn sum_of_two_matricies_return_none_with_different_dimensions() {
+        // todo
+    }
 }
