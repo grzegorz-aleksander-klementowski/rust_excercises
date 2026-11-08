@@ -49,7 +49,12 @@ struct Matrix {
 impl Matrix {
     #[allow(dead_code)]
     pub fn new(height: usize, width: usize, filler: f64) -> Self {
-        todo!()
+        let row = vec![filler; width];
+        Self {
+            height,
+            width,
+            filler: vec![row; height],
+        }
     }
 
     #[allow(dead_code)]
