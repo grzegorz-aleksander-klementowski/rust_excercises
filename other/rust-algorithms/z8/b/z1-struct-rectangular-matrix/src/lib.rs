@@ -69,7 +69,21 @@ impl Matrix {
 
     #[allow(dead_code)]
     pub fn identity(height: usize) -> Self {
-        todo!()
+        let filler: Vec<Vec<f64>> = (0..height)
+            .map(|column| {
+                (0..height)
+                    .map(|row| if row == column { 1.0 } else { 0.0 })
+                    .collect()
+            })
+            .collect();
+
+        let width = height;
+
+        Self {
+            height,
+            width,
+            filler,
+        }
     }
 
     #[allow(dead_code)]
