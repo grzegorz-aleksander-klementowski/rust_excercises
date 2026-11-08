@@ -1101,4 +1101,9 @@ mod tests {
             assert_eq!(actual, expected);
         }
     }
+
+    #[test]
+    fn format_matrix_as_string() {
+        // todo
+    }
 }
