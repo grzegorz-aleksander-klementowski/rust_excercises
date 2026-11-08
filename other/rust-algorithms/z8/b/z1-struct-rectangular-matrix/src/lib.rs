@@ -915,6 +915,44 @@ mod tests {
                 [
                     Matrix {
                         height: 3,
+                        width: 2,
+                        filler: vec![vec![2.0, 2.0], vec![2.0, 2.0], vec![2.0, 2.0]],
+                    },
+                    Matrix {
+                        height: 3,
+                        width: 2,
+                        filler: vec![vec![3.0, 3.0], vec![3.0, 3.0], vec![3.0, 3.0]],
+                    },
+                ],
+                Some(Matrix {
+                    height: 3,
+                    width: 2,
+                    filler: vec![vec![5.0, 5.0], vec![5.0, 5.0], vec![5.0, 5.0]],
+                }),
+            ), // Adding two 3x2 matrices returns `Some(Matrix)`.
+            (
+                [
+                    Matrix {
+                        height: 2,
+                        width: 3,
+                        filler: vec![vec![2.0, 2.0, 2.0], vec![2.0, 2.0, 2.0]],
+                    },
+                    Matrix {
+                        height: 2,
+                        width: 3,
+                        filler: vec![vec![3.0, 3.0, 3.0], vec![3.0, 3.0, 3.0]],
+                    },
+                ],
+                Some(Matrix {
+                    height: 2,
+                    width: 3,
+                    filler: vec![vec![5.0, 5.0, 5.0], vec![5.0, 5.0, 5.0]],
+                }),
+            ), // Adding two 2x3 matrices returns `Some(Matrix)`.
+            (
+                [
+                    Matrix {
+                        height: 3,
                         width: 3,
                         filler: vec![
                             vec![1.5, 2.5, 3.5],
