@@ -1059,7 +1059,7 @@ mod tests {
                     },
                 ],
                 None,
-            ), // Adding two 3x3 to 3x2 matrice returns `None`.
+            ), // Adding two 3x3 to 3x2 matrices returns `None`.
             (
                 [
                     Matrix {
@@ -1078,7 +1078,7 @@ mod tests {
                     },
                 ],
                 None,
-            ), // Adding two 2x3 to 3x3 matrice returns `None`.
+            ), // Adding two 2x3 to 3x3 matrices returns `None`.
         ];
 
         for ([input1, input2], expected) in cases {
