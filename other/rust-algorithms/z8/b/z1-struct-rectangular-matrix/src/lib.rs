@@ -31,6 +31,8 @@
    Write tests.
  */
 
+use std::process::Output;
+
 #[derive(Debug, PartialEq)]
 enum MatrixError {
     IndexOutOfBounds,
@@ -82,6 +84,12 @@ impl Matrix {
 
     #[allow(dead_code)]
     fn display(&self) {
+        todo!()
+    }
+}
+
+impl std::fmt::Display for Matrix {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
