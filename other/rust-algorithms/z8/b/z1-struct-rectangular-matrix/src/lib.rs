@@ -81,7 +81,7 @@ impl Matrix {
     }
 
     #[allow(dead_code)]
-    fn wyswietl(&self) {
+    fn display(&self) {
         todo!()
     }
 }
@@ -952,6 +952,100 @@ mod tests {
 
     #[test]
     fn sum_of_two_matrices_returns_none_with_different_dimensions() {
-        // todo
+        /* Each case contains:
+         * - [Matrix; 2] (the two input matrices);
+         * - Option(Matrix) (the expected result);
+         * */
+
+        let cases = [
+            (
+                [
+                    Matrix {
+                        height: 0,
+                        width: 0,
+                        filler: vec![],
+                    },
+                    Matrix {
+                        height: 0,
+                        width: 0,
+                        filler: vec![],
+                    },
+                ],
+                None,
+            ), // Adding two 0x0 matrices returns `None`.
+            (
+                [
+                    Matrix {
+                        height: 1,
+                        width: 2,
+                        filler: vec![vec![0.00001, 0.00001]],
+                    },
+                    Matrix {
+                        height: 2,
+                        width: 1,
+                        filler: vec![vec![0.00002], vec![0.00002]],
+                    },
+                ],
+                None,
+            ), // Adding two 1x2 and 2x1 matrices with floats returns `None`.
+            (
+                [
+                    Matrix {
+                        height: 2,
+                        width: 1,
+                        filler: vec![vec![2.0], vec![2.0]],
+                    },
+                    Matrix {
+                        height: 1,
+                        width: 2,
+                        filler: vec![vec![3.0, 3.0]],
+                    },
+                ],
+                None,
+            ), // Adding two 1x2 and 2x1 matrices returns `None`.
+            (
+                [
+                    Matrix {
+                        height: 3,
+                        width: 3,
+                        filler: vec![
+                            vec![1.5, 2.5, 3.5],
+                            vec![4.5, 5.5, 6.5],
+                            vec![7.5, 8.5, 9.5],
+                        ],
+                    },
+                    Matrix {
+                        height: 3,
+                        width: 2,
+                        filler: vec![vec![9.5, 8.5], vec![6.5, 5.5], vec![3.5, 2.5]],
+                    },
+                ],
+                None,
+            ), // Adding two 3x3 to 3x2 matrice returns `None`.
+            (
+                [
+                    Matrix {
+                        height: 3,
+                        width: 2,
+                        filler: vec![vec![9.5, 8.5], vec![6.5, 5.5], vec![3.5, 2.5]],
+                    },
+                    Matrix {
+                        height: 3,
+                        width: 3,
+                        filler: vec![
+                            vec![1.5, 2.5, 3.5],
+                            vec![4.5, 5.5, 6.5],
+                            vec![7.5, 8.5, 9.5],
+                        ],
+                    },
+                ],
+                None,
+            ), // Adding two 2x3 to 3x3 matrice returns `None`.
+        ];
+
+        for ([input1, input2], expected) in cases {
+            let actual = Matrix::sum(&input1, &input2);
+            assert_eq!(actual, expected);
+        }
     }
 }
