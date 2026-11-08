@@ -1174,5 +1174,10 @@ mod tests {
                 "┌───────────────────┐\n│11.99  22.99  33.99│\n│44.99  55.99  66.99│\n│77.99  88.99  99.99│\n└───────────────────┘",
             ), // Format 3x3 matrix and longer numbers.
         ];
+
+        for (input, expected) in cases {
+            let actual = input.to_string();
+            assert_eq!(actual, expected);
+        }
     }
 }
