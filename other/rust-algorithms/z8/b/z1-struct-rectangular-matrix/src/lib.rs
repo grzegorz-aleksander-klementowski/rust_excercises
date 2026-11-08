@@ -842,12 +842,111 @@ mod tests {
     }
 
     #[test]
-    fn sum_of_two_matricies_return_some_for_matching_dimensions() {
-        // todo
+    fn sum_of_two_matrices_returns_some_for_matching_dimensions() {
+        /* Each case contains:
+         * - [Matrix; 2] (the two input matrices);
+         * - Option(Matrix) (the expected result);
+         * */
+
+        let cases = [
+            (
+                [
+                    Matrix {
+                        height: 1,
+                        width: 1,
+                        filler: vec![vec![1.0]],
+                    },
+                    Matrix {
+                        height: 1,
+                        width: 1,
+                        filler: vec![vec![2.0]],
+                    },
+                ],
+                Some(Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![3.0]],
+                }),
+            ), // Adding two 1x1 matrices returns `Some(Matrix)`.
+            (
+                [
+                    Matrix {
+                        height: 1,
+                        width: 1,
+                        filler: vec![vec![0.00001]],
+                    },
+                    Matrix {
+                        height: 1,
+                        width: 1,
+                        filler: vec![vec![0.00002]],
+                    },
+                ],
+                Some(Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![0.00003]],
+                }),
+            ), // Adding two floats in 1x1 matrices returns `Some(Matrix)`.
+            (
+                [
+                    Matrix {
+                        height: 2,
+                        width: 2,
+                        filler: vec![vec![2.0, 2.0], vec![2.0, 2.0]],
+                    },
+                    Matrix {
+                        height: 2,
+                        width: 2,
+                        filler: vec![vec![3.0, 3.0], vec![3.0, 3.0]],
+                    },
+                ],
+                Some(Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![5.0, 5.0], vec![5.0, 5.0]],
+                }),
+            ), // Adding two 2x2 matrices returns `Some(Matrix)`.
+            (
+                [
+                    Matrix {
+                        height: 3,
+                        width: 3,
+                        filler: vec![
+                            vec![1.5, 2.5, 3.5],
+                            vec![4.5, 5.5, 6.5],
+                            vec![7.5, 8.5, 9.5],
+                        ],
+                    },
+                    Matrix {
+                        height: 3,
+                        width: 3,
+                        filler: vec![
+                            vec![9.5, 8.5, 7.5],
+                            vec![6.5, 5.5, 4.5],
+                            vec![3.5, 2.5, 1.5],
+                        ],
+                    },
+                ],
+                Some(Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![11.0, 11.0, 11.0],
+                        vec![11.0, 11.0, 11.0],
+                        vec![11.0, 11.0, 11.0],
+                    ],
+                }),
+            ), // Adding two 3x3 matrices returns `Some(Matrix)`.
+        ];
+
+        for ([input1, input2], expected) in cases {
+            let actual = Matrix::sum(&input1, &input2);
+            assert_eq!(actual, expected);
+        }
     }
 
     #[test]
-    fn sum_of_two_matricies_return_none_with_different_dimensions() {
+    fn sum_of_two_matrices_returns_none_with_different_dimensions() {
         // todo
     }
 }
