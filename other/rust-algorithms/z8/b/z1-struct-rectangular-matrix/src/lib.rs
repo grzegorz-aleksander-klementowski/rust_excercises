@@ -1104,6 +1104,75 @@ mod tests {
 
     #[test]
     fn format_matrix_as_string() {
-        // todo
+        /* Each case contains:
+         * - Matrix (input);
+         * - String (output);*/
+
+        let cases = [
+            (
+                Matrix {
+                    height: 1,
+                    width: 1,
+                    filler: vec![vec![1.0]],
+                },
+                "┌─┐\n│1│\n└─┘",
+            ), // Format 1x1 matrix.
+            (
+                Matrix {
+                    height: 2,
+                    width: 1,
+                    filler: vec![vec![0.5], vec![0.5]],
+                },
+                "┌───┐\n│0.5│\n│0.5│\n└───┘",
+            ), // Format 2x1 matrix.
+            (
+                Matrix {
+                    height: 1,
+                    width: 2,
+                    filler: vec![vec![2.2, 4.1]],
+                },
+                "┌────────┐\n│2.2  4.1│\n└────────┘",
+            ), // Format 1x2 matrix.
+            (
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![200.555, 1.1], vec![0.55, 1.11]],
+                },
+                "┌─────────────┐\n│200.555  1.1 │\n│0.55     1.11│\n└─────────────┘",
+            ), // Format 2x2 matrix with different numbers length.
+            (
+                Matrix {
+                    height: 2,
+                    width: 2,
+                    filler: vec![vec![200.555, -1.1], vec![-0.55, -1.11]],
+                },
+                "┌──────────────┐\n│200.555  -1.1 │\n│-0.55    -1.11│\n└──────────────┘",
+            ), // Format 2x2 matrix with different numbers length and negative numbers.
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![1.9, 2.9, 3.9],
+                        vec![4.9, 5.9, 6.9],
+                        vec![7.9, 8.9, 9.9],
+                    ],
+                },
+                "┌─────────────┐\n│1.9  2.9  3.9│\n│4.9  5.9  6.9│\n│7.9  8.9  9.9│\n└─────────────┘",
+            ), // Format 3x3 matrix.
+            (
+                Matrix {
+                    height: 3,
+                    width: 3,
+                    filler: vec![
+                        vec![11.99, 22.99, 33.99],
+                        vec![44.99, 55.99, 66.99],
+                        vec![77.99, 88.99, 99.99],
+                    ],
+                },
+                "┌───────────────────┐\n│11.99  22.99  33.99│\n│44.99  55.99  66.99│\n│77.99  88.99  99.99│\n└───────────────────┘",
+            ), // Format 3x3 matrix and longer numbers.
+        ];
     }
 }
