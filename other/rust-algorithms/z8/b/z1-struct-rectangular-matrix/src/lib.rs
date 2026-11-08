@@ -59,7 +59,12 @@ impl Matrix {
 
     #[allow(dead_code)]
     pub fn zero(height: usize, width: usize) -> Self {
-        todo!()
+        let row = vec![0.0_f64; width];
+        Self {
+            height,
+            width,
+            filler: vec![row; height],
+        }
     }
 
     #[allow(dead_code)]
