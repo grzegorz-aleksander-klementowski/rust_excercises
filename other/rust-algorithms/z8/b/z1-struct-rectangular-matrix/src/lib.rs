@@ -94,6 +94,13 @@ impl std::fmt::Display for Matrix {
     }
 }
 
+impl std::ops::Add for Matrix {
+    type Output = Matrix;
+    fn add(self, rhs: Self) -> Self::Output {
+        todo!()
+    }
+}
+
 mod tests {
 
     use super::*;
