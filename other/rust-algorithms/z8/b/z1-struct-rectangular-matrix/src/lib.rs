@@ -88,7 +88,13 @@ impl Matrix {
 
     #[allow(dead_code)]
     pub fn element(&self, row_index: usize, column_index: usize) -> Option<f64> {
-        todo!()
+        match self.filler.get(row_index) {
+            Some(row) => {
+                let cell = row.get(column_index);
+                cell.cloned()
+            }
+            None => None,
+        }
     }
 
     #[allow(dead_code)]
