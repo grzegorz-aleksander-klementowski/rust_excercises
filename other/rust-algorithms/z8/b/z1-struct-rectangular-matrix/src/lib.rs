@@ -104,7 +104,16 @@ impl Matrix {
         column_index: usize,
         new_value: f64,
     ) -> Result<(), MatrixError> {
-        todo!()
+        match self.filler.get_mut(row_index) {
+            Some(row) => match row.get_mut(column_index) {
+                Some(column) => {
+                    *column = new_value;
+                    Ok(())
+                }
+                None => Err(MatrixError::IndexOutOfBounds),
+            },
+            None => Err(MatrixError::IndexOutOfBounds),
+        }
     }
 
     #[allow(dead_code)]
