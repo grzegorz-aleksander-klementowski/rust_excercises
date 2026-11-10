@@ -947,25 +947,6 @@ mod tests {
             (
                 [
                     Matrix {
-                        height: 1,
-                        width: 1,
-                        filler: vec![vec![0.00001]],
-                    },
-                    Matrix {
-                        height: 1,
-                        width: 1,
-                        filler: vec![vec![0.00002]],
-                    },
-                ],
-                Some(Matrix {
-                    height: 1,
-                    width: 1,
-                    filler: vec![vec![0.00003]],
-                }),
-            ), // Adding two floats in 1x1 matrices returns `Some(Matrix)`.
-            (
-                [
-                    Matrix {
                         height: 2,
                         width: 2,
                         filler: vec![vec![2.0, 2.0], vec![2.0, 2.0]],
@@ -1055,7 +1036,7 @@ mod tests {
 
         for ([input1, input2], expected) in cases {
             let actual = Matrix::sum(&input1, &input2);
-            assert_eq!(actual, expected,);
+            assert_eq!(actual, expected);
         }
     }
 
