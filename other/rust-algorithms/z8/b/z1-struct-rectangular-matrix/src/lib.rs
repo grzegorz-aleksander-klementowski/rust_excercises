@@ -118,7 +118,31 @@ impl Matrix {
 
     #[allow(dead_code)]
     fn sum(matrix1: &Self, matrix2: &Self) -> Option<Self> {
-        todo!()
+        // Condition matricies must have the same dimensions.
+        if matrix1.height == matrix2.height && matrix1.width == matrix2.width {
+            // Using closure for an educational purpose
+            // 1. Iter and zip two filler maticies to get their rows;
+            // 2. Iter and zip the cells from the rows;
+            // 3. Collet the cells into a vector and then the vectors into a vector.
+            let input_matrices = matrix1.filler.iter().zip(matrix2.filler.iter());
+            let filler_output: Vec<Vec<f64>> = input_matrices
+                .map(|(row1, row2)| {
+                    row1.iter()
+                        .zip(row2.iter())
+                        .map(|(cell1, cell2)| cell1 + cell2)
+                        .collect()
+                })
+                .collect();
+
+            // Having filler the Matrix can be returned in Some(Matrix).
+            Some(Self {
+                height: matrix1.height,
+                width: matrix1.width,
+                filler: filler_output,
+            })
+        } else {
+            None
+        }
     }
 
     #[allow(dead_code)]
@@ -129,13 +153,6 @@ impl Matrix {
 
 impl std::fmt::Display for Matrix {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl std::ops::Add for Matrix {
-    type Output = Matrix;
-    fn add(self, rhs: Self) -> Self::Output {
         todo!()
     }
 }
@@ -1038,7 +1055,7 @@ mod tests {
 
         for ([input1, input2], expected) in cases {
             let actual = Matrix::sum(&input1, &input2);
-            assert_eq!(actual, expected);
+            assert_eq!(actual, expected,);
         }
     }
 
