@@ -118,12 +118,12 @@ impl Matrix {
 
     #[allow(dead_code)]
     fn sum(matrix1: &Self, matrix2: &Self) -> Option<Self> {
-        // Condition matricies must have the same dimensions.
+        // The matricies must have the same dimensions.
         if matrix1.height == matrix2.height && matrix1.width == matrix2.width {
-            // Using closure for an educational purpose
-            // 1. Iter and zip two filler maticies to get their rows;
-            // 2. Iter and zip the cells from the rows;
-            // 3. Collet the cells into a vector and then the vectors into a vector.
+            // Use closures to demostrate iterator composition.
+            // 1. iterate and zip two filler matricies to get their rows;
+            // 2. iterate  and zip the cells from the rows;
+            // 3. Collect the cells into a vector and then the vectors into a vector.
             let input_matrices = matrix1.filler.iter().zip(matrix2.filler.iter());
             let filler_output: Vec<Vec<f64>> = input_matrices
                 .map(|(row1, row2)| {
