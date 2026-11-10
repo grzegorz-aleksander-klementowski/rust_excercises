@@ -31,8 +31,6 @@
    Write tests.
  */
 
-use std::process::Output;
-
 #[derive(Debug, PartialEq)]
 enum MatrixError {
     IndexOutOfBounds,
@@ -153,6 +151,43 @@ impl Matrix {
 
 impl std::fmt::Display for Matrix {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Scan the matrix - save the matrix of length of any matrix number;
+        // Determine the longest number of every column and the longest row;
+        // Draw a matrix
+
+        // Save the max width of columns and widthest row.
+        let mut len_widthest_columns: Vec<usize> = Vec::new();
+        let mut len_widthest_row = 0;
+
+        // Transform filler content from numbers into tuple string cell and lenth ctring cell(Sting, usize).
+        let string_matrix_filler: Vec<Vec<(String, usize)>> = self
+            .filler
+            .iter()
+            .map(|row| {
+                let mut widthest_column_cell_len =
+                    *(len_widthest_columns.last().unwrap_or(&0_usize));
+
+                let collected_row: Vec<(String, usize)> = row
+                    .iter()
+                    .map(|cell| {
+                        let cell_str = cell.to_string();
+                        let cell_str_len = cell_str.len();
+                        // Find the widthest call in the collumn;
+                        if cell_str_len > widthest_column_cell_len {
+                            widthest_column_cell_len = cell_str_len;
+                        }
+
+                        (cell_str, cell_str_len)
+                    })
+                    .collect();
+
+                len_widthest_columns.push(widthest_column_cell_len);
+                collected_row
+            })
+            .collect();
+
+        // But for what instead saving the data immidiatelly? Just add algo
+
         todo!()
     }
 }
