@@ -168,6 +168,7 @@ impl std::fmt::Display for Matrix {
                     *(len_widthest_columns.last().unwrap_or(&0_usize));
 
                 // NOTE: Transform row numbers into string numbers.
+                // TODO: Check `.fold()` method for the interation of the rows.
                 let collected_row: Vec<(String, usize)> = row
                     .iter()
                     .map(|cell| {
@@ -189,13 +190,40 @@ impl std::fmt::Display for Matrix {
             })
             .collect();
 
-        // TODO: space-between num: An unmutable variable with spaces between columns.
-        // TODO: row length num: A unmutable variable hold the whole length width included space-between of the printed matrix.
-        // TODO: top-roof-border str: Based on the whole lendth variable – the top-roof edge string of the matrix.
-        // TODO: row str: string based on the max width columns, the space-between and the side-border chars
-        // TODO: bottom-down-border: Based on the whole length variable – the botom border string
+        // INFO: space-between num: An unmutable variable with spaces between columns.
+        let space_between = 2;
 
-        todo!()
+        // INFO: row length num: A unmutable variable hold the whole length width included space-between of the printed matrix.
+        let row_lendth =
+            len_widthest_columns.iter().sum::<usize>() + (space_between * (self.width - 1));
+
+        // INFO: top-roof-border str: Based on the whole lendth variable – the top-roof edge string of the matrix, by using chars `┌`, `─`, `┐`.
+        let top_roof_border: String = format!("┌{}┐\n", "─".repeat(row_lendth));
+
+        // INFO: row str: string based on the max width columns, the space-between and the side-border chars
+        let filler_str: String = string_matrix_filler
+            .iter()
+            .map(|row| {
+                format!(
+                    "│{}│\n",
+                    row.iter()
+                        .zip(&len_widthest_columns)
+                        .map(|((cell, cell_len), cell_max_len)| {
+                            format!(
+                                "{cell}{}",
+                                " ".repeat((cell_max_len - cell_len) + space_between)
+                            )
+                        })
+                        .collect::<String>()
+                )
+            })
+            .collect::<String>();
+
+        // INFO: bottom-down-border: Based on the whole length variable – the botom border string
+        let bottom_down_border: String = format!("└{}┘\n", "─".repeat(row_lendth));
+
+        // INFO: OUTPUT
+        write!(f, "{top_roof_border}{filler_str}{bottom_down_border}")
     }
 }
 
