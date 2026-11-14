@@ -117,7 +117,12 @@ impl Matrix {
     #[allow(dead_code)]
     fn sum(matrix1: &Self, matrix2: &Self) -> Option<Self> {
         // The matricies must have the same dimensions.
-        if matrix1.height == matrix2.height && matrix1.width == matrix2.width {
+        if (matrix1.height == matrix2.height && matrix1.width == matrix2.width)
+            && (matrix1.height != 0
+                && matrix1.width != 0
+                && matrix2.height != 0
+                && matrix2.width != 0)
+        {
             // Use closures to demostrate iterator composition.
             // 1. iterate and zip two filler matricies to get their rows;
             // 2. iterate  and zip the cells from the rows;
