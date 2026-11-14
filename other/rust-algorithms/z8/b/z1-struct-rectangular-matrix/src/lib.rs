@@ -31,8 +31,6 @@
    Write tests.
  */
 
-use std::fmt::format;
-
 #[derive(Debug, PartialEq)]
 enum MatrixError {
     IndexOutOfBounds,
@@ -98,16 +96,17 @@ impl Matrix {
         column_index: usize,
         new_value: f64,
     ) -> Result<(), MatrixError> {
-        match self.filler.get_mut(row_index) {
-            Some(row) => match row.get_mut(column_index) {
-                Some(column) => {
-                    *column = new_value;
-                    Ok(())
-                }
-                None => Err(MatrixError::IndexOutOfBounds),
-            },
-            None => Err(MatrixError::IndexOutOfBounds),
-        }
+        self.filler
+            .get_mut(row_index) // INFO: Get row.
+            // INFO: If the row index is incorrect – return `MatrixError`.
+            .map_or(Err(MatrixError::IndexOutOfBounds), |row| {
+                row.get_mut(column_index) // INFO: Get column.
+                    // INFO: If the column index is incorrect – return `MatrixError`.
+                    .map_or(Err(MatrixError::IndexOutOfBounds), |cell| {
+                        *cell = new_value;
+                        Ok(())
+                    })
+            })
     }
 
     #[allow(dead_code)]
@@ -207,64 +206,30 @@ impl std::fmt::Display for Matrix {
                 + (space_between * (self.width).saturating_sub(1))
         };
 
-        // INFO: top-roof-border str: Based on the whole lendth variable – the top-roof edge string of the matrix, by using chars `┌`, `─`, `┐`.
-        let top_roof_border: String = format!("┌{}┐\n", "─".repeat(row_lendth));
-
-        // INFO: row str: string based on the max width columns, the space-between and the side-border chars
-
-        //let filler_str: String = string_matrix_filler.iter().fold(write!(f, ));
-
+        // INFO: OUTPUT
         write!(
             f,
             "{}└{}┘",
             string_matrix_filler.iter().fold(
-                format!("┌{}┐\n", "─".repeat(row_lendth)),
+                format!("┌{}┐\n", "─".repeat(row_lendth)), // INFO: top-roof-border str:  As a start fold variable. Based on the whole lendth variable.
                 |filler_str, row| format!(
                     "{filler_str}│{}│\n",
                     row.iter().enumerate().zip(&len_widthest_columns).fold(
                         String::new(),
                         |row_acc, ((i, cell), max_column_len)| format!(
                             "{row_acc}{cell}{}",
+                            // INFO: The last cell without additional spaceing.
                             if (i + 1) == self.width {
-                                " ".repeat(max_column_len - cell.len())
+                                " ".repeat(max_column_len - cell.len()) // The column equalizer.
                             } else {
-                                " ".repeat((max_column_len - cell.len()) + space_between)
+                                " ".repeat((max_column_len - cell.len()) + space_between) // The column equalizer.
                             }
-                        )
+                        ) // INFO: row str: string based on the max width columns, the space-between and the side-border chars
                     )
                 )
             ),
-            "─".repeat(row_lendth)
+            "─".repeat(row_lendth) // INFO: bottom-down-border: Based on the whole length variable – the botom border string
         )
-
-        /* let filler_str: String = string_matrix_filler
-            .iter()
-            .map(|row| {
-                format!(
-                    "│{}│\n",
-                    row.iter()
-                        .zip(&len_widthest_columns)
-                        .enumerate()
-                        .map(|(i, (cell, cell_max_len))| {
-                            if (i + 1) == self.width {
-                                format!("{cell}{}", " ".repeat(cell_max_len - cell.len()))
-                            } else {
-                                format!(
-                                    "{cell}{}",
-                                    " ".repeat((cell_max_len - cell.len()) + space_between)
-                                )
-                            }
-                        })
-                        .collect::<String>()
-                )
-            })
-            .collect::<String>();
-
-        // INFO: bottom-down-border: Based on the whole length variable – the botom border string
-        let bottom_down_border: String = format!("└{}┘", "─".repeat(row_lendth));
-
-        // INFO: OUTPUT
-        write!(f, "{top_roof_border}{filler_str}{bottom_down_border}") */
     }
 }
 
@@ -338,19 +303,19 @@ mod tests {
                 },
             ), // Fraction 0.1 filler
             (
-                (2_usize, 1_usize, 0.99999999_f64),
+                (2_usize, 1_usize, 0.999_999_99_f64),
                 Matrix {
                     height: 2,
                     width: 1,
-                    filler: vec![vec![0.99999999], vec![0.99999999]],
+                    filler: vec![vec![0.999_999_99], vec![0.999_999_99]],
                 },
-            ), // Fraction 0.99999999 filler
+            ), // Fraction 0.999_999_99 filler
             (
-                (2_usize, 1_usize, 0.000000001_f64),
+                (2_usize, 1_usize, 0.000_000_001_f64),
                 Matrix {
                     height: 2,
                     width: 1,
-                    filler: vec![vec![0.000000001], vec![0.000000001]],
+                    filler: vec![vec![0.000_000_001], vec![0.000_000_001]],
                 },
             ), // Fraction 0.000000001 filler
             (
