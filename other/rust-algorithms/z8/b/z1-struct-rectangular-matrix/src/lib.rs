@@ -164,19 +164,26 @@ impl std::fmt::Display for Matrix {
             .iter()
             .map(|row| {
                 // NOTE: The longest width string number of a column of the current row.
-                let mut widthest_column_cell_len =
-                    *(len_widthest_columns.last().unwrap_or(&0_usize));
+                let widthest_column_cell_len = *(len_widthest_columns.last().unwrap_or(&0_usize));
 
                 // NOTE: Transform row numbers into string numbers.
                 // TODO: Check `.fold()` method for the interation of the rows.
                 let collected_row: Vec<(String, usize)> = row
                     .iter()
-                    .map(|cell| {
+                    .enumerate()
+                    .map(|(i, cell)| {
                         let cell_str = cell.to_string();
                         let cell_str_len = cell_str.len();
                         // PERF: Find the widthest cell in the row;
-                        if cell_str_len > widthest_column_cell_len {
-                            widthest_column_cell_len = cell_str_len;
+                        let widthest_column_cell = match len_widthest_columns.get(i) {
+                            Some(i) => *i,
+                            None => {
+                                len_widthest_columns.push(0);
+                                0
+                            }
+                        };
+                        if cell_str_len > widthest_column_cell {
+                            len_widthest_columns[i] = cell_str_len;
                         }
 
                         // PERF: Return a tuple: number as a string and it's length.
@@ -185,7 +192,7 @@ impl std::fmt::Display for Matrix {
                     .collect();
 
                 // INFO: Push (in the end of vector) the length of the longest column of the current row into the vector.
-                len_widthest_columns.push(widthest_column_cell_len);
+                // len_widthest_columns.push(widthest_column_cell_len);
                 collected_row
             })
             .collect();
@@ -194,8 +201,11 @@ impl std::fmt::Display for Matrix {
         let space_between = 2;
 
         // INFO: row length num: A unmutable variable hold the whole length width included space-between of the printed matrix.
-        let row_lendth =
-            len_widthest_columns.iter().sum::<usize>() + (space_between * (self.width - 1));
+        let row_lendth = if self.width == 1 {
+            len_widthest_columns.iter().sum::<usize>()
+        } else {
+            len_widthest_columns.iter().sum::<usize>() + (space_between * (self.width - 1))
+        };
 
         // INFO: top-roof-border str: Based on the whole lendth variable – the top-roof edge string of the matrix, by using chars `┌`, `─`, `┐`.
         let top_roof_border: String = format!("┌{}┐\n", "─".repeat(row_lendth));
@@ -208,11 +218,16 @@ impl std::fmt::Display for Matrix {
                     "│{}│\n",
                     row.iter()
                         .zip(&len_widthest_columns)
-                        .map(|((cell, cell_len), cell_max_len)| {
-                            format!(
-                                "{cell}{}",
-                                " ".repeat((cell_max_len - cell_len) + space_between)
-                            )
+                        .enumerate()
+                        .map(|(i, ((cell, cell_len), cell_max_len))| {
+                            if (i + 1) == self.width {
+                                format!("{cell}{}", " ".repeat(cell_max_len - cell_len))
+                            } else {
+                                format!(
+                                    "{cell}{}",
+                                    " ".repeat((cell_max_len - cell_len) + space_between)
+                                )
+                            }
                         })
                         .collect::<String>()
                 )
@@ -220,7 +235,7 @@ impl std::fmt::Display for Matrix {
             .collect::<String>();
 
         // INFO: bottom-down-border: Based on the whole length variable – the botom border string
-        let bottom_down_border: String = format!("└{}┘\n", "─".repeat(row_lendth));
+        let bottom_down_border: String = format!("└{}┘", "─".repeat(row_lendth));
 
         // INFO: OUTPUT
         write!(f, "{top_roof_border}{filler_str}{bottom_down_border}")
