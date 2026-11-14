@@ -145,7 +145,7 @@ impl Matrix {
 
     #[allow(dead_code)]
     pub fn display(&self) {
-        println!("{}", self);
+        println!("{self}");
     }
 }
 
