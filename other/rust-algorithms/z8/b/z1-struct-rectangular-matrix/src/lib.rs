@@ -109,7 +109,7 @@ impl Matrix {
     }
 
     #[allow(dead_code)]
-    fn sum(matrix1: &Self, matrix2: &Self) -> Option<Self> {
+    pub fn sum(matrix1: &Self, matrix2: &Self) -> Option<Self> {
         // The matricies must have the same dimensions.
         if (matrix1.height == matrix2.height && matrix1.width == matrix2.width)
             && (matrix1.height != 0
@@ -143,7 +143,7 @@ impl Matrix {
     }
 
     #[allow(dead_code)]
-    fn display(&self) {
+    pub fn display(&self) {
         println!("{}", self);
     }
 }
@@ -201,7 +201,8 @@ impl std::fmt::Display for Matrix {
         let row_lendth = if self.width == 1 {
             len_widthest_columns.iter().sum::<usize>()
         } else {
-            len_widthest_columns.iter().sum::<usize>() + (space_between * (self.width - 1))
+            len_widthest_columns.iter().sum::<usize>()
+                + (space_between * (self.width).saturating_sub(1))
         };
 
         // INFO: top-roof-border str: Based on the whole lendth variable – the top-roof edge string of the matrix, by using chars `┌`, `─`, `┐`.
