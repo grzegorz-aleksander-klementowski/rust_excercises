@@ -240,6 +240,7 @@ impl std::fmt::Display for Matrix {
     }
 }
 
+#[allow(clippy::too_many_lines)]
 #[cfg(test)]
 mod tests {
 
@@ -443,7 +444,7 @@ mod tests {
             assert_eq!(
                 actual, expected,
                 "The error with input: {input:?}, got: {actual:?}."
-            )
+            );
         }
     }
 
@@ -538,7 +539,7 @@ mod tests {
             assert_eq!(
                 actual, expected,
                 "err: The input: {input:?}, got: {actual:?}."
-            )
+            );
         }
     }
 
@@ -607,7 +608,7 @@ mod tests {
             assert_eq!(
                 actual, expected,
                 "err: input: {input:?} \nthe result: {actual:?} \n got: {expected:?}"
-            )
+            );
         }
     }
 
