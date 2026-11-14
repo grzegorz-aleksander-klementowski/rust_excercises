@@ -31,6 +31,8 @@
    Write tests.
  */
 
+use std::fmt::format;
+
 #[derive(Debug, PartialEq)]
 enum MatrixError {
     IndexOutOfBounds,
@@ -158,14 +160,14 @@ impl std::fmt::Display for Matrix {
         let mut len_widthest_columns: Vec<usize> = Vec::new();
 
         // INFO: Transform filler content from numbers into tuple string cell and lenth ctring cell(Sting, usize).
-        let string_matrix_filler: Vec<Vec<(String, usize)>> = self
+        let string_matrix_filler: Vec<Vec<String>> = self
             .filler
             .iter()
             .map(|row| {
                 // NOTE: The longest width string number of a column of the current row.
 
                 // NOTE: Transform row numbers into string numbers.
-                let collected_row: Vec<(String, usize)> = row
+                let collected_row: Vec<String> = row
                     .iter()
                     .enumerate()
                     .map(|(i, cell)| {
@@ -184,7 +186,7 @@ impl std::fmt::Display for Matrix {
                         }
 
                         // PERF: Return a tuple: number as a string and it's length.
-                        (cell_str, cell_str_len)
+                        cell_str
                     })
                     .collect();
 
@@ -209,7 +211,33 @@ impl std::fmt::Display for Matrix {
         let top_roof_border: String = format!("┌{}┐\n", "─".repeat(row_lendth));
 
         // INFO: row str: string based on the max width columns, the space-between and the side-border chars
-        let filler_str: String = string_matrix_filler
+
+        //let filler_str: String = string_matrix_filler.iter().fold(write!(f, ));
+
+        write!(
+            f,
+            "{}└{}┘",
+            string_matrix_filler.iter().fold(
+                format!("┌{}┐\n", "─".repeat(row_lendth)),
+                |filler_str, row| format!(
+                    "{filler_str}│{}│\n",
+                    row.iter().enumerate().zip(&len_widthest_columns).fold(
+                        String::new(),
+                        |row_acc, ((i, cell), max_column_len)| format!(
+                            "{row_acc}{cell}{}",
+                            if (i + 1) == self.width {
+                                " ".repeat(max_column_len - cell.len())
+                            } else {
+                                " ".repeat((max_column_len - cell.len()) + space_between)
+                            }
+                        )
+                    )
+                )
+            ),
+            "─".repeat(row_lendth)
+        )
+
+        /* let filler_str: String = string_matrix_filler
             .iter()
             .map(|row| {
                 format!(
@@ -217,13 +245,13 @@ impl std::fmt::Display for Matrix {
                     row.iter()
                         .zip(&len_widthest_columns)
                         .enumerate()
-                        .map(|(i, ((cell, cell_len), cell_max_len))| {
+                        .map(|(i, (cell, cell_max_len))| {
                             if (i + 1) == self.width {
-                                format!("{cell}{}", " ".repeat(cell_max_len - cell_len))
+                                format!("{cell}{}", " ".repeat(cell_max_len - cell.len()))
                             } else {
                                 format!(
                                     "{cell}{}",
-                                    " ".repeat((cell_max_len - cell_len) + space_between)
+                                    " ".repeat((cell_max_len - cell.len()) + space_between)
                                 )
                             }
                         })
@@ -236,7 +264,7 @@ impl std::fmt::Display for Matrix {
         let bottom_down_border: String = format!("└{}┘", "─".repeat(row_lendth));
 
         // INFO: OUTPUT
-        write!(f, "{top_roof_border}{filler_str}{bottom_down_border}")
+        write!(f, "{top_roof_border}{filler_str}{bottom_down_border}") */
     }
 }
 
