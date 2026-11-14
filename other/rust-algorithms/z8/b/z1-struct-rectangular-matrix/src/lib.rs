@@ -240,6 +240,7 @@ impl std::fmt::Display for Matrix {
     }
 }
 
+#[cfg(test)]
 mod tests {
 
     use super::*;
