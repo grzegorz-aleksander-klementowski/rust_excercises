@@ -173,13 +173,11 @@ impl std::fmt::Display for Matrix {
                         let cell_str = cell.to_string();
                         let cell_str_len = cell_str.len();
                         // PERF: Find the widthest cell in the row;
-                        let widthest_column_cell = match len_widthest_columns.get(i) {
-                            Some(i) => *i,
-                            None => {
+                        let widthest_column_cell =
+                            len_widthest_columns.get(i).copied().unwrap_or_else(|| {
                                 len_widthest_columns.push(0);
                                 0
-                            }
-                        };
+                            });
                         if cell_str_len > widthest_column_cell {
                             len_widthest_columns[i] = cell_str_len;
                         }
