@@ -164,10 +164,8 @@ impl std::fmt::Display for Matrix {
             .iter()
             .map(|row| {
                 // NOTE: The longest width string number of a column of the current row.
-                let widthest_column_cell_len = *(len_widthest_columns.last().unwrap_or(&0_usize));
 
                 // NOTE: Transform row numbers into string numbers.
-                // TODO: Check `.fold()` method for the interation of the rows.
                 let collected_row: Vec<(String, usize)> = row
                     .iter()
                     .enumerate()
