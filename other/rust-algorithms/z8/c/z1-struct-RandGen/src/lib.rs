@@ -26,6 +26,7 @@
    It must allow construction with `RandGen::new(seed)` and number generation with `gen_range(min, max)`. Two generators with the same seed must produce the same sequence, and `gen_range(3, 15)` must return a value from `3` through `15`, inclusive.
  */
 
+#[derive(Debug)]
 pub enum RandGenError {
     InvalidInputNum,
 }
@@ -70,13 +71,22 @@ mod tests {
     fn gen_range_returns_value_within_inclusive_range() {
         let cases = [
             [0, 0],
+            [1, 1],
+            [0, 10],
+            [3, 7],
+            [0, 2],
+            [0, 5],
+            [10, 15],
+            [10, 15],
+            [100, 150],
+            [1, 1_000_000],
             [i64::MAX, i64::MAX],
             [i64::MIN, i64::MIN],
             [i64::MIN, i64::MAX],
         ];
 
         cases.iter().for_each(|&[input_min, input_max]| {
-            let actual = RandGen::gen_range(input_min, input_max);
+            let actual = RandGen::gen_range(input_min, input_max).unwrap();
             assert!((input_min..=input_max).contains(&actual));
         });
     }
