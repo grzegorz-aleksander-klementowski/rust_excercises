@@ -100,4 +100,34 @@ mod tests {
             }
         }
     }
+
+    #[test]
+    fn gen_range_returns_error_when_min_exceeds_max() {
+        let test_seed = [
+            RandGen { seed: 0 },
+            RandGen { seed: 42 },
+            RandGen { seed: -42 },
+        ];
+
+        let inputs = [
+            [10, 0],
+            [7, 3],
+            [1, 0],
+            [0, -1],
+            [10, -15],
+            [-10, -15],
+            [1_000_000, 1],
+            [i64::MAX, i64::MIN],
+        ];
+
+        for seed in test_seed {
+            for [min, max] in inputs {
+                let actual = seed.gen_range(min, max).is_err();
+                assert!(
+                    actual,
+                    "fail: expected the error fir the range min: {min} and max: {max}"
+                );
+            }
+        }
+    }
 }
