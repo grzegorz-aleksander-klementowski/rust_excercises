@@ -29,6 +29,7 @@
 #[derive(Debug)]
 pub enum RandGenError {
     InvalidInputNum,
+    InvalidOutput,
 }
 
 // INFO: Random number generator struct.
@@ -43,7 +44,7 @@ impl RandGen {
         Self { seed }
     }
 
-    pub fn gen_range(min: i64, max: i64) -> Result<i64, RandGenError> {
+    pub fn gen_range(&self, min: i64, max: i64) -> Result<i64, RandGenError> {
         todo!()
     }
 }
@@ -69,7 +70,13 @@ mod tests {
 
     #[test]
     fn gen_range_returns_value_within_inclusive_range() {
-        let cases = [
+        let test_seed = [
+            RandGen { seed: 0 },
+            RandGen { seed: 42 },
+            RandGen { seed: -42 },
+        ];
+
+        let input = [
             [0, 0],
             [1, 1],
             [0, 10],
@@ -77,17 +84,20 @@ mod tests {
             [0, 2],
             [0, 5],
             [10, 15],
-            [10, 15],
-            [100, 150],
+            [-10, 15],
+            [-150, -100],
             [1, 1_000_000],
             [i64::MAX, i64::MAX],
             [i64::MIN, i64::MIN],
             [i64::MIN, i64::MAX],
         ];
 
-        cases.iter().for_each(|&[input_min, input_max]| {
-            let actual = RandGen::gen_range(input_min, input_max).unwrap();
-            assert!((input_min..=input_max).contains(&actual));
+        test_seed.iter().for_each(|seed| {
+            input.iter().for_each(|&[min, max]| {
+                let actual = seed.gen_range(min, max).unwrap_or_else(|_| panic!("err: Unexpected error during number generation to the range max: {max} and min: {min}."));
+
+                assert!((min..=max).contains(&actual));
+            })
         });
     }
 }
