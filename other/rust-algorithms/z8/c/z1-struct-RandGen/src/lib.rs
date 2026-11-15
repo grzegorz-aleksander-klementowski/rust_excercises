@@ -37,3 +37,13 @@ impl RandGen {
         todo!()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::RandGen;
+
+    #[test]
+    fn new_create_instance() {
+        let cases = [(0.0, RandGen { seed: 0 })];
+    }
+}
