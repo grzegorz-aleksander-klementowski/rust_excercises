@@ -37,6 +37,10 @@ impl RandGen {
     pub fn new(seed: i64) -> Self {
         Self { seed }
     }
+
+    pub fn gen_range(min: i64, max: i64) -> i64 {
+        todo!()
+    }
 }
 
 #[cfg(test)]
