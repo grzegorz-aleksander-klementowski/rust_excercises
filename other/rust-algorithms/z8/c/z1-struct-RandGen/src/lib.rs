@@ -26,6 +26,14 @@
    It must allow construction with `RandGen::new(seed)` and number generation with `gen_range(min, max)`. Two generators with the same seed must produce the same sequence, and `gen_range(3, 15)` must return a value from `3` through `15`, inclusive.
  */
 
+// INFO: Random number generator struct.
 pub struct RandGen {
     seed: i64,
+}
+
+impl RandGen {
+    // INFO: Constructor
+    fn new(seed: i64) -> Self {
+        todo!()
+    }
 }
