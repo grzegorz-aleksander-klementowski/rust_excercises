@@ -35,7 +35,7 @@ pub struct RandGen {
 impl RandGen {
     // INFO: Constructor
     pub fn new(seed: i64) -> Self {
-        todo!()
+        Self { seed }
     }
 }
 
