@@ -61,4 +61,19 @@ mod tests {
             .iter()
             .for_each(|(input, expected)| assert_eq!(RandGen::new(*input), *expected));
     }
+
+    #[test]
+    fn gen_range_returns_value_within_inclusive_range() {
+        let cases = [
+            [0, 0],
+            [i64::MAX, i64::MAX],
+            [i64::MIN, i64::MIN],
+            [i64::MIN, i64::MAX],
+        ];
+
+        cases.iter().for_each(|&[input_min, input_max]| {
+            let actual = RandGen::gen_range(input_min, input_max);
+            assert!((input_min..=input_max).contains(&actual));
+        });
+    }
 }
