@@ -76,7 +76,7 @@ mod tests {
             RandGen { seed: -42 },
         ];
 
-        let input = [
+        let inputs = [
             [0, 0],
             [1, 1],
             [0, 10],
@@ -92,12 +92,12 @@ mod tests {
             [i64::MIN, i64::MAX],
         ];
 
-        test_seed.iter().for_each(|seed| {
-            input.iter().for_each(|&[min, max]| {
+        for seed in test_seed {
+            for [min, max] in inputs {
                 let actual = seed.gen_range(min, max).unwrap_or_else(|_| panic!("err: Unexpected error during number generation to the range max: {max} and min: {min}."));
 
                 assert!((min..=max).contains(&actual));
-            })
-        });
+            }
+        }
     }
 }
