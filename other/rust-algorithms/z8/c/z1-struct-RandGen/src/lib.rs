@@ -27,13 +27,14 @@
  */
 
 // INFO: Random number generator struct.
+#[derive(Debug, PartialEq)]
 pub struct RandGen {
     seed: i64,
 }
 
 impl RandGen {
     // INFO: Constructor
-    fn new(seed: i64) -> Self {
+    pub fn new(seed: i64) -> Self {
         todo!()
     }
 }
@@ -43,7 +44,17 @@ mod tests {
     use crate::RandGen;
 
     #[test]
-    fn new_create_instance() {
-        let cases = [(0.0, RandGen { seed: 0 })];
+    fn new_creates_instance() {
+        let cases = [
+            (0, RandGen { seed: 0 }),
+            (1, RandGen { seed: 1 }),
+            (100, RandGen { seed: 100 }),
+            (i64::MAX, RandGen { seed: i64::MAX }),
+            (i64::MIN, RandGen { seed: i64::MIN }),
+        ];
+
+        cases
+            .iter()
+            .for_each(|(input, expected)| assert_eq!(RandGen::new(*input), *expected));
     }
 }
