@@ -31,6 +31,8 @@
    Write tests.
  */
 
+use std::fmt::Write;
+
 #[derive(Debug, PartialEq)]
 enum MatrixError {
     IndexOutOfBounds,
@@ -205,28 +207,45 @@ impl std::fmt::Display for Matrix {
         };
 
         // INFO: OUTPUT
+        // PERF: Use `write!()` writter directly to avoid alocation.
         write!(
             f,
-            "{}└{}┘",
-            string_matrix_filler.iter().fold(
-                format!("┌{}┐\n", "─".repeat(row_lendth)), // INFO: top-roof-border str:  As a start fold variable. Based on the whole lendth variable.
-                |filler_str, row| format!(
-                    "{filler_str}│{}│\n",
-                    row.iter().enumerate().zip(&len_widthest_columns).fold(
-                        String::new(),
-                        |row_acc, ((i, cell), max_column_len)| format!(
-                            "{row_acc}{cell}{}",
-                            // INFO: The last cell without additional spaceing.
-                            if (i + 1) == self.width {
-                                " ".repeat(max_column_len - cell.len()) // The column equalizer.
-                            } else {
-                                " ".repeat((max_column_len - cell.len()) + space_between) // The column equalizer.
+            "┌{}┐\n{}└{}┘",
+            "─".repeat(row_lendth), // NOTE: top-roof-border str:  As a start fold variable. Based on the whole lendth variable.
+            // NOTE: Fold the vectors filler into the result string.
+            string_matrix_filler
+                .iter()
+                .fold(String::new(), |mut filler_str_acc, row| {
+                    // INFO: Write the rows directly by the writter into `filler_str_acc` accumulator.
+                    writeln!(
+                        filler_str_acc,
+                        "│{}│",
+                        row.iter().enumerate().zip(&len_widthest_columns).fold(
+                            String::new(),
+                            // INFO: row str:
+                            //  - string based on cells (`cell`),
+                            //  - the max width columns (`len_widthest_columns`),
+                            //  - the space-between and the side-border chars (`max_column_len - cell.len()) + space_between`).
+                            |mut row_acc, ((i, cell), max_column_len)| {
+                                write!(
+                                    row_acc,
+                                    "{cell}{}",
+                                    // INFO: The last cell without additional spaceing, the rest with spaceing between the cell calculated by equalizer.
+                                    if (i + 1) == self.width {
+                                        " ".repeat(max_column_len - cell.len()) // The column equalizer.
+                                    } else {
+                                        " ".repeat((max_column_len - cell.len()) + space_between) // The column equalizer.
+                                    }
+                                )
+                                .unwrap();
+                                row_acc
                             }
-                        ) // INFO: row str: string based on the max width columns, the space-between and the side-border chars
+                        )
                     )
-                )
-            ),
-            "─".repeat(row_lendth) // INFO: bottom-down-border: Based on the whole length variable – the botom border string
+                    .unwrap();
+                    filler_str_acc
+                }),
+            "─".repeat(row_lendth) // NOTE: bottom-down-border: Based on the whole length variable – the botom border string
         )
     }
 }
