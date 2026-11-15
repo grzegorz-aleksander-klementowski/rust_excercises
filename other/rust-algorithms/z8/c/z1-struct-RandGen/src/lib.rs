@@ -42,7 +42,7 @@ impl RandGen {
         Self { seed }
     }
 
-    pub fn gen_range(min: i64, max: i64) -> i64 {
+    pub fn gen_range(min: i64, max: i64) -> Result<i64, RandGenError> {
         todo!()
     }
 }
