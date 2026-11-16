@@ -28,8 +28,9 @@
 
 #[derive(Debug)]
 pub enum RandGenError {
-    InvalidInputNum,
+    InvalidInput,
     InvalidOutput,
+    Internal,
 }
 
 // INFO: Random number generator struct.
@@ -44,8 +45,39 @@ impl RandGen {
         Self { seed }
     }
 
-    pub fn gen_range(&self, min: i64, max: i64) -> Result<i64, RandGenError> {
-        todo!()
+    // INFO: Linear Congruential Generator (LCG).
+    pub fn gen_range(&mut self, min: i64, max: i64) -> Result<i64, RandGenError> {
+        if min <= max {
+            // INFO: Parameters based on the Numerical Recipes configuration.
+            let multiplier: i64 = 1_664_525;
+            let increment: i64 = 1_013_904_223;
+            let modulus: i64 = 2i64.pow(32);
+
+            // WARN: LCG condition (for educational purpose)
+            if multiplier != 0 && multiplier <= modulus && increment <= modulus {
+                // The LCG formula (Linear Congruential Generator)
+                self.seed = (multiplier
+                    .checked_mul(self.seed)
+                    .ok_or(RandGenError::InvalidOutput)?
+                    .checked_add(increment)
+                    .ok_or(RandGenError::InvalidOutput)?)
+                .rem_euclid(modulus);
+
+                // Fit to the range and return
+                Ok((self.seed.rem_euclid(
+                    max.checked_sub(min)
+                        .ok_or(RandGenError::InvalidOutput)?
+                        .checked_add(1)
+                        .ok_or(RandGenError::InvalidOutput)?,
+                ))
+                .checked_add(min)
+                .ok_or(RandGenError::InvalidOutput)?)
+            } else {
+                Err(RandGenError::Internal) // Return internal error
+            }
+        } else {
+            Err(RandGenError::InvalidInput) // Return invalid input error
+        }
     }
 }
 
@@ -92,7 +124,7 @@ mod tests {
             [i64::MIN, i64::MAX],
         ];
 
-        for seed in test_seed {
+        for mut seed in test_seed {
             for [min, max] in inputs {
                 let actual = seed.gen_range(min, max).unwrap_or_else(|_| panic!("err: Unexpected error during number generation to the range max: {max} and min: {min}."));
 
@@ -102,7 +134,7 @@ mod tests {
     }
 
     #[test]
-    fn gen_range_returns_error_when_min_exceeds_max() {
+    fn gen_range_returns_error() {
         let test_seed = [
             RandGen { seed: 0 },
             RandGen { seed: 42 },
@@ -120,7 +152,7 @@ mod tests {
             [i64::MAX, i64::MIN],
         ];
 
-        for seed in test_seed {
+        for mut seed in test_seed {
             for [min, max] in inputs {
                 let actual = seed.gen_range(min, max).is_err();
                 assert!(
