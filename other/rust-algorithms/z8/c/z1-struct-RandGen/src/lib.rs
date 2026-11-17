@@ -29,7 +29,7 @@
 #[derive(Debug)]
 pub enum RandGenError {
     InvalidInput,
-    InvalidOutput,
+    Overflow,
     Internal,
 }
 
@@ -58,20 +58,20 @@ impl RandGen {
                 // The LCG formula (Linear Congruential Generator)
                 self.seed = (multiplier
                     .checked_mul(self.seed)
-                    .ok_or(RandGenError::InvalidOutput)?
+                    .ok_or(RandGenError::Overflow)?
                     .checked_add(increment)
-                    .ok_or(RandGenError::InvalidOutput)?)
+                    .ok_or(RandGenError::Overflow)?)
                 .rem_euclid(modulus);
 
                 // Fit to the range and return
                 Ok((self.seed.rem_euclid(
                     max.checked_sub(min)
-                        .ok_or(RandGenError::InvalidOutput)?
+                        .ok_or(RandGenError::Overflow)?
                         .checked_add(1)
-                        .ok_or(RandGenError::InvalidOutput)?,
+                        .ok_or(RandGenError::Overflow)?,
                 ))
                 .checked_add(min)
-                .ok_or(RandGenError::InvalidOutput)?)
+                .ok_or(RandGenError::Overflow)?)
             } else {
                 Err(RandGenError::Internal) // Return internal error
             }
