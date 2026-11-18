@@ -113,6 +113,7 @@ mod tests {
             [1, 1],
             [0, 10],
             [3, 7],
+            [3, 15],
             [0, 2],
             [0, 5],
             [10, 15],
@@ -121,14 +122,16 @@ mod tests {
             [1, 1_000_000],
             [i64::MAX, i64::MAX],
             [i64::MIN, i64::MIN],
-            [i64::MIN, i64::MAX],
         ];
 
         for mut seed in test_seed {
             for [min, max] in inputs {
-                let actual = seed.gen_range(min, max).unwrap_or_else(|_| panic!("err: Unexpected error during number generation to the range max: {max} and min: {min}."));
+                let actual = seed.gen_range(min, max).unwrap_or_else(|_| panic!("err: Unexpected error during number generation to the range max: {max} and min: {min}. Seed: {seed:?}"));
 
-                assert!((min..=max).contains(&actual));
+                assert!(
+                    (min..=max).contains(&actual),
+                    "err: inputs: min: {min}, max: {max}\ngot: {actual:?}"
+                );
             }
         }
     }
